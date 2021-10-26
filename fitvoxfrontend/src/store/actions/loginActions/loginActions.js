@@ -47,18 +47,3 @@ export const maintainLogin = () => {
         });
     };
 };
-
-export const getUserNames_ = (userData) => {
-    const userName = userData.map((data) => {
-        return { id: data.id, name: data.name };
-    });
-
-    return { type: actionTypes.GET_USER_NAMES, userName };
-};
-
-export const getUserNames = () => {
-    return (dispatch) => {
-        return axios.get('/user').then((res) => dispatch(getUserNames_(res.data)));
-    };
-};
-
