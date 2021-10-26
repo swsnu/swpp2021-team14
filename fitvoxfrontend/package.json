@@ -2,6 +2,7 @@
   "name": "fitvoxfrontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -29,7 +30,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "backend": "cp api/db.json api/_db.json && json-server --watch api/_db.json --routes api/routes.json --port 8000"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +49,16 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/index.js",
+      "!src/serviceWorker.js",
+      "!src/store/actions/index.js",
+      "!src/store/reducers/index.js",
+      "!src/test-utils/mocks.js"
     ]
   }
 }
