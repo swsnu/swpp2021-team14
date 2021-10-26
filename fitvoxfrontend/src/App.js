@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actionCreators from './store/actions/loginActions/loginActions';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Login from './containers/Login/Login';
+class App extends Component {
+
+  componentDidMount() {
+    //To maintain logIn, logOut conditions for reloading the window
+    this.props.onMaintainLogin();
+  }
+
+  render() {
+
+    if (this.props.authenticated) {
+
+      return (
+          <BrowserRouter>
+            <div className="App">
+              <Switch>
+              </Switch>
+            </div>
+          </BrowserRouter>
+      );
+    }
+    else {
+      //Redirect unauthorized users to login page
+      return (
+          <BrowserRouter>
+            <div className="App">
+              <Switch>
+                <Route
+                    path="/login"
+                    exact
+                    render={() => <Login />}
+                />
+                <Redirect exact from="/" to="/login" />
+                <Route
+                    render={() => (
+                        <Redirect to={{ pathname: '/login' }} />
+                    )}
+                />
+              </Switch>
+            </div>
+          </BrowserRouter>
+      );
+    }
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.login.authenticated,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onMaintainLogin: () => dispatch(actionCreators.maintainLogin()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
