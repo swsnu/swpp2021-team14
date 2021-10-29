@@ -1,0 +1,28 @@
+dist: bionic
+
+jobs:
+  include:
+    - language: python
+      python: "3.7.9"
+      install:
+        - cd fitvoxbackend
+        - pip install -r requirements.txt
+      script:
+        - pylint **/*.py --load-plugins pylint_django
+        - coverage run --source='.' manage.py test
+        - coverage xml
+    
+    - language: node_js
+      node_js: 14
+      addons:
+        sonarcloud:
+          organization: swsnu
+          token:
+            secure: "AB0KQDv2jRBCyusZYzwYwcLhGOlp7uyHXfRbIIM/4l/EIsH5GN5ukwglakdwGnySFj2ZW79ICzlaKHLMHXTNtqS1OrOrF7D2Wb+vJaLrE5EHC/jjrCXkJAOINKTYSEpzawOIkkcdyzR4+MX2ReDZR01jzWtL20YI5EpLj/jPhCOPvPowe3zrd+meYs1h+3h8IFYCe2GFtfZG/4u25VOlvbBVIQWItxmm06CnhRS1Fzqw1TrE6Vd/1rogB1UgJlRkh3Hu6J6Hnr2Rvcb6OeVuhmqEkslHnhW8hkzJLEMUxV7jp99mxoK2/I7GZ0Jy7n/2WGjvdnlCZOXJoUaOuKgmvp+bAEOMW6Eh3Xpp3XtcP/7b1mm+HiYBAtD8NVPiTiTbIZGFMy03Dm5cEF5fYFwB2Mlf72/gRElWJa/PH+A1nTPQwqJDcxMPUk882ZUfXMajC/TeFi9md0LcE2h/pFZr44GEGPJ2NouOemGrXoljR9mxy61/uyzZMSIzc5vsP4V2vQRsmaziX+KgAn/AAnZTyW0D7RD6WUwzpMblb8m6KnnPQqBFFTEGcJqEf6MRZP9T+AY5M4oYLu6CiTGx5LcALC5LH5rpdCKvPlD9PZpJVUuaawKTJSsEFXt4Hh3n/Z+ueznVnUSz9G+cQGHQie1PEO1MOxuWVb3bPtTRpRUElUQ="
+
+      install:
+        - cd fitvoxfrontend
+        - yarn install
+      script:
+        - ./node_modules/.bin/eslint src
+        - cd .. && sonar-scanner
