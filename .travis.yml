@@ -1,7 +1,6 @@
-<<<<<<< HEAD
+
 =======
 # CI environment
->>>>>>> origin/main
 dist: bionic
 
 jobs:
@@ -15,7 +14,6 @@ jobs:
         - pylint **/*.py --load-plugins pylint_django
         - coverage run --source='.' manage.py test
         - coverage xml
-<<<<<<< HEAD
     
     - language: node_js
       node_js: 14
@@ -31,14 +29,3 @@ jobs:
       script:
         - ./node_modules/.bin/eslint src
         - cd .. && sonar-scanner
-=======
-        
-   - language: node_js
-      node_js: 14
-      install: 
-        - cd frontend
-        - yarn install
-      script:
-        - ./node_modules/.bin/eslint src
-        - yarn test --coverage --watchAll=false
->>>>>>> origin/main
