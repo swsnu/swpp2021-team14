@@ -45,7 +45,7 @@ class Main extends Component {
                     year = {this.state.year}
                     month = {this.state.month}
                     />
-                <button id = "timeframe-statistics-button" onClick = {() => {}}>
+                <button className = "timeframe-statistics-button" onClick = {() => {}}>
                     Timeframe Statistics                    
                 </button>
             </div>
