@@ -59,8 +59,7 @@
     "collectCoverageFrom": [
       "src/containers/Main/Main.js",
       "src/components/Calendar/Calendar.js",
-      "src/App.js",
-      "src/containers/CreateAccount/CreateAccount.js"
+      "src/App.js"
     ]
   }
 }
