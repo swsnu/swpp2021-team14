@@ -21,6 +21,12 @@ class App extends Component {
           <BrowserRouter>
             <div className="App">
               <Switch>
+                <Route
+                    path = "/main"
+                    exact
+                    component = {Main}
+                />
+                <Redirect exact from="/" to="/main" />
               </Switch>
             </div>
           </BrowserRouter>
@@ -37,11 +43,7 @@ class App extends Component {
                     exact
                     render={() => <Login />}
                 />
-                <Route 
-                    path = "/main"
-                    exact
-                    component = {Main}
-                />
+                {/*Should add routing to creat account page here*/}
                 <Redirect exact from="/" to="/login" />
                 <Route
                     render={() => (
