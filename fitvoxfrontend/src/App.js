@@ -28,6 +28,7 @@ class App extends Component {
                     exact
                     component = {Main}
                 />
+                  <Redirect exact from="/login" to="/main" />
                 <Redirect exact from="/" to="/main" />
               </Switch>
             </div>
