@@ -6,7 +6,7 @@ import * as actionCreators from './store/actions/loginActions/loginActions';
 
 import Login from './containers/Login/Login';
 import Main from './containers/Main/Main';
-import CrateAccount from "./containers/CreateAccount/CrateAccount";
+import CreateAccount from "./containers/CreateAccount/CreateAccount";
 
 class App extends Component {
 
@@ -48,7 +48,7 @@ class App extends Component {
                 />
                 <Route path="/create_account"
                        exact
-                       component={CrateAccount}
+                       component={CreateAccount}
                        />
                 <Redirect exact from="/" to="/login" />
                 <Route

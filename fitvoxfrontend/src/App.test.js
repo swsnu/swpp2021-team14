@@ -22,6 +22,7 @@ jest.mock('./containers/Main/Main', () => (props) => (
     <div className="Main">Main Page</div>
 ));
 
+jest.mock('./containers/CreateAccount/CreateAccount', () => (props) => <div className="CreateAccount">CreateAccount</div>);
 
 describe('<App/>', () => {
   let app;
@@ -65,6 +66,11 @@ describe('<App/>', () => {
     expect(wrapper.find('.Main').length).toBe(1);
   });
 
+  it("should redirect '/login' to '/main' after logged in", ()=>{
+    history.push('/login');
+    const wrapper = mount(app);
+    expect(wrapper.find('.Main').length).toBe(1);
+  })
 
   it("should redirect '/' to '/main' after logged in", ()=>{
     history.push('/');
