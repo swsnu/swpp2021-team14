@@ -14,7 +14,8 @@ class Login extends Component {
     }
 
     validate() {
-        let isValid = true;
+
+        let isValid = this.state.email === 'swpp@snu.ac.kr' && this.state.password === 'iluvswpp';
 
         if (isValid) {
             this.props.onGetLogin();
