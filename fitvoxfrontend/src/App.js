@@ -6,6 +6,8 @@ import * as actionCreators from './store/actions/loginActions/loginActions';
 
 import Login from './containers/Login/Login';
 import Main from './containers/Main/Main';
+import CrateAccount from "./containers/CreateAccount/CrateAccount";
+
 class App extends Component {
 
   componentDidMount() {
@@ -43,7 +45,10 @@ class App extends Component {
                     exact
                     render={() => <Login />}
                 />
-                {/*Should add routing to creat account page here*/}
+                <Route path="/create_account"
+                       exact
+                       component={CrateAccount}
+                       />
                 <Redirect exact from="/" to="/login" />
                 <Route
                     render={() => (

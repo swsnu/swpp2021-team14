@@ -1,1 +1,1 @@
-export {getLogin, getLogout, maintainLogin} from '../actions/loginActions/loginActions'
+export {getLogin, getLogout, maintainLogin, createAccount} from '../actions/loginActions/loginActions'

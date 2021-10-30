@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
+import {withRouter} from "react-router";
 
 class Login extends Component {
     constructor(props) {
@@ -10,10 +11,10 @@ class Login extends Component {
             password: '',
         };
 
-        this.validate = this.validate.bind(this)
+        this.onGetLogin = this.onGetLogin.bind(this)
     }
 
-    validate() {
+    onGetLogin() {
 
         let isValid = this.state.email === 'swpp@snu.ac.kr' && this.state.password === 'iluvswpp';
 
@@ -22,10 +23,15 @@ class Login extends Component {
         } else alert('Email or password is wrong');
     }
 
+    onCreatAccount(){
+        this.props.history.push('/create_account')
+    }
+
+
     render() {
         return (
             <div className="Login" align="center">
-                <h1>SWPP HW3</h1>
+                <h1>FitVox</h1>
                 <div>
                     <label>Email-Input: </label>
                     <input
@@ -48,10 +54,10 @@ class Login extends Component {
                         }
                     />
                 </div>
-                <button id="login-button" onClick={this.validate}>
+                <button id="login-button" onClick={this.onGetLogin}>
                     Login
                 </button>
-                <button id="create-account-button">Create Account</button>
+                <button id="create-account-button" onClick={()=>this.onCreatAccount()}>Create Account</button>
                 <button id="forget-id-password">Forget ID or Password?</button>
             </div>
         );
@@ -64,4 +70,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(withRouter(Login));

@@ -47,3 +47,9 @@ export const maintainLogin = () => {
         });
     };
 };
+
+export const createAccount = (userData) =>{
+    return (dispatch) =>{
+        axios.post('/user', userData).then((res)=> res.data)
+    }
+}
