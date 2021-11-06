@@ -9,15 +9,10 @@ export const getLogin_ = (data) => {
     };
 };
 
-export const getLogin = () => {
+export const getLogin = (data) => {
     return (dispatch) => {
         axios
-            .put('/user/1', {
-                email: 'swpp@snu.ac.kr',
-                password: 'iluvswpp',
-                name: 'Software Lover',
-                logged_in: true,
-            })
+            .put('/api/signin/', data)
             .then((res) => dispatch(getLogin_(res.data)));
     };
 };
@@ -50,6 +45,6 @@ export const maintainLogin = () => {
 
 export const createAccount = (userData) =>{
     return (dispatch) =>{
-        axios.post('/user', userData).then((res)=> res.data)
+        axios.post('/api/signup/', userData).then((res)=> res.data)
     }
 }

@@ -7,20 +7,11 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
+            username: '',
             password: '',
         };
 
         this.onGetLogin = this.onGetLogin.bind(this)
-    }
-
-    onGetLogin() {
-
-        let isValid = this.state.email === 'swpp@snu.ac.kr' && this.state.password === 'iluvswpp';
-
-        if (isValid) {
-            this.props.onGetLogin();
-        } else alert('Email or password is wrong');
     }
 
     onCreatAccount(){
@@ -33,13 +24,13 @@ class Login extends Component {
             <div className="Login" align="center">
                 <h1>FitVox</h1>
                 <div>
-                    <label>Email-Input: </label>
+                    <label>Username </label>
                     <input
-                        id="email-input"
+                        id="username-input"
                         type="text"
-                        value={this.state.email}
+                        value={this.state.username}
                         onChange={(event) =>
-                            this.setState({ email: event.target.value })
+                            this.setState({ username: event.target.value })
                         }
                     />
                 </div>
@@ -54,7 +45,7 @@ class Login extends Component {
                         }
                     />
                 </div>
-                <button id="login-button" onClick={this.onGetLogin}>
+                <button id="login-button" onClick={this.onGetLogin({username: this.state.username, password: this.state.password})}>
                     Login
                 </button>
                 <button id="create-account-button" onClick={()=>this.onCreatAccount()}>Create Account</button>
@@ -66,7 +57,7 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetLogin: () => dispatch(actionCreators.getLogin()),
+        onGetLogin: (data) => dispatch(actionCreators.getLogin(data)),
     };
 };
 
