@@ -10,8 +10,6 @@ class Login extends Component {
             username: '',
             password: '',
         };
-
-        this.onGetLogin = this.onGetLogin.bind(this)
     }
 
     onCreatAccount(){
@@ -45,7 +43,7 @@ class Login extends Component {
                         }
                     />
                 </div>
-                <button id="login-button" onClick={this.onGetLogin({username: this.state.username, password: this.state.password})}>
+                <button id="login-button" onClick={()=>this.props.onGetLogin({username: this.state.username, password: this.state.password})}>
                     Login
                 </button>
                 <button id="create-account-button" onClick={()=>this.onCreatAccount()}>Create Account</button>

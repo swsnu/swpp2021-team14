@@ -1,2 +1,4 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const CREATEACCOUNT = 'CREATEACCOUNT'
+export const FAILCREATEACCOUNT = 'FAILCREATEACCOUNT'

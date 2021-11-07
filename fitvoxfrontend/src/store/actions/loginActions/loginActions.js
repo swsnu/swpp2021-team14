@@ -12,8 +12,11 @@ export const getLogin_ = (data) => {
 export const getLogin = (data) => {
     return (dispatch) => {
         axios
-            .put('/api/signin/', data)
-            .then((res) => dispatch(getLogin_(res.data)));
+            .post('/api/signin/', data)
+            .then((res) => dispatch(getLogin_(res.data)))
+            .catch((err) => {
+                alert('Username or Password is Wrong')
+            });
     };
 };
 
@@ -24,27 +27,38 @@ export const getLogout_ = () => {
 export const getLogout = () => {
     return (dispatch) => {
         axios
-            .put('/user/1', {
-                email: 'swpp@snu.ac.kr',
-                password: 'iluvswpp',
-                name: 'Software Lover',
-                logged_in: false,
-            })
+            .get('/api/signout/')
             .then((res) => dispatch(getLogout_()));
     };
 };
 
 export const maintainLogin = () => {
     return (dispatch) => {
-        axios.get('/user/1').then((res) => {
-            if (res.data.logged_in) return dispatch(getLogin_(res.data));
+        axios.get('/api/isAuth/').then((res) => {
+            if (res.data.authenticated) return dispatch(getLogin_(res.data));
             else return dispatch(getLogout_());
         });
     };
 };
 
+export const failCreateAccount_ = ()=>{
+    return {
+        type: actionTypes.FAILCREATEACCOUNT
+    }
+}
+
+export const createAccount_ = ()=>{
+    return {
+        type: actionTypes.CREATEACCOUNT
+    }
+}
+
 export const createAccount = (userData) =>{
     return (dispatch) =>{
-        axios.post('/api/signup/', userData).then((res)=> res.data)
+        axios.post('/api/signup/', userData).then((res)=> dispatch(createAccount_()))
+            .catch(err =>{
+                alert("Username already exists!")
+                dispatch(failCreateAccount_())
+            })
     }
 }
