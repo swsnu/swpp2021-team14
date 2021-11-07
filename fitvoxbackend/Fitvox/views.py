@@ -5,6 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from .models import PersonalSetting, ExerciseDefault, ExercisePerUser
 
 
 @csrf_exempt
@@ -14,11 +15,25 @@ def signup(request):
         username = req_data['username']
         email = req_data['email']
         password = req_data['password']
+        hardness = req_data['hardness']
         try:
             User.objects.create_user(username=username, email=email, password=password)
-            return HttpResponse(status=201)
         except IntegrityError:
             return HttpResponseBadRequest()
+
+        # Create Personal Setting
+        created_user = User.objects.get(username=username)
+        new_user_setting = PersonalSetting(created_user, hardness=hardness, breaktime=60)
+        new_user_setting.save()
+
+        # Create ExercisePerUser
+        for exercise in ExerciseDefault.objects.get(hardness=hardness):
+            new_exercise_per_user = ExercisePerUser(user=created_user, muscleType=exercise.muscleType,
+                                                    exerciseType=exercise.exerciseType, name=exercise.name,
+                                                    hardness=exercise.hardness, isFavorite=False, volumes={}, oneRMs={})
+            new_exercise_per_user.save()
+
+        return HttpResponse(status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
 
@@ -29,6 +44,7 @@ def token(request):
         return HttpResponse(status=204)
     else:
         return HttpResponseNotAllowed(['GET'])
+
 
 @csrf_exempt
 def signin(request):
@@ -45,6 +61,7 @@ def signin(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+
 @csrf_exempt
 def signout(request):
     if request.method == 'GET':
@@ -56,13 +73,12 @@ def signout(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
-      
-      
+
 @csrf_exempt
 def psetting(request, user_id=0):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            if PersonalSetting.object.filter(id=user_id).exists():
+            if PersonalSetting.objects.filter(id=user_id).exists():
                 psettingdata = PersonalSetting.objects.get(id=user_id)
                 if request.user.id == psettingdata.user.id:
                     return JsonResponse({'id':psettingdata.id,'hardness':psettingdata.hardness,'breaktime':psettingdata.breaktime},status=200)
@@ -75,7 +91,7 @@ def psetting(request, user_id=0):
 
     elif request.method == 'PUT':
         if request.user.is_authenticated:
-            if PersonalSetting.object.filter(id=user_id).exists():
+            if PersonalSetting.objects.filter(id=user_id).exists():
                 psettingdata = PersonalSetting.objects.get(id=user_id)
                 if request.user.id == psettingdata.user.id:
                     body = request.body.decode()
@@ -95,10 +111,9 @@ def psetting(request, user_id=0):
             return HttpResponse(status=401)
     
     else:
-        return HttpResponseNotAllowed(['GET','PUT'])
+        return HttpResponseNotAllowed(['GET', 'PUT'])
       
-      
-      
+
 @csrf_exempt
 def is_auth(request):
     if request.method == 'GET':
