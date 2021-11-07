@@ -50,3 +50,43 @@ def signout(request):
             return HttpResponse(status=401)
     else:
         return HttpResponseNotAllowed(['GET'])
+    
+    
+def psetting(request, user_id=0):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if PersonalSetting.object.filter(id=user_id).exists():
+                psettingdata = PersonalSetting.objects.get(id=user_id)
+                if request.user.id == psettingdata.user.id:
+                    return JsonResponse({'id':psettingdata.id,'hardness':psettingdata.hardness,'breaktime':psettingdata.breaktime},status=200)
+                else:
+                    return HttpResponse(status=403)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
+
+    elif request.method == 'PUT':
+        if request.user.is_authenticated:
+            if PersonalSetting.object.filter(id=user_id).exists():
+                psettingdata = PersonalSetting.objects.get(id=user_id)
+                if request.user.id == psettingdata.user.id:
+                    body = request.body.decode()
+                    sethardness = json.loads(body)['hardness']
+                    setbreak = json.loads(body)['breaktime']
+                    
+                    psettingdata.hardness = sethardness
+                    psettingdata.breaktime = setbreak
+                    psettingdata.save()
+                    response_dict={'id':psettingdata.id,'hardness':psettingdata.hardness,'breaktime':psettingdata.breaktime}
+                    return JsonResponse(response_dict, status=200)
+                else:
+                    return HttpResponse(status=403)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
+    
+    else:
+        return HttpResponseNotAllowed(['GET','PUT'])
+
