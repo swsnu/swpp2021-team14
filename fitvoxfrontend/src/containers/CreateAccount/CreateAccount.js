@@ -31,19 +31,19 @@ const useStyles = makeStyles(theme => ({
 const CreatAccount = (props) => {
     const classes = useStyles();
     // create state variables for each input
+    const [username, setUsr] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPass] = useState('');
     const [passwordchk, setChk] = useState('');
-    const [username, setUsr] = useState('');
     const [hardness, setHard] = useState('');
 
     const handleSubmit = e => {
         e.preventDefault();
         if(password==passwordchk&&password.length>=6){
             const data = {
+                "name": username,
                 email,
                 password,
-                "name": username,
                 "hardness" : hardness,
                 "logged_in": false
             }
@@ -66,6 +66,13 @@ const CreatAccount = (props) => {
     return (
         <form className={classes.root} onSubmit={handleSubmit}>
             <TextField
+                label="Username"
+                required
+                value={username}
+                minLength="2"
+                onChange={e => setUsr(e.target.value)}
+            />
+            <TextField
                 label="Email"
                 type="email"
                 required
@@ -86,13 +93,7 @@ const CreatAccount = (props) => {
                 value={passwordchk}
                 onChange={e => setChk(e.target.value)}
             />
-            <TextField
-                label="Username"
-                required
-                value={username}
-                minLength="2"
-                onChange={e => setUsr(e.target.value)}
-            />
+            
             <FormControl sx={{ m: 1, width: 270 }}>
             <InputLabel id="demo-simple-select-label">Hardness</InputLabel>
             <Select
