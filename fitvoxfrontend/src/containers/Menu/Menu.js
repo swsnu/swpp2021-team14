@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 class Menu extends Component {    
     state = {
-        onToggle: true,
+        onToggle: false,
     }
 
     redirectPersonalSettingHandler = () => {
