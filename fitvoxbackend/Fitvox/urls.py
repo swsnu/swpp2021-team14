@@ -7,4 +7,5 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('signout/', views.signout, name='signout'),
     path('user/<int:user_id>/psetting/', views.psetting, name='psetting'),
+    path('isAuth/', views.is_auth, name='maintain login status')
 ]

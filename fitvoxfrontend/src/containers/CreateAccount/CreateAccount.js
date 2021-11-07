@@ -38,8 +38,8 @@ const CreatAccount = (props) => {
             const data = {
                 email,
                 password,
-                "name": username,
-                "logged_in": false
+                username,
+                'hardness': 'home training',
             }
             props.onCreateAccount(data)
             props.history.push('/login')
@@ -98,4 +98,10 @@ const mapDispatchToProps = (dispatch) =>{
     };
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(CreatAccount));
+const mapStateToProps = (state) =>{
+    return {
+        accountCreated: state.login.createAccount
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreatAccount));
