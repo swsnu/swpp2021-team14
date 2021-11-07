@@ -1,2 +1,3 @@
 #ignore node modules
 fitvoxfrontend/node_modules/
+fitvoxbackend/Fitvox/__pycache__
