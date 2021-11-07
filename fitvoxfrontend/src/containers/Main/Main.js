@@ -7,6 +7,7 @@ import { withRouter } from 'react-router';
 import Calendar from '../../components/Calendar/Calendar';
 
 import './Main.css'
+import Menu from '../Menu/Menu'
 
 class Main extends Component {
     state = {
@@ -48,6 +49,7 @@ class Main extends Component {
                 <button className = "timeframe-statistics-button" onClick = {() => {}}>
                     Timeframe Statistics                    
                 </button>
+                <Menu></Menu>
             </div>
         );
     }
