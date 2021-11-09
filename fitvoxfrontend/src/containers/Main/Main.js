@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import Calendar from '../../components/Calendar/Calendar';
 
 import './Main.css'
@@ -20,18 +20,19 @@ class Main extends Component {
         // checks whether loginned or not
         // get workout entry data
         this.props.onGetSettings()
+        this.props.onGetExerciseList()
     }
 
     handleClickPrev = () => {
         this.setState({
-            year: this.state.month === 1 ? this.state.year -1 : this.state.year,
+            year: this.state.month === 1 ? this.state.year - 1 : this.state.year,
             month: this.state.month === 1 ? 12 : this.state.month - 1,
         })
     }
 
     handleClickNext = () => {
         this.setState({
-            year: this.state.month === 12 ? this.state.year + 1  : this.state.year,
+            year: this.state.month === 12 ? this.state.year + 1 : this.state.year,
             month: this.state.month === 12 ? 1 : this.state.month + 1
         })
     }
@@ -39,34 +40,35 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <div className = "header">
-                    <button id = "previous-month-button" onClick = {() => this.handleClickPrev()}>prev month</button>
+                <div className="header">
+                    <button id="previous-month-button" onClick={() => this.handleClickPrev()}>prev month</button>
                     {this.state.year}.{this.state.month}
-                    <button id = "next-month-button" onClick = {() => this.handleClickNext()}>next month</button>
+                    <button id="next-month-button" onClick={() => this.handleClickNext()}>next month</button>
                 </div>
                 <Calendar
-                    year = {this.state.year}
-                    month = {this.state.month}
-                    />
-                <button className = "timeframe-statistics-button" onClick = {() => {}}>
-                    Timeframe Statistics                    
+                    year={this.state.year}
+                    month={this.state.month}
+                />
+                <button className="timeframe-statistics-button" onClick={() => {
+                }}>
+                    Timeframe Statistics
                 </button>
                 <Logout/>
-                <button id='personal-setting' onClick={()=>this.props.history.push('/setting')}>Settings</button>
+                <button id='personal-setting' onClick={() => this.props.history.push('/setting')}>Settings</button>
             </div>
         );
     }
 }
-const mapStateToProps = state => {
-    return {
 
-    };
+const mapStateToProps = state => {
+    return {};
 
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetSettings: () => dispatch(actionCreators.getSetting())
+        onGetSettings: () => dispatch(actionCreators.getSetting()),
+        onGetExerciseList: () => dispatch(actionCreators.getExerciseList())
     };
 }
 
