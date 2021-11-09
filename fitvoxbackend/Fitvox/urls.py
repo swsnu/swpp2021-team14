@@ -7,5 +7,6 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('signout/', views.signout, name='signout'),
     path('psetting/', views.psetting, name='psetting'),
-    path('isAuth/', views.is_auth, name='maintain login status')
+    path('isAuth/', views.is_auth, name='maintain login status'),
+    path('exercise_list/', views.exercise_list, name='exercise list')
 ]

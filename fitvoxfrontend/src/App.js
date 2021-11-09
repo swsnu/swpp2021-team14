@@ -8,6 +8,7 @@ import Login from './containers/Login/Login';
 import Main from './containers/Main/Main';
 import CreateAccount from "./containers/CreateAccount/CreateAccount";
 import PersonalSetting from "./containers/PersonalSetting/PersonalSetting";
+import ExerciseList from "./containers/ExerciseList/ExerciseList";
 
 class App extends Component {
 
@@ -33,6 +34,11 @@ class App extends Component {
                     path="/setting"
                        exact
                        component={PersonalSetting}
+                />
+                <Route
+                    path="/exercise_list"
+                    exact
+                    component={ExerciseList}
                 />
                   <Redirect exact from="/login" to="/main" />
                 <Redirect exact from="/" to="/main" />
