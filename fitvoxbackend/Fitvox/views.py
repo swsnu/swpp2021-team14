@@ -23,7 +23,7 @@ def signup(request):
 
         # Create Personal Setting
         created_user = User.objects.get(username=username)
-        new_user_setting = PersonalSetting(user = created_user, hardness=hardness, breaktime=60)
+        new_user_setting = PersonalSetting(user=created_user, hardness=hardness, breaktime=60)
         new_user_setting.save()
 
         # Create ExercisePerUser
@@ -81,7 +81,9 @@ def psetting(request, user_id=0):
             if PersonalSetting.objects.filter(user=request.user).exists():
                 psettingdata = PersonalSetting.objects.get(user=request.user)
                 if request.user.id == psettingdata.user.id:
-                    return JsonResponse({'id':psettingdata.id,'hardness':psettingdata.hardness,'breaktime':psettingdata.breaktime},status=200)
+                    return JsonResponse(
+                        {'id': psettingdata.id, 'hardness': psettingdata.hardness, 'breaktime': psettingdata.breaktime},
+                        status=200)
                 else:
                     return HttpResponse(status=403)
             else:
@@ -101,7 +103,8 @@ def psetting(request, user_id=0):
                     psettingdata.hardness = sethardness
                     psettingdata.breaktime = setbreak
                     psettingdata.save()
-                    response_dict={'id':psettingdata.id,'hardness':psettingdata.hardness,'breaktime':psettingdata.breaktime}
+                    response_dict = {'id': psettingdata.id, 'hardness': psettingdata.hardness,
+                                     'breaktime': psettingdata.breaktime}
                     return JsonResponse(response_dict, status=200)
                 else:
                     return HttpResponse(status=403)
@@ -109,10 +112,10 @@ def psetting(request, user_id=0):
                 return HttpResponse(status=404)
         else:
             return HttpResponse(status=401)
-    
+
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
-      
+
 
 @csrf_exempt
 def is_auth(request):
@@ -121,4 +124,32 @@ def is_auth(request):
             return JsonResponse({'name': request.user.username, 'authenticated': True}, status=200)
         else:
             return JsonResponse({'name': request.user.username, 'authenticated': False}, status=200)
+    return HttpResponseNotAllowed(['GET'])
+
+
+@csrf_exempt
+def exercise_list(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if ExercisePerUser.objects.filter(user=request.user).exists():
+                list_to_return = ExercisePerUser.objects.filter(user=request.user)
+                response = []
+                for entry in list_to_return:
+                    entry_in_dict = {
+                        'muscleType': entry.muscleType,
+                        'exerciseType': entry.exerciseType,
+                        'name': entry.name,
+                        'hardness': entry.hardness,
+                        'tags': entry.tags,
+                        'isFavorite': entry.isFavorite,
+                        'volumes': entry.volumes,
+                        'oneRMs': entry.oneRMs
+                    }
+                    response.append(entry_in_dict)
+                return JsonResponse(response, safe=False, status=200)
+            else:
+                return HttpResponse(status=404)
+
+        else:
+            return HttpResponse(status=401)
     return HttpResponseNotAllowed(['GET'])
