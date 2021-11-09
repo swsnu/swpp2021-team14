@@ -13,7 +13,7 @@ class ExerciseDefault(models.Model):
     exerciseType = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
     hardness = models.TextField()
-    tags = models.JSONField()
+    tags = models.JSONField(default=dict, null=True)
 
 
 class ExercisePerUser(models.Model):
@@ -22,10 +22,10 @@ class ExercisePerUser(models.Model):
     exerciseType = models.CharField(max_length=64)
     name = models.CharField(max_length=64)
     hardness = models.TextField()
-    tags = models.JSONField()
+    tags = models.JSONField(default=dict, null=True)
     isFavorite = models.BooleanField()
-    volumes = models.JSONField()
-    oneRMs = models.JSONField()
+    volumes = models.JSONField(default=dict, null=True)
+    oneRMs = models.JSONField(default=dict, null=True)
 
 
 
