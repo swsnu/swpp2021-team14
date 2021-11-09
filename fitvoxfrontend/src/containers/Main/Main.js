@@ -55,6 +55,7 @@ class Main extends Component {
                 </button>
                 <Logout/>
                 <button id='personal-setting' onClick={() => this.props.history.push('/setting')}>Settings</button>
+                <button id='exercise-list' onClick={() => this.props.history.push('/exercise_list')}>Exercise List</button>
             </div>
         );
     }

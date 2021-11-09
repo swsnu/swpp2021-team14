@@ -15,9 +15,14 @@ export default function loginReducer(state = initState, action) {
                     muscleTypes.push(candidateMuscleType);
                 }
                 let candidateExerciseType = entry['exerciseType']
-                if (!exerciseTypes.includes(candidateExerciseType)) {
-                    const exerciseType = {muscleType: candidateMuscleType, exerciseType: candidateExerciseType}
-                    exerciseTypes.push(exerciseType)
+                const candidate_entry = {
+                    muscleType: candidateMuscleType,
+                    exerciseType: candidateExerciseType
+                }
+                if (exerciseTypes.filter(entry => {
+                    return entry['muscleType'] === candidateMuscleType && entry['exerciseType'] === candidateExerciseType
+                }).length === 0) {
+                    exerciseTypes.push(candidate_entry)
                 }
             }
 
