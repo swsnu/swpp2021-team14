@@ -5,6 +5,10 @@ import Button from '@material-ui/core/Button';
 import * as actionCreators from '../../store/actions/index'
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,19 +31,20 @@ const useStyles = makeStyles(theme => ({
 const CreatAccount = (props) => {
     const classes = useStyles();
     // create state variables for each input
+    const [username, setUsr] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPass] = useState('');
     const [passwordchk, setChk] = useState('');
-    const [username, setUsr] = useState('');
+    const [hardness, setHard] = useState('');
 
     const handleSubmit = e => {
         e.preventDefault();
         if(password==passwordchk&&password.length>=6){
             const data = {
+                username,
                 email,
                 password,
-                username,
-                'hardness': 'home training',
+                hardness
             }
             props.onCreateAccount(data)
             props.history.push('/login')
@@ -53,8 +58,19 @@ const CreatAccount = (props) => {
 
     };
 
+    const handleChange = (event) => {
+        setHard(event.target.value);
+    };
+
     return (
         <form className={classes.root} onSubmit={handleSubmit}>
+            <TextField
+                label="Username"
+                required
+                value={username}
+                minLength="2"
+                onChange={e => setUsr(e.target.value)}
+            />
             <TextField
                 label="Email"
                 type="email"
@@ -76,13 +92,22 @@ const CreatAccount = (props) => {
                 value={passwordchk}
                 onChange={e => setChk(e.target.value)}
             />
-            <TextField
-                label="Username"
-                required
-                value={username}
-                minLength="2"
-                onChange={e => setUsr(e.target.value)}
-            />
+
+            <FormControl sx={{ m: 1, width: 270 }}>
+                <InputLabel id="demo-simple-select-label">Hardness</InputLabel>
+                <Select
+                    labelId="hardness"
+                    id="hardness"
+                    value={hardness}
+                    label="Hardness"
+                    onChange={handleChange}
+                >
+                    <MenuItem value={1}>Home Training</MenuItem>
+                    <MenuItem value={2}>Gym Beginner</MenuItem>
+                    <MenuItem value={3}>Expert</MenuItem>
+                </Select>
+            </FormControl>
+
             <div>
                 <Button type="submit" variant="contained" >
                     Create Account
@@ -98,10 +123,4 @@ const mapDispatchToProps = (dispatch) =>{
     };
 }
 
-const mapStateToProps = (state) =>{
-    return {
-        accountCreated: state.login.createAccount
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreatAccount));
+export default connect(null, mapDispatchToProps)(withRouter(CreatAccount));

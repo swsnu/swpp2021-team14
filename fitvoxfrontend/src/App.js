@@ -7,6 +7,7 @@ import * as actionCreators from './store/actions/loginActions/loginActions';
 import Login from './containers/Login/Login';
 import Main from './containers/Main/Main';
 import CreateAccount from "./containers/CreateAccount/CreateAccount";
+import PersonalSetting from "./containers/PersonalSetting/PersonalSetting";
 
 class App extends Component {
 
@@ -27,6 +28,11 @@ class App extends Component {
                     path = "/main"
                     exact
                     component = {Main}
+                />
+                <Route
+                    path="/setting"
+                       exact
+                       component={PersonalSetting}
                 />
                   <Redirect exact from="/login" to="/main" />
                 <Redirect exact from="/" to="/main" />

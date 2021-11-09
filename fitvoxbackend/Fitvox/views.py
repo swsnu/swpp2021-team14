@@ -23,11 +23,11 @@ def signup(request):
 
         # Create Personal Setting
         created_user = User.objects.get(username=username)
-        new_user_setting = PersonalSetting(created_user, hardness=hardness, breaktime=60)
+        new_user_setting = PersonalSetting(user = created_user, hardness=hardness, breaktime=60)
         new_user_setting.save()
 
         # Create ExercisePerUser
-        for exercise in ExerciseDefault.objects.get(hardness=hardness):
+        for exercise in ExerciseDefault.objects.all():
             new_exercise_per_user = ExercisePerUser(user=created_user, muscleType=exercise.muscleType,
                                                     exerciseType=exercise.exerciseType, name=exercise.name,
                                                     hardness=exercise.hardness, isFavorite=False, volumes={}, oneRMs={})
@@ -78,8 +78,8 @@ def signout(request):
 def psetting(request, user_id=0):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            if PersonalSetting.objects.filter(id=user_id).exists():
-                psettingdata = PersonalSetting.objects.get(id=user_id)
+            if PersonalSetting.objects.filter(user=request.user).exists():
+                psettingdata = PersonalSetting.objects.get(user=request.user)
                 if request.user.id == psettingdata.user.id:
                     return JsonResponse({'id':psettingdata.id,'hardness':psettingdata.hardness,'breaktime':psettingdata.breaktime},status=200)
                 else:
@@ -91,13 +91,13 @@ def psetting(request, user_id=0):
 
     elif request.method == 'PUT':
         if request.user.is_authenticated:
-            if PersonalSetting.objects.filter(id=user_id).exists():
-                psettingdata = PersonalSetting.objects.get(id=user_id)
+            if PersonalSetting.objects.filter(user=request.user).exists():
+                psettingdata = PersonalSetting.objects.get(user=request.user)
                 if request.user.id == psettingdata.user.id:
                     body = request.body.decode()
                     sethardness = json.loads(body)['hardness']
                     setbreak = json.loads(body)['breaktime']
-                    
+
                     psettingdata.hardness = sethardness
                     psettingdata.breaktime = setbreak
                     psettingdata.save()

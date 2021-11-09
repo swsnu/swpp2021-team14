@@ -2,3 +2,6 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const CREATEACCOUNT = 'CREATEACCOUNT'
 export const FAILCREATEACCOUNT = 'FAILCREATEACCOUNT'
+
+export const GET_SETTING = 'GET_SETTING'
+export const CHANGE_SETTING = 'CHANGE_SETTING'
