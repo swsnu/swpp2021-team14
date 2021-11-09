@@ -91,7 +91,6 @@ def psetting(request, user_id=0):
 
     elif request.method == 'PUT':
         if request.user.is_authenticated:
-            print(request.user)
             if PersonalSetting.objects.filter(user=request.user).exists():
                 psettingdata = PersonalSetting.objects.get(user=request.user)
                 if request.user.id == psettingdata.user.id:
