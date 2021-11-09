@@ -8,6 +8,7 @@ import Calendar from '../../components/Calendar/Calendar';
 
 import './Main.css'
 import Logout from "../Logout/Logout";
+import * as actionCreators from "../../store/actions/index"
 
 class Main extends Component {
     state = {
@@ -18,6 +19,7 @@ class Main extends Component {
     componentDidMount() {
         // checks whether loginned or not
         // get workout entry data
+        this.props.onGetSettings()
     }
 
     handleClickPrev = () => {
@@ -50,6 +52,7 @@ class Main extends Component {
                     Timeframe Statistics                    
                 </button>
                 <Logout/>
+                <button id='personal-setting' onClick={()=>this.props.history.push('/setting')}>Settings</button>
             </div>
         );
     }
@@ -58,12 +61,12 @@ const mapStateToProps = state => {
     return {
 
     };
-    
+
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        onGetSettings: () => dispatch(actionCreators.getSetting())
     };
 }
 
