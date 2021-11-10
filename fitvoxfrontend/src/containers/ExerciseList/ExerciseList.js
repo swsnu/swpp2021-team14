@@ -6,6 +6,7 @@ import {withRouter} from 'react-router';
 import MuscleTypeIcon from "../../components/MuscleTypeIcon/MuscleTypeIcon";
 import ExerciseTypeIcon from "../../components/ExerciseTypeIcon/ExerciseTypeIcon";
 import ExerciseEntry from "../../components/ExerciseEntry/ExerciseEntry";
+import Menu from '../Menu/Menu';
 
 class ExerciseList extends Component {
 
@@ -114,6 +115,7 @@ class ExerciseList extends Component {
                 <div>
                     {this.addExerciseButton()}
                     <h1>Select Muscle Type</h1>
+                    <Menu page="exercise_list"></Menu>
                     <div>{muscleTypeIcons}</div>
                 </div>
             );
@@ -138,6 +140,7 @@ class ExerciseList extends Component {
                         <h2>Selected Muscle Type: {this.state.muscleType}</h2>
                         <button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
                     </div>
+                    <Menu page="exercise_list"></Menu>
                     <div>{exerciseTypeIcons}</div>
                 </div>
             )
@@ -206,6 +209,7 @@ class ExerciseList extends Component {
                     <div>
                         {this.addTag()}
                     </div>
+                    <Menu page="exercise_list"></Menu>
                     <div>
                         {exerciseEntries}
                     </div>
