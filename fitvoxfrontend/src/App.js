@@ -43,14 +43,14 @@ class App extends Component {
                     component={ExerciseList}
                 />
                 <Route
-                    path="/exercise_list/:exercisename"
-                    exact
-                    component={ExerciseDetail}
-                />
-                <Route
                     path="/exercise_list/add"
                     exact
                     component={AddExercise}
+                />
+                <Route
+                    path="/exercise_list/:exercisename"
+                    exact
+                    component={ExerciseDetail}
                 />
                   <Redirect exact from="/login" to="/main" />
                 <Redirect exact from="/" to="/main" />

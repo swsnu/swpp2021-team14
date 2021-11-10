@@ -146,9 +146,11 @@ class ExerciseList extends Component {
             if (this.props.exerciseList != null) {
                 exerciseEntries = []
                 for (let exercise of this.props.exerciseList) {
+                    console.log('hardness')
                     if (exercise['muscleType'] === this.state.muscleType &&
-                        exercise['exerciseType'] === this.state.exerciseType)
-                        //  && exercise['hardness'].indexOf(this.state.hardness)!==-1
+                        exercise['exerciseType'] === this.state.exerciseType
+                        && exercise['hardness'].indexOf(this.props.hardness)!==-1)
+
                     {
                         if (this.state.tags.length === 0) {
                             const name = exercise['name']
