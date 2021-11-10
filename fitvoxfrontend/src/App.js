@@ -9,6 +9,8 @@ import Main from './containers/Main/Main';
 import CreateAccount from "./containers/CreateAccount/CreateAccount";
 import PersonalSetting from "./containers/PersonalSetting/PersonalSetting";
 import ExerciseList from "./containers/ExerciseList/ExerciseList";
+import ExerciseDetail from "./containers/ExerciseDetail/ExerciseDetail";
+import AddExercise from "./containers/AddExercise/AddExercise";
 
 class App extends Component {
 
@@ -39,6 +41,16 @@ class App extends Component {
                     path="/exercise_list"
                     exact
                     component={ExerciseList}
+                />
+                <Route
+                    path="/exercise_list/:exercisename"
+                    exact
+                    component={ExerciseDetail}
+                />
+                <Route
+                    path="/exercise_list/add"
+                    exact
+                    component={AddExercise}
                 />
                   <Redirect exact from="/login" to="/main" />
                 <Redirect exact from="/" to="/main" />

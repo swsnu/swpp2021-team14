@@ -16,7 +16,7 @@ class ExerciseList extends Component {
         exerciseType: null,
         tags: [],
         tag: "#",
-        query: [], 
+        query: [],
     }
 
     onMuscleTypeClick(muscleType) {
@@ -31,9 +31,9 @@ class ExerciseList extends Component {
         this.setState({query: [...this.state.query, exerciseType]})
     }
 
-    onExerciseEntryClick = (name)=>{
+    onExerciseEntryClick = (name) => {
         // Should Fix
-        this.props.history.push('/main')
+        this.props.history.push('/exercise_list/'+name)
     }
 
     onGoBackMuscleType = () => {
@@ -42,50 +42,60 @@ class ExerciseList extends Component {
         this.setState({exerciseType_selected: false})
         this.setState({exerciseType: null})
         this.setState({query: []})
+        this.setState({tags: []})
     }
 
     onGoBackExerciseType = () => {
         this.setState({exerciseType_selected: false})
         this.setState({exerciseType: null})
         this.setState({query: [this.state.query[0]]})
+        this.setState({tags: []})
     }
 
     onSearchTagHandler = () => {
         let input_tag = this.state.tag;
-        this.setState({query:[...this.state.query, input_tag], tag: "#", tags:[...this.state.tags, input_tag]})
+        this.setState({query: [...this.state.query, input_tag], tag: "#", tags: [...this.state.tags, input_tag]})
     }
 
-    searchBar = () => {
-        let add_tag_button = null;
-        if (this.state.exerciseType_selected){
-            add_tag_button = (<button id="search-with-tag"
-                style = {{width: '5%', height: 100}}
-                onClick = {()=>this.onSearchTagHandler()}>
-                    Add Tag
-            </button>)
+    onDeleteTag = (tag) => {
+        const idx = this.state.tags.indexOf(tag);
+        if (idx > -1) {
+            if (this.state.tags.length == 1) this.setState({tags: []})
+            else {
+                const newTags = this.state.tags.splice(idx, 1)
+                this.setState({tags: newTags})
+            }
         }
+    }
+
+    onAddExercise = () => {
+        this.props.history.push('/exercise_list/add')
+    }
+
+    addExerciseButton = () => {
+        return (<div>
+            <h2>Add new Exercise?</h2>
+            <button id='add-new-exercise' onClick={() => this.onAddExercise()}>Add new exercise</button>
+        </div>)
+    }
+
+    addTag = () => {
+        let add_tag_button = (<button id="search-with-tag"
+                                      style={{width: '5%', height: 100}}
+                                      onClick={() => this.onSearchTagHandler()}>
+            Add Tag
+        </button>)
         return (
-            <div className = "SearchBar" align = "center">
+            <div>
+                <h1>Type Tag to search</h1>
                 <div>
-                    <h1>SearchBar</h1>
-                    <input
-                        id = "search-bar"
-                        value = {this.state.query}
-                        style={{ width: '30%', height: 50 }}
-                        //onChange={(event)=>this.setState({query: [...this.state.query, event.target.value]})}
-                    />
-                </div>
-                <div>
-                    <h1>Type Tag to search</h1>
-                    <div>
                         <textarea
-                            id = "tag-bar"
-                            value = {this.state.tag}
-                            style={{ width: '30%', height: 100 }}
-                            onChange = {(event)=>this.setState({tag: event.target.value})}
+                            id="tag-bar"
+                            value={this.state.tag}
+                            style={{width: '30%', height: 100}}
+                            onChange={(event) => this.setState({tag: event.target.value})}
                         />
-                        {add_tag_button}
-                    </div>
+                    {add_tag_button}
                 </div>
             </div>
         )
@@ -102,7 +112,7 @@ class ExerciseList extends Component {
             }
             return (
                 <div>
-                    {this.searchBar()}
+                    {this.addExerciseButton()}
                     <h1>Select Muscle Type</h1>
                     <div>{muscleTypeIcons}</div>
                 </div>
@@ -122,10 +132,10 @@ class ExerciseList extends Component {
 
             return (
                 <div>
-                    {this.searchBar()}
+                    {this.addExerciseButton()}
                     <h1>Select Exercise Type</h1>
-                    <h2>Selected Muscle Type: {this.state.muscleType}</h2>
                     <div>
+                        <h2>Selected Muscle Type: {this.state.muscleType}</h2>
                         <button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
                     </div>
                     <div>{exerciseTypeIcons}</div>
@@ -133,27 +143,31 @@ class ExerciseList extends Component {
             )
         } else {
             let exerciseEntries = ""
-            if (this.props.exerciseList!= null) {
+            if (this.props.exerciseList != null) {
                 exerciseEntries = []
                 for (let exercise of this.props.exerciseList) {
                     if (exercise['muscleType'] === this.state.muscleType &&
-                    exercise['exerciseType']===this.state.exerciseType)
-                    //  && exercise['hardness'].indexOf(this.state.hardness)!==-1
+                        exercise['exerciseType'] === this.state.exerciseType)
+                        //  && exercise['hardness'].indexOf(this.state.hardness)!==-1
                     {
-                        if (this.state.tags.length === 0){
+                        if (this.state.tags.length === 0) {
                             const name = exercise['name']
                             exerciseEntries.push(<ExerciseEntry name={name}
                                                                 onClick={() => this.onExerciseEntryClick(name)}/>)
-                        }
-                        else {
+                        } else {
                             let flag = true;
-                            for (let tag of this.state.tags){
-                                if (!exercise["tags"]["tags"].includes(tag)) {
-                                    flag = false;
-                                    break;
+                            let small_flag;
+                            for (let i = 0; i < this.state.tags.length; i++) {
+                                let tag = this.state.tags[i];
+                                small_flag = false;
+                                for (let exerciseTag of exercise["tags"]["tags"]) {
+                                    if (exerciseTag.toUpperCase() === tag.toUpperCase()) {
+                                        small_flag = true;
+                                    }
                                 }
+                                if (!small_flag) flag = false;
                             }
-                            if (flag){
+                            if (flag) {
                                 const name = exercise['name']
                                 exerciseEntries.push(<ExerciseEntry name={name}
                                                                     onClick={() => this.onExerciseEntryClick(name)}/>)
@@ -163,22 +177,33 @@ class ExerciseList extends Component {
                 }
             }
 
+            let tag_entries = []
+            for (let tag of this.state.tags) {
+                tag_entries.push(<div>
+                    {tag}
+                    <button id='delete-tag' onClick={() => this.onDeleteTag(tag)}>Delete</button>
+                </div>)
+            }
+
             return (
                 <div>
-                    {this.searchBar()}
-                    <h2>Selected Muscle Type: {this.state.muscleType}</h2>
-                    <h2>Selected Exercise Type: {this.state.exerciseType}</h2>
+                    {this.addExerciseButton()}
                     <div>
+                        <h2>Selected Muscle Type: {this.state.muscleType}</h2>
                         <button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
-                        <button onClick={()=>this.onGoBackExerciseType()}>Select Exercise Type again</button>
                     </div>
-                    {
-                    //<div>
-                    //    <h2>Add tags</h2>
-                    //    <input type="text"/>
-                    //    <button>Add</button>
-                    //</div>
-                    }
+
+                    <div>
+                        <h2>Selected Exercise Type: {this.state.exerciseType}</h2>
+                        <button onClick={() => this.onGoBackExerciseType()}>Select Exercise Type again</button>
+                    </div>
+                    <div>
+                        <h2>Selected Tags</h2>
+                        {tag_entries.length == 0 ? "None" : tag_entries}
+                    </div>
+                    <div>
+                        {this.addTag()}
+                    </div>
                     <div>
                         {exerciseEntries}
                     </div>
