@@ -30,7 +30,8 @@ def signup(request):
         for exercise in ExerciseDefault.objects.all():
             new_exercise_per_user = ExercisePerUser(user=created_user, muscleType=exercise.muscleType,
                                                     exerciseType=exercise.exerciseType, name=exercise.name,
-                                                    hardness=exercise.hardness, isFavorite=False, volumes={}, oneRMs={})
+                                                    hardness=exercise.hardness, tags={'tags':exercise.tags["tags"]},
+                                                    isFavorite=False, volumes={}, oneRMs={}, )
             new_exercise_per_user.save()
 
         return HttpResponse(status=201)
