@@ -7,3 +7,4 @@ export const GET_SETTING = 'GET_SETTING'
 export const CHANGE_SETTING = 'CHANGE_SETTING'
 
 export const GET_EXERCISE_LIST = 'GET_EXERCISE_LIST'
+export const ADD_EXERCISE = 'ADD_EXERCISE'

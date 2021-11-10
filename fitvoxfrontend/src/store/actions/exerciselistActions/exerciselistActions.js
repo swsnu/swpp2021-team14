@@ -14,3 +14,16 @@ export const getExerciseList = () => {
         axios.get('/api/exercise_list/').then((res) => dispatch(getExerciseList_(res.data)))
     }
 }
+
+export const addExercise_ = () =>{
+    alert("Exercise Added Successfully!")
+    return{
+        type: actionTypes.ADD_EXERCISE
+    }
+}
+
+export const addExercise = (data) =>{
+    return (dispatch) =>{
+        axios.post('/api/exercise_list/', data).then((res)=>dispatch(addExercise_()))
+    }
+}
