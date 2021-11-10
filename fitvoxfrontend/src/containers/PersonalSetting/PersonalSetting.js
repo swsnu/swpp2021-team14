@@ -3,6 +3,7 @@ import Select from 'react-select';
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import * as actionCreators from '../../store/actions/index'
+import Menu from '../Menu/Menu';
 
 class PersonalSetting extends Component {
 
@@ -99,6 +100,7 @@ class PersonalSetting extends Component {
                     <br/>
                     <button id='change-setting' onClick={() => this.onChangeSetting()}>Change</button>
                 </div>
+                <Menu page = "setting"></Menu>
             </div>
 
         );

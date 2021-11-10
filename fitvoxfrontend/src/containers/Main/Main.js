@@ -9,6 +9,7 @@ import Calendar from '../../components/Calendar/Calendar';
 import './Main.css'
 import Logout from "../Logout/Logout";
 import * as actionCreators from "../../store/actions/index"
+import Menu from '../Menu/Menu';
 
 class Main extends Component {
     state = {
@@ -53,9 +54,7 @@ class Main extends Component {
                 }}>
                     Timeframe Statistics
                 </button>
-                <Logout/>
-                <button id='personal-setting' onClick={() => this.props.history.push('/setting')}>Settings</button>
-                <button id='exercise-list' onClick={() => this.props.history.push('/exercise_list')}>Exercise List</button>
+                <Menu page = "main"></Menu>
             </div>
         );
     }

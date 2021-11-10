@@ -6,6 +6,7 @@ import {withRouter} from 'react-router';
 import MuscleTypeIcon from "../../components/MuscleTypeIcon/MuscleTypeIcon";
 import ExerciseTypeIcon from "../../components/ExerciseTypeIcon/ExerciseTypeIcon";
 import ExerciseEntry from "../../components/ExerciseEntry/ExerciseEntry";
+import Menu from '../Menu/Menu';
 
 class ExerciseList extends Component {
 
@@ -87,6 +88,7 @@ class ExerciseList extends Component {
                         {add_tag_button}
                     </div>
                 </div>
+                <Menu page = "exercise_list"></Menu>
             </div>
         )
     }
