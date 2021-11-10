@@ -153,4 +153,25 @@ def exercise_list(request):
 
         else:
             return HttpResponse(status=401)
+    elif request.method =='POST':
+        if request.user.is_authenticated:
+            req_data = json.loads(request.body.decode())
+            print(req_data)
+            muscleType = req_data['muscleType']
+            exerciseType = req_data['exerciseType']
+            name =req_data['name']
+            hardness = req_data['hardness']
+            tags = req_data['tags']
+            isFavorite = req_data['isFavorite']
+            volumes = []
+            oneRMs = []
+
+            new_exercise = ExercisePerUser(user=request.user, muscleType=muscleType, exerciseType=exerciseType, name=name, hardness=hardness, tags=tags,
+                                           isFavorite=isFavorite, volumes=volumes, oneRMs=oneRMs)
+            new_exercise.save()
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse(status=401)
+
+
     return HttpResponseNotAllowed(['GET'])
