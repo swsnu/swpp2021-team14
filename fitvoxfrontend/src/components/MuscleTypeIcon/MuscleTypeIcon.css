@@ -1,0 +1,18 @@
+.MuscleTypeIcon{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+img {
+    max-width: 100%;
+}
+
+.image {
+    flex-basis: 40%;
+}
+
+h2 span {
+    font-size: 40px;
+    padding-left: 20px;
+}
