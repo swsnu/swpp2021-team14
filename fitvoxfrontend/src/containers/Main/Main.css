@@ -1,11 +1,10 @@
 .link{
-    text-align: left;
+    text-align: center;
 }
   
 .header {
-    text-align: left;
+    text-align: center;
     font-size: 40px;
-    margin-left: 10rem;
     font-weight: bold;
 }
   
