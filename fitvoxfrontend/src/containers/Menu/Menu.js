@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import {withRouter} from "react-router";
 import { connect } from 'react-redux';
 import Logout from "../Logout/Logout";
+import {Button} from "@mui/material";
+import { Box } from "@mui/system";
 
 class Menu extends Component {    
     state = {
@@ -30,56 +32,86 @@ class Menu extends Component {
     }
 
     buttons = (page) => {
-        let main_button = (<button id="main-page" onClick = {() => this.redirectMainHandler()}>Main Page</button>)
-        let setting_button = (<button id="personal-setting" onClick = {() => this.redirectPersonalSettingHandler()}>Personal Setting</button>)
-        let info_button = (<button id="user-info" onClick = {() => this.redirectUserInformationHandler()}>User Information</button>)
-        let exerciseList_button = (<button id="exercise-list" onClick = {() => this.redirectExerciseListHandler()}>Exercises List</button>)
+        let main_button = (<Button 
+                                id="main-page" 
+                                variant = "contained"
+                                onClick = {() => this.redirectMainHandler()}>
+                                    Main Page
+                            </Button>)
+        let setting_button = (<Button 
+                                id="personal-setting" 
+                                variant = "contained"
+                                onClick = {() => this.redirectPersonalSettingHandler()}>
+                                    Personal Setting
+                            </Button>)
+        let info_button = (<Button 
+                                id="user-info" 
+                                variant = "contained"
+                                onClick = {() => this.redirectUserInformationHandler()}>
+                                    User Information
+                            </Button>)
+        let exerciseList_button = (<Button 
+                                        id="exercise-list" 
+                                        variant = "contained"
+                                        onClick = {() => this.redirectExerciseListHandler()}>
+                                            Exercises List
+                                    </Button>)
         switch(page){
             case "main":
                 return (
-                    <div>
+                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
                         <Logout/>
-                        {setting_button}
-                        {info_button}
-                        {exerciseList_button}
-                    </div>
+                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
+                            {setting_button}
+                            {info_button}
+                            {exerciseList_button}
+                        </Box>
+                    </Box>
                 )
             case "setting":
                 return (
-                    <div>
+                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
                         <Logout/>
-                        {main_button}
-                        {info_button}
-                        {exerciseList_button}
-                    </div>
+                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
+                            {main_button}
+                            {info_button}
+                            {exerciseList_button}
+                        </Box>
+                    </Box>
                 )
             case "info":
                 return (
-                    <div>
+                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
                         <Logout/>
-                        {main_button}
-                        {setting_button}
-                        {exerciseList_button}
-                    </div>
+                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
+                            {main_button}
+                            {setting_button}
+                            {exerciseList_button}
+                        </Box>
+                    </Box>
                 )
             case "exercise_list":
                 return (
-                    <div>
+                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
                         <Logout/>
-                        {main_button}
-                        {setting_button}
-                        {info_button}
-                    </div>
+                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
+                            {main_button}
+                            {setting_button}
+                            {info_button}
+                        </Box>
+                    </Box>
                 )
             default:
                 return (
-                    <div>
+                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
                         <Logout/>
-                        {main_button}
-                        {setting_button}
-                        {info_button}
-                        {exerciseList_button}
-                    </div>
+                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
+                            {main_button}
+                            {setting_button}
+                            {info_button}
+                            {exerciseList_button}
+                        </Box>
+                    </Box>
                 )
         }    
     }
@@ -90,11 +122,15 @@ class Menu extends Component {
             comp = this.buttons(this.state.page);
         }
         return (
-            <div>
+            <Box display="flex" justifyContent = "center" alignItems="center" flexDirection = "column" gap = {3}>
                 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'></link>
-                <button id = 'menu_button' onClick={() => this.menuButtonHandler()}><i class='bx bx-menu'></i></button>
+                <Button id = 'menu_button' 
+                        variant = "outlined"
+                        onClick={() => this.menuButtonHandler()}>
+                            <i class='bx bx-menu'></i>
+                </Button>
                 {comp}
-            </div>
+            </Box>
         )
     }
 }

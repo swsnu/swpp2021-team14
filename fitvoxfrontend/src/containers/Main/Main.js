@@ -7,9 +7,11 @@ import {withRouter} from 'react-router';
 import Calendar from '../../components/Calendar/Calendar';
 
 import './Main.css'
-import Logout from "../Logout/Logout";
 import * as actionCreators from "../../store/actions/index";
 import Menu from "../Menu/Menu";
+
+import { Paper, Box, Typography, Button} from "@mui/material";
+
 
 class Main extends Component {
     state = {
@@ -40,22 +42,41 @@ class Main extends Component {
 
     render() {
         return (
-            <div>
-                <div className="header">
-                    <button id="previous-month-button" onClick={() => this.handleClickPrev()}>prev month</button>
-                    {this.state.year}.{this.state.month}
-                    <button id="next-month-button" onClick={() => this.handleClickNext()}>next month</button>
-                </div>
-                <Calendar
-                    year={this.state.year}
-                    month={this.state.month}
-                />
-                <button className="timeframe-statistics-button" onClick={() => {
-                }}>
-                    Timeframe Statistics
-                </button>
-                <Menu page = "main"></Menu>
-            </div>
+            <Box className = "Main" display = "flex" justifyContent="center" alignItems="center" gap ={2}>
+                <Button 
+                    id="previous-month-button"
+                    variant = "text" 
+                    onClick={() => this.handleClickPrev()}>
+                        &lt;
+                </Button>
+                <Paper p ={6} display = "flex" flexDirection = "column" gap = {4}>              
+                    <Box component = "form" display = "flex" flexDirection="column">
+                        <Box p ={1}>
+                            <Typography variant = "h2">{this.state.year}.{this.state.month}</Typography>
+                        </Box>
+                        <Box p = {2}>
+                            <Calendar
+                                year={this.state.year}
+                                month={this.state.month}
+                            />
+                        </Box>
+                        
+                    </Box>
+                    <Button 
+                        id="timeframe-statistics-button" 
+                        variant="contained"
+                        onClick={() => {}}>
+                        Timeframe Statistics
+                    </Button>
+                    <Menu page = "main"></Menu>
+                </Paper>
+                <Button 
+                    id="next-month-button" 
+                    variant = "text"
+                    onClick={() => this.handleClickNext()}>
+                        &gt;
+                </Button>
+            </Box>
         );
     }
 }
