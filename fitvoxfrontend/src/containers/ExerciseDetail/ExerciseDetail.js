@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class ExerciseDetail extends Component {
     render() {
         return (
-            <div>
+            <div align="center">
                 <h1>Exercise Detail</h1>
             </div>
         );

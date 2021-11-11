@@ -150,7 +150,6 @@ def exercise_list(request):
                 return JsonResponse(response, safe=False, status=200)
             else:
                 return HttpResponse(status=404)
-
         else:
             return HttpResponse(status=401)
     elif request.method =='POST':

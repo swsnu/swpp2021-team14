@@ -30,7 +30,7 @@ class App extends Component {
                 <Route path="/main" exact component={Main} />
                 <Route path="/setting" exact component={PersonalSetting} />
                 <Route path="/exercise_list" exact component={ExerciseList} />
-                <Route path="/exercise_list/add" exact component={AddExercise} />
+                <Route path="/add" exact component={AddExercise} />
                 <Route path="/exercise_list/:exercisename" exact component={ExerciseDetail} />
                 <Redirect exact from="/login" to="/main" />
                 <Redirect exact from="/" to="/main" />

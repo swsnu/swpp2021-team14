@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router";
 import {Checkbox} from "semantic-ui-react";
 import * as actionCreators from "../../store/actions/index"
+import './AddExercise.css'
+import Button from '@mui/material/Button';
 
 class AddExercise extends Component {
 
@@ -117,13 +119,16 @@ class AddExercise extends Component {
         for (let tag of this.state.tags) {
             tag_entries.push(<div>
                 {tag}
-                <button id='delete-tag' onClick={() => this.onDeleteTag(tag)}>Delete</button>
+                <Button id='delete-tag' onClick={() => this.onDeleteTag(tag)}>Delete</Button>
             </div>)
         }
 
         return (
-            <div>
+            <div align="center" className="AddExercise">
+                <br/>
+                <br/>
                 <h1>Add Customized Exercise</h1>
+                <hr/>
                 <div>
                     <label> Exercise Name </label>
                     <input id="exercise-name-input" type="text"
@@ -133,14 +138,14 @@ class AddExercise extends Component {
                            }}/>
                 </div>
                 <br/>
-                <div>
+                <div className="SettingSelect">
                     <label>Muscle Type</label>
                     <Select options={this.muscleTypeOptions} onChange={(value) => {
                         this.setState({muscleType: value['label']})
                     }}/>
                 </div>
                 <br/>
-                <div>
+                <div className="SettingSelect" >
                     <label>Exercise Type</label>
                     <Select options={this.exerciseTypeOptions} onChange={(value) => this.onSelectExerciseType(value)}/>
                     {this.state.add_new_exercise ? this.addNewExercise() : ""}
@@ -155,7 +160,7 @@ class AddExercise extends Component {
                            onChange={(event) => {
                                this.setState({tag: event.target.value})
                            }}/>
-                    <button onClick={() => this.onAddTag()}>Add tag</button>
+                    <Button onClick={() => this.onAddTag()}>Add tag</Button>
                 </div>
                 <br/>
                 <div>
@@ -164,8 +169,10 @@ class AddExercise extends Component {
                 </div>
                 <br/>
                 <div>
-                    <button id="confirm-button" onClick={() => this.onConfirm()}>Confirm</button>
+                    <Button id="confirm-button" onClick={() => this.onConfirm()}>Confirm</Button>
                 </div>
+                <br/>
+                <br/>
             </div>
         );
     }

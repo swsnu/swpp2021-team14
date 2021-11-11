@@ -72,7 +72,7 @@ class ExerciseList extends Component {
     }
 
     onAddExercise = () => {
-        this.props.history.push('/exercise_list/add')
+        this.props.history.push('/add')
     }
 
     addExerciseButton = () => {
@@ -105,9 +105,11 @@ class ExerciseList extends Component {
 
     header=()=>{
         return(
-            <div>
+            <div align="center">
                 <h1 align="center">Exercise List</h1>
+                <Menu page="exercise_list"></Menu>
                 {this.addExerciseButton()}
+                <Button>Show Favorites</Button>
                 <hr/>
             </div>
         )
@@ -127,7 +129,6 @@ class ExerciseList extends Component {
                 <div align="center" className="ExerciseList">
                     {this.header()}
                     <h1>Select Muscle Type</h1>
-                    <Menu page="exercise_list"></Menu>
                     <div>{muscleTypeIcons}</div>
                 </div>
             );
@@ -154,7 +155,6 @@ class ExerciseList extends Component {
                         </p>
                         <hr/>
                     </div>
-                    <Menu page="exercise_list"></Menu>
                     <div>{exerciseTypeIcons}</div>
                 </div>
             )
@@ -219,12 +219,12 @@ class ExerciseList extends Component {
                     <div align="center">
                         <h2>Selected Tags</h2>
                         {tag_entries.length == 0 ? "None" : tag_entries}
+                        <Button>Show Selected Statistics</Button>
                     </div>
                     <div align="center">
                         {this.addTag()}
                         <hr/>
                     </div>
-                    <Menu page="exercise_list"></Menu>
                     <div>
                         {exerciseEntries}
                     </div>
