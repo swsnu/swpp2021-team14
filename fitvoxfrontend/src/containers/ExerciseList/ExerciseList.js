@@ -7,6 +7,8 @@ import MuscleTypeIcon from "../../components/MuscleTypeIcon/MuscleTypeIcon";
 import ExerciseTypeIcon from "../../components/ExerciseTypeIcon/ExerciseTypeIcon";
 import ExerciseEntry from "../../components/ExerciseEntry/ExerciseEntry";
 import Menu from '../Menu/Menu';
+import Button from '@mui/material/Button';
+import './ExerciseList.css'
 
 class ExerciseList extends Component {
 
@@ -74,18 +76,17 @@ class ExerciseList extends Component {
     }
 
     addExerciseButton = () => {
-        return (<div>
-            <h2>Add new Exercise?</h2>
-            <button id='add-new-exercise' onClick={() => this.onAddExercise()}>Add new exercise</button>
+        return (<div align="center">
+            <Button id='add-new-exercise' onClick={() => this.onAddExercise()}>Add new exercise</Button>
         </div>)
     }
 
     addTag = () => {
-        let add_tag_button = (<button id="search-with-tag"
+        let add_tag_button = (<Button id="search-with-tag"
                                       style={{width: '5%', height: 100}}
                                       onClick={() => this.onSearchTagHandler()}>
             Add Tag
-        </button>)
+        </Button>)
         return (
             <div>
                 <h1>Type Tag to search</h1>
@@ -102,6 +103,17 @@ class ExerciseList extends Component {
         )
     }
 
+    header=()=>{
+        return(
+            <div>
+                <h1 align="center">Exercise List</h1>
+                {this.addExerciseButton()}
+                <hr/>
+            </div>
+        )
+
+    }
+
     render() {
         if (!this.state.muscleType_selected) {
             let muscleTypeIcons = "";
@@ -112,8 +124,8 @@ class ExerciseList extends Component {
                 })
             }
             return (
-                <div>
-                    {this.addExerciseButton()}
+                <div align="center" className="ExerciseList">
+                    {this.header()}
                     <h1>Select Muscle Type</h1>
                     <Menu page="exercise_list"></Menu>
                     <div>{muscleTypeIcons}</div>
@@ -133,12 +145,14 @@ class ExerciseList extends Component {
             }
 
             return (
-                <div>
-                    {this.addExerciseButton()}
-                    <h1>Select Exercise Type</h1>
-                    <div>
-                        <h2>Selected Muscle Type: {this.state.muscleType}</h2>
-                        <button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
+                <div className="ExerciseList">
+                    {this.header()}
+                    <h1 align="center">Select Exercise Type</h1>
+                    <div aligh="center">
+                        <p align="center" className="SelectedType">
+                            Selected Muscle Type: {this.state.muscleType}    <Button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</Button>
+                        </p>
+                        <hr/>
                     </div>
                     <Menu page="exercise_list"></Menu>
                     <div>{exerciseTypeIcons}</div>
@@ -186,28 +200,29 @@ class ExerciseList extends Component {
             for (let tag of this.state.tags) {
                 tag_entries.push(<div>
                     {tag}
-                    <button id='delete-tag' onClick={() => this.onDeleteTag(tag)}>Delete</button>
+                    <Button id='delete-tag' onClick={() => this.onDeleteTag(tag)}>Delete</Button>
                 </div>)
             }
 
             return (
-                <div>
-                    {this.addExerciseButton()}
-                    <div>
-                        <h2>Selected Muscle Type: {this.state.muscleType}</h2>
-                        <button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
+                <div className="ExerciseList">
+                    {this.header()}
+                    <div align="center">
+                        <p className="SelectedType" align="center">
+                            Selected Muscle Type: {this.state.muscleType} <Button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</Button>
+                        </p>
+                        <p className="SelectedType " align="center">
+                            Selected Exercise Type: {this.state.exerciseType} <Button onClick={() => this.onGoBackExerciseType()}>Select Exercise Type again</Button>
+                        </p>
+                        <hr/>
                     </div>
-
-                    <div>
-                        <h2>Selected Exercise Type: {this.state.exerciseType}</h2>
-                        <button onClick={() => this.onGoBackExerciseType()}>Select Exercise Type again</button>
-                    </div>
-                    <div>
+                    <div align="center">
                         <h2>Selected Tags</h2>
                         {tag_entries.length == 0 ? "None" : tag_entries}
                     </div>
-                    <div>
+                    <div align="center">
                         {this.addTag()}
+                        <hr/>
                     </div>
                     <Menu page="exercise_list"></Menu>
                     <div>

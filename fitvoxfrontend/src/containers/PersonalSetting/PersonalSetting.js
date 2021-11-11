@@ -4,6 +4,8 @@ import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import * as actionCreators from '../../store/actions/index';
 import Menu from '../Menu/Menu';
+import './PersonalSetting.css';
+import Button from '@mui/material/Button';
 
 class PersonalSetting extends Component {
 
@@ -57,13 +59,19 @@ class PersonalSetting extends Component {
 
     render() {
         return (
-            <div>
-                <div id='hardness-setting'>
+            <div className="PersonalSetting" id="personal-setting" align="center" >
+                <div className="Title">
+                    <h1>Personal Setting</h1>
+                    <hr></hr>
+                </div>
+                <div className="SettingSelect" id='hardness-setting'>
                     <h2>Hardness</h2>
                     <Select options={this.hardness_options}
                             defaultValue={this.hardness_options[this.props.hardness - 1]}
                             onChange={(value) => this.onChangeHardness(value)}/>
                 </div>
+                <br/>
+                <br/>
                 <div id='default-break-time'>
                     <h2>Default Break time</h2>
                     <label>Minute </label>
@@ -85,7 +93,9 @@ class PersonalSetting extends Component {
                         }
                     />
                 </div>
-                <div id='voice-partner setting'>
+                <br/>
+                <br/>
+                <div className="SettingSelect" id='voice-partner setting'>
                     <h2>Voice Partner</h2>
                     <h3>BGM</h3>
                     <Select options={this.voice_bgm_options}
@@ -98,9 +108,11 @@ class PersonalSetting extends Component {
                 </div>
                 <div>
                     <br/>
-                    <button id='change-setting' onClick={() => this.onChangeSetting()}>Change</button>
+                    <Button id='change-setting' onClick={() => this.onChangeSetting()}>Change</Button>
                 </div>
                 <Menu page = "setting"></Menu>
+                <br/>
+                <br/>
             </div>
 
         );
