@@ -173,4 +173,4 @@ def exercise_list(request):
             return HttpResponse(status=401)
 
 
-    return HttpResponseNotAllowed(['GET'])
+    return HttpResponseNotAllowed(['GET', 'POST'])
