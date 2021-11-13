@@ -15,36 +15,6 @@ class FitvoxTestCase(TestCase):
         exerciseuser2 = ExercisePerUser.objects.create(user=user2, muscleType='samplemuscle2', exerciseType='sampleextype2',name='samplename2',hardness='2', isFavorite=False, volumes={}, oneRMs={})
 
 
-        
-    def test_csrf(self):
-        client = Client(enforce_csrf_checks=True)
- 
-        
-        response = client.get('/api/token/')
-        self.assertEqual(response.status_code, 204)        
-        csrftoken = response.cookies['csrftoken'].value
-        response = client.post('/api/signup/', json.dumps({'username': 'username3', 'email':'email3', 'password': 'password3','hardness':'3'}),
-                               content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
-        self.assertEqual(response.status_code, 201)
-
-        response = client.get('/api/token/')
-        self.assertEqual(response.status_code, 204)        
-        csrftoken = response.cookies['csrftoken'].value
-        response = client.post('/api/signin/', json.dumps({'username': 'username1', 'password': 'password1'}),
-
-                               content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
-        self.assertEqual(response.status_code, 204)
-
-        response = client.get('/api/token/')
-        self.assertEqual(response.status_code, 204)        
-        csrftoken = response.cookies['csrftoken'].value
-        response = client.get('/api/psetting/',
-                               content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
-        self.assertEqual(response.status_code, 200)        
-
-
-
-
 
 
     def test_notallowed(self):
