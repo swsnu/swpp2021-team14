@@ -33,5 +33,5 @@ export const getMockStore = (initialState)=> {
 }
 
 export const stubInitialState = {
-    login: { authenticated: true, currentUser: 'Jaeyeon' },
+    login: { authenticated: true, currentUser: 'test' },
 };

@@ -38,3 +38,40 @@ To test the application, run the following commands on the `fitvoxfrontend` dire
 yarn test --coverage --watchAll=false
 ```
 
+## Sprint3
+
+After cloning the repository, you should run the following commands to run the application.
+
+### Run frontend server
+```shell
+cd swpp2021-team14
+cd fitvoxfrontend
+yarn #Install dependencies
+yarn start #Run react app
+```
+
+### Run backend server
+```shell
+cd swpp2021-team14
+cd fitvoxbackend
+python manage.py runserver # Run Django Backend Server
+```
+
+* For sprint 3, you can login with default user
+  * username: test
+  * password: password
+* Or you can login with your own account after create one in Create Account page
+* You can change personal settings for exercise hardness and default break time in setting page, search exercises through exericse_list page, and add new exercise in add page
+
+To test frontend of the application, run the following commands on the `fitvoxfrontend` directory. In sprint3 we support frontend features except `CreateAccount.js` and `actionCreators`
+
+```shell
+yarn test --coverage --watchAll=false
+```
+
+To test backend of the application, run the following commands on `fitvoxbackend` directory. Make sure that your python version is more than 3.7.0
+
+```shell
+coverage run --source='./Fitvox' manage.py test
+```
+
