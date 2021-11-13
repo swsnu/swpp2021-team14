@@ -85,8 +85,6 @@ def psetting(request, user_id=0):
                     return JsonResponse(
                         {'id': psettingdata.id, 'hardness': psettingdata.hardness, 'breaktime': psettingdata.breaktime},
                         status=200)
-                else:
-                    return HttpResponse(status=403)
             else:
                 return HttpResponse(status=404)
         else:
@@ -107,8 +105,7 @@ def psetting(request, user_id=0):
                     response_dict = {'id': psettingdata.id, 'hardness': psettingdata.hardness,
                                      'breaktime': psettingdata.breaktime}
                     return JsonResponse(response_dict, status=200)
-                else:
-                    return HttpResponse(status=403)
+
             else:
                 return HttpResponse(status=404)
         else:
