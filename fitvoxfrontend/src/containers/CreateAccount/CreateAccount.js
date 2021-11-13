@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const CreateAccount = (props) => {
+const CreatAccount = (props) => {
     const classes = useStyles();
     // create state variables for each input
     const [username, setUsr] = useState('');
