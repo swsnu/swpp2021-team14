@@ -1,6 +1,6 @@
 import React from 'react';
 import {mount} from 'enzyme';
-import Login from './Login';
+import CreatAccount from './CreateAccount';
 import { Provider } from 'react-redux';
 import * as actionCreators from '../../store/actions/loginActions/loginActions';
 import {createStore} from 'redux';
@@ -48,7 +48,7 @@ describe('Test <CreateAccount/>', () => {
                 </Router>
             </Provider>
         )
-    });A
+    });
 
     it('should render Signup page properly',  () => {
         const component = mount(create);
