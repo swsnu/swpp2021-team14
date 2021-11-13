@@ -64,5 +64,8 @@
       "src/components/Calendar/Calendar.js",
       "src/App.js"
     ]
+  },
+  "devDependencies": {
+    "coveralls": "^3.1.1"
   }
 }
