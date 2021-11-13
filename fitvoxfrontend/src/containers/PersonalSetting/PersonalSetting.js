@@ -57,7 +57,7 @@ class PersonalSetting extends Component {
 
     render() {
         return (
-            <div>
+            <div className = "PersonalSetting">
                 <div id='hardness-setting'>
                     <h2>Hardness</h2>
                     <Select options={this.hardness_options}

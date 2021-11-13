@@ -7,6 +7,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import Main from './Main';
 import { getMockStore } from '../../test-utils/mocks';
 import { history } from '../../store/store';
+import {Button} from "@mui/material"
 
 jest.mock('../../components/Calendar/Calendar', () => {
     return props => {
@@ -42,7 +43,7 @@ describe('<Main />', () => {
 
     it ('should call clicking prev', () => {
         const component = mount(main);
-        const wrapper = component.find('button').at(0);
+        const wrapper = component.find(Button).at(0);
         const MainInstance = component.find(Main.WrappedComponent).instance();
         for (let i = stubInitialState.month -1; i> 0; i--){
             wrapper.simulate('click');
@@ -59,7 +60,7 @@ describe('<Main />', () => {
 
     it ('should call clicking next', () => {
         const component = mount(main);
-        const wrapper = component.find('button').at(1);
+        const wrapper = component.find(Button).at(3);
         const MainInstance = component.find(Main.WrappedComponent).instance();
         for (let i = stubInitialState.month + 1; i <= 12; i++){
             wrapper.simulate('click');
@@ -77,8 +78,7 @@ describe('<Main />', () => {
     it ("should call clicking timeframe-statistics button", () => {
         const mockClick = jest.fn();
         const component = mount(main);
-        console.log(component);
-        const wrapper = component.find(".timeframe-statistics-button");
+        const wrapper = component.find(Button).at(1);
         wrapper.simulate('click');
         expect(mockClick).toHaveBeenCalledTimes(0);
     })

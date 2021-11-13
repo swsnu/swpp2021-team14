@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {withRouter} from "react-router";
-import { connect } from 'react-redux';
 import Logout from "../Logout/Logout";
 import {Button} from "@mui/material";
 import { Box } from "@mui/system";
@@ -122,12 +121,12 @@ class Menu extends Component {
             comp = this.buttons(this.state.page);
         }
         return (
-            <Box display="flex" justifyContent = "center" alignItems="center" flexDirection = "column" gap = {3}>
+            <Box className = "Menu" display="flex" justifyContent = "center" alignItems="center" flexDirection = "column" gap = {3}>
                 <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'></link>
                 <Button id = 'menu_button' 
                         variant = "outlined"
                         onClick={() => this.menuButtonHandler()}>
-                            <i class='bx bx-menu'></i>
+                            <i className='bx bx-menu'></i>
                 </Button>
                 {comp}
             </Box>

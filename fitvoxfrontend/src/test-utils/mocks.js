@@ -3,7 +3,7 @@ import thunk from "redux-thunk";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
 import * as actionTypes from '../store/actions/actionTypes'
-
+import {jest} from '@jest/globals';
 
 const getLoginReducer = jest.fn(
     initialState =>(state=initialState, action) =>{
@@ -33,5 +33,5 @@ export const getMockStore = (initialState)=> {
 }
 
 export const stubInitialState = {
-    login: { authenticated: true, currentUser: 'Jaeyeon' },
+    login: { authenticated: true, currentUser: 'test' },
 };

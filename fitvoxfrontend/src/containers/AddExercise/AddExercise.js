@@ -122,7 +122,7 @@ class AddExercise extends Component {
         }
 
         return (
-            <div>
+            <div className = "AddExercise"> 
                 <h1>Add Customized Exercise</h1>
                 <div>
                     <label> Exercise Name </label>
@@ -146,10 +146,10 @@ class AddExercise extends Component {
                     {this.state.add_new_exercise ? this.addNewExercise() : ""}
                 </div>
                 <br/>
-                <div>
+                <div key = "???">
                     <label>Tags</label>
                     <br/>
-                    {tag_entries.length == 0 ? "" : tag_entries}
+                    {tag_entries.length == 0 ? "" : tag_entries.map(tag => <li key = {tag_entries.indexOf(tag)}>{tag}</li>)}
                     <input id="tag-input" type="text"
                            value={this.state.tag}
                            onChange={(event) => {

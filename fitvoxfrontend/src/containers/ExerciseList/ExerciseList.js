@@ -60,12 +60,10 @@ class ExerciseList extends Component {
 
     onDeleteTag = (tag) => {
         const idx = this.state.tags.indexOf(tag);
-        if (idx > -1) {
-            if (this.state.tags.length == 1) this.setState({tags: []})
-            else {
-                const newTags = this.state.tags.splice(idx, 1)
-                this.setState({tags: newTags})
-            }
+        if (this.state.tags.length == 1) this.setState({tags: []})
+        else {
+            const newTags = this.state.tags.splice(idx, 1)
+            this.setState({tags: newTags})
         }
     }
 
@@ -112,7 +110,7 @@ class ExerciseList extends Component {
                 })
             }
             return (
-                <div>
+                <div className = "ExerciseList">
                     {this.addExerciseButton()}
                     <h1>Select Muscle Type</h1>
                     <Menu page="exercise_list"></Menu>
@@ -133,12 +131,12 @@ class ExerciseList extends Component {
             }
 
             return (
-                <div>
+                <div className = "ExerciseList">
                     {this.addExerciseButton()}
                     <h1>Select Exercise Type</h1>
                     <div>
                         <h2>Selected Muscle Type: {this.state.muscleType}</h2>
-                        <button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
+                        <button id = "go-back-muscleType" onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
                     </div>
                     <Menu page="exercise_list"></Menu>
                     <div>{exerciseTypeIcons}</div>
@@ -149,7 +147,6 @@ class ExerciseList extends Component {
             if (this.props.exerciseList != null) {
                 exerciseEntries = []
                 for (let exercise of this.props.exerciseList) {
-                    console.log('hardness')
                     if (exercise['muscleType'] === this.state.muscleType &&
                         exercise['exerciseType'] === this.state.exerciseType
                         && exercise['hardness'].indexOf(this.props.hardness)!==-1)
@@ -191,16 +188,16 @@ class ExerciseList extends Component {
             }
 
             return (
-                <div>
+                <div className = "ExerciseList">
                     {this.addExerciseButton()}
                     <div>
                         <h2>Selected Muscle Type: {this.state.muscleType}</h2>
-                        <button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
+                        <button id = "go-back-muscleType" onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</button>
                     </div>
 
                     <div>
                         <h2>Selected Exercise Type: {this.state.exerciseType}</h2>
-                        <button onClick={() => this.onGoBackExerciseType()}>Select Exercise Type again</button>
+                        <button id = "go-back-exerciseType" onClick={() => this.onGoBackExerciseType()}>Select Exercise Type again</button>
                     </div>
                     <div>
                         <h2>Selected Tags</h2>

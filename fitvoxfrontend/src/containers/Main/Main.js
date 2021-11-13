@@ -49,8 +49,8 @@ class Main extends Component {
                     onClick={() => this.handleClickPrev()}>
                         &lt;
                 </Button>
-                <Paper p ={6} display = "flex" flexDirection = "column" gap = {4}>              
-                    <Box component = "form" display = "flex" flexDirection="column">
+                <Paper p ={6} display = "flex" flex-direction = "column" gap = {4}>              
+                    <Box component = "form" display = "flex" flex-direction="column">
                         <Box p ={1}>
                             <Typography variant = "h2">{this.state.year}.{this.state.month}</Typography>
                         </Box>
