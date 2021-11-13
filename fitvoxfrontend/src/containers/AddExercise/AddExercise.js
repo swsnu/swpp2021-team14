@@ -122,7 +122,9 @@ class AddExercise extends Component {
         }
 
         return (
-            <div className = "AddExercise"> 
+            <div className = "AddExercise" align = "center">
+                <br/>
+                <br/> 
                 <h1>Add Customized Exercise</h1>
                 <div>
                     <label> Exercise Name </label>
