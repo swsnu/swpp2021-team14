@@ -62,12 +62,10 @@ class ExerciseList extends Component {
 
     onDeleteTag = (tag) => {
         const idx = this.state.tags.indexOf(tag);
-        if (idx > -1) {
-            if (this.state.tags.length == 1) this.setState({tags: []})
-            else {
-                const newTags = this.state.tags.splice(idx, 1)
-                this.setState({tags: newTags})
-            }
+        if (this.state.tags.length == 1) this.setState({tags: []})
+        else {
+            const newTags = this.state.tags.splice(idx, 1)
+            this.setState({tags: newTags})
         }
     }
 
@@ -151,7 +149,7 @@ class ExerciseList extends Component {
                     <h1 align="center">Select Exercise Type</h1>
                     <div aligh="center">
                         <p align="center" className="SelectedType">
-                            Selected Muscle Type: {this.state.muscleType}    <Button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</Button>
+                            Selected Muscle Type: {this.state.muscleType} <Button id = "go-back-muscleType" onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</Button>
                         </p>
                         <hr/>
                     </div>
@@ -163,7 +161,6 @@ class ExerciseList extends Component {
             if (this.props.exerciseList != null) {
                 exerciseEntries = []
                 for (let exercise of this.props.exerciseList) {
-                    console.log('hardness')
                     if (exercise['muscleType'] === this.state.muscleType &&
                         exercise['exerciseType'] === this.state.exerciseType
                         && exercise['hardness'].indexOf(this.props.hardness)!==-1)
@@ -209,10 +206,10 @@ class ExerciseList extends Component {
                     {this.header()}
                     <div align="center">
                         <p className="SelectedType" align="center">
-                            Selected Muscle Type: {this.state.muscleType} <Button onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</Button>
+                            Selected Muscle Type: {this.state.muscleType} <Button id = "go-back-muscleType" onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</Button>
                         </p>
                         <p className="SelectedType " align="center">
-                            Selected Exercise Type: {this.state.exerciseType} <Button onClick={() => this.onGoBackExerciseType()}>Select Exercise Type again</Button>
+                            Selected Exercise Type: {this.state.exerciseType} <Button id = "go-back-exerciseType" onClick={() => this.onGoBackExerciseType()}>Select Exercise Type again</Button>
                         </p>
                         <hr/>
                     </div>

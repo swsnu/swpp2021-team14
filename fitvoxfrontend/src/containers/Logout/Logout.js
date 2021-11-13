@@ -6,7 +6,8 @@ import * as actionCreators from '../../store/actions/index';
 class Logout extends Component {
     render() {
         return (
-            <Box className="LogOut" display = "flex" justifyContent = "center" alignItems="center" gap = {2}>
+            <div className="LogOut">
+            <Box display = "flex" justifyContent = "center" alignItems="center" gap = {2}>
                 <Button 
                     id="logout-button" 
                     variant = "outlined"
@@ -14,6 +15,7 @@ class Logout extends Component {
                     Logout
                 </Button>
             </Box>
+            </div>
         );
     }
 }

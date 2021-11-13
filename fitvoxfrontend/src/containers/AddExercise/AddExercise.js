@@ -154,7 +154,7 @@ class AddExercise extends Component {
                 <div>
                     <label>Tags</label>
                     <br/>
-                    {tag_entries.length == 0 ? "" : tag_entries}
+                    {tag_entries.length == 0 ? "" : tag_entries.map(tag => <li key = {tag_entries.indexOf(tag)}>{tag}</li>)}
                     <input id="tag-input" type="text"
                            value={this.state.tag}
                            onChange={(event) => {
