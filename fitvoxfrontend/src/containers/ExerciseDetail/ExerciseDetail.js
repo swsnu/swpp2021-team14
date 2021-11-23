@@ -39,7 +39,7 @@ class ExerciseDetail extends Component {
         // TODO: adjust changed tags to Django backend server using axios
     }
 
-    // change this part for add new tag
+    // change this part for add new tags
     onAddTagHandler = () => {
         console.log(this.state.tag)
         if (this.state.tag ===  "" || this.state.tag === '#') {
