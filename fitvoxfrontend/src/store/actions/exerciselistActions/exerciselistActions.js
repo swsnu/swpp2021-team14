@@ -27,3 +27,9 @@ export const addExercise = (data) =>{
         axios.post('/api/exercise_list/', data).then((res)=>dispatch(addExercise_()))
     }
 }
+
+export const checkFavorite = (id) =>{
+    return dispatch =>{
+        axios.put('/api/exercise_list/', id).then((res)=>dispatch(getExerciseList_(res.data)))
+    }
+}
