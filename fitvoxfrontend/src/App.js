@@ -13,6 +13,7 @@ import PersonalSetting from './containers/PersonalSetting/PersonalSetting';
 import ExerciseList from './containers/ExerciseList/ExerciseList';
 import ExerciseDetail from './containers/ExerciseDetail/ExerciseDetail';
 import AddExercise from './containers/AddExercise/AddExercise';
+import WorkoutDetail from "./containers/WorkoutDetail/WorkoutDetail";
 
 class App extends Component {
   componentDidMount() {
@@ -32,6 +33,7 @@ class App extends Component {
                 <Route path="/exercise_list" exact component={ExerciseList} />
                 <Route path="/add" exact component={AddExercise} />
                 <Route path="/exercise_list/:exercisename" exact component={ExerciseDetail} />
+                <Route path="/:date" exact component={WorkoutDetail}/>
                 <Redirect exact from="/login" to="/main" />
                 <Redirect exact from="/" to="/main" />
               </>
