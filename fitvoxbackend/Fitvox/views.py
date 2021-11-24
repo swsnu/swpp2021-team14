@@ -5,7 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from .models import PersonalSetting, ExerciseDefault, ExercisePerUser
+from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, Set
 
 
 @csrf_exempt
@@ -171,3 +171,25 @@ def exercise_list(request):
 
 
     return HttpResponseNotAllowed(['GET', 'POST'])
+
+
+@csrf_exempt
+def workout_detail(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            date = int(request.body.decode())
+            if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
+                return HttpResponse(status=200)
+            else:
+                new_workout = WorkoutDetail(user=request.user, date=date)
+                new_workout.save()
+                return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+
+@csrf_exempt
+def workout_entry(request):
+    return HttpResponse(status=200)
