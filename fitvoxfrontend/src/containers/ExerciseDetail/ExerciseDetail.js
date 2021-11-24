@@ -6,7 +6,8 @@ import { Paper, Box, Typography, Button, Divider, Stack, TextField, IconButton} 
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
+import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
+import Menu from '../Menu/Menu';
 
 class ExerciseDetail extends Component {
     state = {
@@ -80,12 +81,15 @@ class ExerciseDetail extends Component {
         if (this.state.favorite) {
             star = (
                 <IconButton aria-label = "isFavorite" onClick = {() => this.onBookmarkHandler()}>
-                    <StarIcon style = {{fill: 'gold', fontSize: 45, borderColor: "black"}}/>
+                    <StarTwoToneIcon style = {{fill: 'gold', fontSize: 45}}/>
                 </IconButton>
             )
         } 
         return (
-            <Box p = {6} display = "flex" justifyContent="center" alignItems="center" gap ={2}>
+            <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                <Box p = {1}>
+                    <Menu page = "exerciseDetail"></Menu>
+                </Box>
                 <Paper p ={6} display = 'flex' flexDirection = "column" justifyContent='center' alignItems = "center" sx={{width: "60%"}}>
                     <Box p = {1} display = "flex" justifyContent = 'center' alignItems = 'center'>
                         <Box sx ={{width: "90%"}}><Typography variant = "h2">{this.state.exercisename}</Typography></Box>

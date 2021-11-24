@@ -15,6 +15,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
+import ListIcon from '@mui/icons-material/List';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 class Menu extends Component {    
     state = {
@@ -52,86 +55,95 @@ class Menu extends Component {
     }
 
     buttons = (page) => {
-        let main_button = (<Button 
-                                id="main-page" 
-                                variant = "contained"
-                                onClick = {() => this.redirectMainHandler()}>
-                                    Main Page
-                            </Button>)
-        let setting_button = (<Button 
-                                id="personal-setting" 
-                                variant = "contained"
-                                onClick = {() => this.redirectPersonalSettingHandler()}>
-                                    Personal Setting
-                            </Button>)
-        let info_button = (<Button 
-                                id="user-info" 
-                                variant = "contained"
-                                onClick = {() => this.redirectUserInformationHandler()}>
-                                    User Information
-                            </Button>)
-        let exerciseList_button = (<Button 
-                                        id="exercise-list" 
-                                        variant = "contained"
-                                        onClick = {() => this.redirectExerciseListHandler()}>
-                                            Exercises List
-                                    </Button>)
+        let main_button = (
+            <ListItem button key = {"Main Page"} onClick = {() => this.redirectMainHandler()}>
+                <ListItemIcon>
+                    <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary = {"Main Page"}/>
+            </ListItem>
+        )
+        let setting_button = (
+            <ListItem button key = {"Personal Setting"} onClick = {() => this.redirectPersonalSettingHandler()}>
+                <ListItemIcon>
+                    <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary = {"Personal Setting"}/>
+            </ListItem>
+        )
+        let info_button = (
+            <ListItem button key = {"User Information"} onClick = {() => this.redirectUserInformationHandler()}>
+                <ListItemIcon>
+                    <HelpOutlineIcon />
+                </ListItemIcon>
+                <ListItemText primary = {"User Information"}/>
+            </ListItem>
+        )
+        let exerciseList_button = (
+            <ListItem button key = {"Exercise List"} onClick = {() => this.redirectExerciseListHandler()}>
+                <ListItemIcon>
+                    <ListIcon />
+                </ListItemIcon>
+                <ListItemText primary = {"Exercise List"}/>
+            </ListItem>
+        )
         switch(page){
             case "main":
                 return (
-                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
-                        <Logout/>
-                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
-                            {setting_button}
-                            {info_button}
-                            {exerciseList_button}
-                        </Box>
-                    </Box>
+                    <List>
+                        {setting_button}
+                        <Divider variant ="middle" flexItem/>
+                        {info_button}
+                        <Divider variant ="middle" flexItem/>
+                        {exerciseList_button}
+                        <Divider variant ="middle" flexItem/>
+                    </List>
                 )
             case "setting":
                 return (
-                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
-                        <Logout/>
-                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
-                            {main_button}
-                            {info_button}
-                            {exerciseList_button}
-                        </Box>
-                    </Box>
+                    <List>
+                        {main_button}
+                        <Divider variant ="middle" flexItem/>
+                        {info_button}
+                        <Divider variant ="middle" flexItem/>
+                        {exerciseList_button}
+                        <Divider variant ="middle" flexItem/>
+                    </List>
                 )
             case "info":
                 return (
-                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
-                        <Logout/>
-                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
-                            {main_button}
-                            {setting_button}
-                            {exerciseList_button}
-                        </Box>
-                    </Box>
+                    <List>
+                        {main_button}
+                        <Divider variant ="middle" flexItem/>
+                        {setting_button}
+                        <Divider variant ="middle" flexItem/>
+                        {exerciseList_button}
+                        <Divider variant ="middle" flexItem/>
+                    </List>
                 )
             case "exercise_list":
                 return (
-                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
-                        <Logout/>
-                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
-                            {main_button}
-                            {setting_button}
-                            {info_button}
-                        </Box>
-                    </Box>
+                    <List>
+                        {main_button}
+                        <Divider variant ="middle" flexItem/>
+                        {setting_button}
+                        <Divider variant ="middle" flexItem/>
+                        {info_button}
+                        <Divider variant ="middle" flexItem/>
+                    </List>
                 )
             default:
                 return (
-                    <Box display = "flex" justifyContent = "center" alignItems = "center" flexDirection ="column" gap = {1}>
-                        <Logout/>
-                        <Box display = "flex" justifyContent = "center" alignItems="center" gap = {1}>
-                            {main_button}
-                            {setting_button}
-                            {info_button}
-                            {exerciseList_button}
-                        </Box>
-                    </Box>
+                    <List>
+                        {main_button}
+                        <Divider variant ="middle" flexItem/>
+                        {setting_button}
+                        <Divider variant ="middle" flexItem/>
+                        {info_button}
+                        <Divider variant ="middle" flexItem/>
+                        {exerciseList_button}
+                        <Divider variant ="middle" flexItem/>
+                    </List>
                 )
         }    
     }
@@ -165,16 +177,7 @@ class Menu extends Component {
                         </Box>
                     </Box>
                     <Divider />
-                    <List>
-                        <ListItem button key = {"Main Page"}>
-                            <ListItemIcon>
-                                <HomeIcon />
-                            </ListItemIcon>
-                            <ListItemText primary = {"Main Page"}/>
-                        </ListItem>
-                    </List>
-                    <Divider variant ="middle" flexItem/>
-                
+                    {comp}
                 </Drawer>
             </Box>
         )
