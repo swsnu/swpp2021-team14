@@ -34,11 +34,12 @@ class WorkoutDetail(models.Model):
 
 
 class WorkoutEntry(models.Model):
-    workout = models.ForeignKey(WorkoutDetail, on_delete=models.CASCADE)
+    workout = models.ForeignKey(WorkoutDetail, on_delete=models.CASCADE, related_name='entry')
     exercise = models.ForeignKey(ExercisePerUser, on_delete=models.CASCADE)
 
 
 class Set(models.Model):
+    workout = models.ForeignKey(WorkoutEntry, on_delete=models.CASCADE, related_name='sets')
     breaktime = models.IntegerField
     weight = models.FloatField
     repetition = models.IntegerField
