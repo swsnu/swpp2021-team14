@@ -8,3 +8,6 @@ export const CHANGE_SETTING = 'CHANGE_SETTING'
 
 export const GET_EXERCISE_LIST = 'GET_EXERCISE_LIST'
 export const ADD_EXERCISE = 'ADD_EXERCISE'
+
+export const GET_WORKOUT = 'GET_WORKOUT'
+

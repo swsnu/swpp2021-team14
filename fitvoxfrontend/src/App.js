@@ -16,6 +16,7 @@ import AddExercise from './containers/AddExercise/AddExercise';
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import WorkoutDetail from "./containers/WorkoutDetail/WorkoutDetail";
 
 class App extends Component {
   componentDidMount() {
@@ -25,32 +26,33 @@ class App extends Component {
 
   render() {
     return (
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <BrowserRouter>
-          <div className="App">
-            <Switch>
-              {this.props.authenticated ? (
-                <>
-                  <Route path="/main" exact component={Main} />
-                  <Route path="/setting" exact component={PersonalSetting} />
-                  <Route path="/exercise_list" exact component={ExerciseList} />
-                  <Route path="/add" exact component={AddExercise} />
-                  <Route path="/exercise_list/:exercisename" exact component={ExerciseDetail} />
-                  <Redirect exact from="/login" to="/main" />
-                  <Redirect exact from="/" to="/main" />
-                </>
-              ) : (
-                <>
-                  <Route path="/login" exact render={() => <Login />} />
-                  <Route path="/create_account" exact component={CreateAccount} />
-                  <Redirect exact from="/" to="/login" />
-                  <Route render={() => <Redirect to={{ pathname: '/login' }} />} />
-                </>
-              )}
-            </Switch>
-          </div>
-        </BrowserRouter>
-      </LocalizationProvider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <BrowserRouter>
+            <div className="App">
+              <Switch>
+                {this.props.authenticated ? (
+                    <>
+                      <Route path="/main" exact component={Main} />
+                      <Route path="/setting" exact component={PersonalSetting} />
+                      <Route path="/exercise_list" exact component={ExerciseList} />
+                      <Route path="/add" exact component={AddExercise} />
+                      <Route path="/exercise_list/:exercisename" exact component={ExerciseDetail} />
+                      <Route path="/workout/:date" exact component={WorkoutDetail}/>
+                      <Redirect exact from="/login" to="/main" />
+                      <Redirect exact from="/" to="/main" />
+                    </>
+                ) : (
+                    <>
+                      <Route path="/login" exact render={() => <Login />} />
+                      <Route path="/create_account" exact component={CreateAccount} />
+                      <Redirect exact from="/" to="/login" />
+                      <Route render={() => <Redirect to={{ pathname: '/login' }} />} />
+                    </>
+                )}
+              </Switch>
+            </div>
+          </BrowserRouter>
+        </LocalizationProvider>
     );
   }
 }
