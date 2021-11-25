@@ -134,6 +134,7 @@ def exercise_list(request):
                 response = []
                 for entry in list_to_return:
                     entry_in_dict = {
+                        'id': entry.id,
                         'muscleType': entry.muscleType,
                         'exerciseType': entry.exerciseType,
                         'name': entry.name,
@@ -168,6 +169,37 @@ def exercise_list(request):
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=401)
+    elif request.method == 'PUT':
+        if request.user.is_authenticated:
 
+            target_id = int(request.body.decode())
 
-    return HttpResponseNotAllowed(['GET', 'POST'])
+            if ExercisePerUser.objects.filter(user=request.user).exists():
+                list_to_return = ExercisePerUser.objects.filter(user=request.user)
+                response = []
+                for entry in list_to_return:
+                    isFavorite =entry.isFavorite
+                    if entry.id==target_id:
+                        isFavorite = not isFavorite
+                        entry.isFavorite = isFavorite
+                        entry.save()
+
+                    entry_in_dict = {
+                        'id': entry.id,
+                        'muscleType': entry.muscleType,
+                        'exerciseType': entry.exerciseType,
+                        'name': entry.name,
+                        'hardness': entry.hardness,
+                        'tags': entry.tags,
+                        'isFavorite': isFavorite,
+                        'volumes': entry.volumes,
+                        'oneRMs': entry.oneRMs
+                    }
+                    response.append(entry_in_dict)
+                return JsonResponse(response, safe=False, status=200)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
+
+    return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
