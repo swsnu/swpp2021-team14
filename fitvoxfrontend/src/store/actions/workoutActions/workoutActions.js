@@ -17,8 +17,13 @@ export const getWorkout = (date) =>{
 
 export const addWorkout = (date, id) =>{
     const data = {date, id};
-    console.log(data);
     return dispatch=>{
         axios.post('/api/workout_entry/', data).then(res=>dispatch(getWorkout_()))
+    }
+}
+
+export const addSet = (data)=>{
+    return dispatch=>{
+        axios.post('/api/workout_set/', data).then(res=>dispatch(getWorkout_()))
     }
 }

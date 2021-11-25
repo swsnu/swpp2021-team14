@@ -11,3 +11,5 @@ export const ADD_EXERCISE = 'ADD_EXERCISE'
 
 export const GET_WORKOUT_ENTRIES = 'GET_WORKOUT_ENTRIES'
 
+export const ADD_SET = 'ADD_SET'
+

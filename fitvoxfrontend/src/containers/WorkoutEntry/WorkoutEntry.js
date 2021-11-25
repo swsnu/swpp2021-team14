@@ -16,17 +16,23 @@ class WorkoutEntry extends Component {
         second: this.props.second
     }
 
-    onConfirmAddSet = () => {
+    onConfirmAddSet = (entry) => {
         if (this.state.minute < 0 || this.state.second >= 60 || this.state.second < 0 || this.state.repetition < 0 || this.state.weight < 0) {
             alert("Wrong Input! Weight, Repetition, Second shouldn't be negative. Second should be between 0 and 59");
             return;
         }
-
-        this.props.onConfirmAddSet();
+        if (entry == null) return;
+        else const data = {
+            workout_entry_id: entry.id,
+            weight: this.state.weight,
+            repetition: this.state.repetition,
+            breaktime: this.state.minute * 60 + this.state.second
+        }
+        this.props.onConfirmAddSet(data);
     }
 
-    onAddSet = ()=>{
-        if(this.state.addSet){
+    onAddSet = () => {
+        if (this.state.addSet) {
             this.setState({
                 addSet: false,
                 weight: "",
@@ -34,13 +40,12 @@ class WorkoutEntry extends Component {
                 minute: this.props.minute,
                 second: this.props.second
             })
-        }
-        else{
+        } else {
             this.setState({addSet: true})
         }
     }
 
-    addSetInputs = () => {
+    addSetInputs = (entry) => {
         return (
             <div>
                 <p><label>Weight</label>
@@ -60,7 +65,7 @@ class WorkoutEntry extends Component {
                                onChange={(event) => this.setState({second: event.target.value})}/></p>
                 </div>
 
-                <Button onClick={() => this.onConfirmAddSet()}>Add</Button>
+                <Button onClick={() => this.onConfirmAddSet(entry)}>Add</Button>
 
             </div>
         )
@@ -84,8 +89,8 @@ class WorkoutEntry extends Component {
             <div className="WorkoutEntry" style={{border: '1px solid orange'}}>
                 <h3>{entry === null ? "" : exercise.name}</h3>
                 <Button
-                    onClick={() =>this.onAddSet()}>{this.state.addSet ? "Cancel" : "Add Set"}</Button>
-                {this.state.addSet ? this.addSetInputs() : ""}
+                    onClick={() => this.onAddSet()}>{this.state.addSet ? "Cancel" : "Add Set"}</Button>
+                {this.state.addSet ? this.addSetInputs(entry) : ""}
             </div>
         );
     }
@@ -100,9 +105,9 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch)=>{
-    return{
-        onConfirmAddSet: () => dispatch()
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onConfirmAddSet: (data) => dispatch(actionCreators.addSet(data))
     }
 }
 
