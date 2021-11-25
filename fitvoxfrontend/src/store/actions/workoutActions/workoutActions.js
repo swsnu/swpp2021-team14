@@ -8,8 +8,9 @@ export const getWorkout_ = (data) =>{
     }
 }
 
-export const getWorkout = () =>{
+export const getWorkout = (date) =>{
+    const url = '/api/workout_detail/' + date + '/';
     return dispatch=>{
-        axios.get('/api/workout_detail/').then(res=> dispatch(getWorkout_(res.data)))
+        axios.get(url).then(res=> dispatch(getWorkout_(res.data)))
     }
 }

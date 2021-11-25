@@ -8,7 +8,7 @@ import './WorkoutDetail.css'
 class WorkoutDetail extends Component {
 
     componentDidMount() {
-        this.props.onGetWorkout();
+        this.props.onGetWorkout(this.props.match.params.date);
     }
 
     render() {
@@ -26,7 +26,7 @@ class WorkoutDetail extends Component {
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        onGetWorkout: ()=>dispatch(actionCreators.getWorkout())
+        onGetWorkout: (data)=>dispatch(actionCreators.getWorkout(data))
     }
 }
 

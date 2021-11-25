@@ -152,7 +152,7 @@ def exercise_list(request):
     elif request.method =='POST':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
-            print(req_data)
+
             muscleType = req_data['muscleType']
             exerciseType = req_data['exerciseType']
             name =req_data['name']
@@ -174,12 +174,16 @@ def exercise_list(request):
 
 
 @csrf_exempt
-def workout_detail(request):
+def workout_detail(request, date):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            date = int(request.body.decode())
             if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
-                return HttpResponse(status=200)
+
+                workout = WorkoutDetail.objects.filter(user=request.user, date=date)
+                response = []
+                for entry in workout:
+                    response.append(entry.workoutentry_set)
+                return JsonResponse(status=200)
             else:
                 new_workout = WorkoutDetail(user=request.user, date=date)
                 new_workout.save()
