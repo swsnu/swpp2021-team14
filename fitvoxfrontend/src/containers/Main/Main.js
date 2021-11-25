@@ -10,13 +10,33 @@ import './Main.css'
 import * as actionCreators from "../../store/actions/index";
 import Menu from "../Menu/Menu";
 
-import { Paper, Box, Typography, Button} from "@mui/material";
+import { Paper, Box, Typography, Button, IconButton} from "@mui/material";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
+import isWeekend from 'date-fns/isWeekend';
+import TextField from '@mui/material/TextField';
+import StaticDatePicker from '@mui/lab/StaticDatePicker';
+
 
 
 class Main extends Component {
     state = {
         year: 2021,
         month: 10,
+        value: new Date()
+    }
+
+    Workout = () => {
+        let year = this.state.value.getFullYear()
+        let month = this.state.value.getMonth()
+        let date = this.state.value.getDate()
+        console.log(year)
+        console.log(month)
+        console.log(date)
+        let route = "/" + year + (month+1) + date
+        console.log(route)
+        this.props.history.push(route);
     }
 
     componentDidMount() {
@@ -43,39 +63,59 @@ class Main extends Component {
     render() {
         return (
             <Box className = "Main" display = "flex" justifyContent="center" alignItems="center" gap ={2}>
-                <Button 
-                    id="previous-month-button"
-                    variant = "text" 
-                    onClick={() => this.handleClickPrev()}>
-                        &lt;
-                </Button>
-                <Paper p ={6} display = "flex" flexDirection = "column" gap = {4}>              
-                    <Box component = "form" display = "flex" flexDirection="column">
+                <Box display = "flex" flexDirection='column' gap = {'35vh'} sx = {{height:'100%'}}>
+                    <Box>
+                        <Menu page = 'main'></Menu>
+                    </Box>
+                    
+                    <Box>
+                        <IconButton 
+                            id="previous-month-button"
+                            aria-label = "previous-month-button"
+                            variant = "text" 
+                            onClick={() => this.handleClickPrev()}>
+                                <ChevronLeftIcon style = {{fontSize: 60}}/>
+                        </IconButton>
+                    </Box>
+                    <Box></Box>
+                </Box>
+                <Paper p ={6} display = "flex" flexDirection = "column" justifyContent='center' alignItems='center' gap = {4} sx = {{width: '60%'}}>              
+                    <Box component = "form" display = "flex" flexDirection="column" justifyContent='center' alignItems='center'>
                         <Box p ={1}>
                             <Typography variant = "h2">{this.state.year}.{this.state.month}</Typography>
                         </Box>
                         <Box p = {2}>
-                            <Calendar
-                                year={this.state.year}
-                                month={this.state.month}
+                            <StaticDatePicker
+                                orientation="landscape"
+                                openTo="day"
+                                value={this.state.value}
+                                onChange={(newValue) => {
+                                this.setState({value: newValue});
+                                }}
+                                renderInput={(params) => <TextField {...params} />}
                             />
+                        <Button onClick = {() => this.Workout()}>
+                                MOVE
+                        </Button>
                         </Box>
                         
                     </Box>
-                    <Button 
-                        id="timeframe-statistics-button" 
-                        variant="contained"
-                        onClick={() => {}}>
-                        Timeframe Statistics
-                    </Button>
-                    <Menu page = "main"></Menu>
+                    <Box display = "flex" justifyContent = 'center' allignItems='center'>
+                        <Button 
+                            id="timeframe-statistics-button" 
+                            variant="contained"
+                            onClick={() => {}}>
+                            Timeframe Statistics
+                        </Button>
+                    </Box>
                 </Paper>
-                <Button 
+                <IconButton 
                     id="next-month-button" 
+                    aria-label = "next-month-button"
                     variant = "text"
                     onClick={() => this.handleClickNext()}>
-                        &gt;
-                </Button>
+                        <ChevronRightIcon style = {{fontSize: 60}}></ChevronRightIcon>
+                </IconButton>
             </Box>
         );
     }

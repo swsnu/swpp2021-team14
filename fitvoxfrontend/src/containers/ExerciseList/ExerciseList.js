@@ -20,6 +20,7 @@ class ExerciseList extends Component {
         tags: [],
         tag: "#",
         query: [],
+        show_favorite: false
     }
 
     onMuscleTypeClick(muscleType) {
@@ -36,7 +37,7 @@ class ExerciseList extends Component {
 
     onExerciseEntryClick = (name) => {
         // Should Fix
-        this.props.history.push('/exercise_list/'+name)
+        this.props.history.push('/exercise_list/' + name)
     }
 
     onGoBackMuscleType = () => {
@@ -73,6 +74,15 @@ class ExerciseList extends Component {
         this.props.history.push('/add')
     }
 
+    onShowFavorite = () => {
+        this.setState({show_favorite: !this.state.show_favorite})
+    }
+
+    onFavoriteCheck = (id) => {
+        console.log("Favorite Checked!");
+        this.props.onFavoriteCheck(id);
+    }
+
     addExerciseButton = () => {
         return (<div align="center">
             <Button id='add-new-exercise' onClick={() => this.onAddExercise()}>Add new exercise</Button>
@@ -101,13 +111,14 @@ class ExerciseList extends Component {
         )
     }
 
-    header=()=>{
-        return(
+    header = () => {
+        return (
             <div align="center">
                 <h1 align="center">Exercise List</h1>
                 <Menu page="exercise_list"></Menu>
                 {this.addExerciseButton()}
-                <Button>Show Favorites</Button>
+                <Button
+                    onClick={() => this.onShowFavorite()}>{this.state.show_favorite ? "Show Exercise Lists" : "Show Favorite"}</Button>
                 <hr/>
             </div>
         )
@@ -115,7 +126,28 @@ class ExerciseList extends Component {
     }
 
     render() {
-        if (!this.state.muscleType_selected) {
+        if (this.state.show_favorite) {
+            let exerciseEntries = ""
+            if (this.props.exerciseList != null) {
+                exerciseEntries = []
+                for (let exercise of this.props.exerciseList) {
+                    if (exercise['hardness'].indexOf(this.props.hardness) !== -1
+                        && exercise['isFavorite']) {
+                        const name = exercise['name']
+                        exerciseEntries.push(<ExerciseEntry name={name}
+                                                            onClick={() => this.onExerciseEntryClick(name)}
+                                                            onCheck={() => this.onFavoriteCheck(exercise['id'])}
+                                                            isFavorite={exercise['isFavorite']}/>)
+                    }
+                }
+            }
+            return (
+                <div align="center" className="ExerciseList">
+                    {this.header()}
+                    <div> {exerciseEntries}</div>
+                </div>
+            )
+        } else if (!this.state.muscleType_selected) {
             let muscleTypeIcons = "";
             if (this.props.muscleTypes != null) {
                 muscleTypeIcons = this.props.muscleTypes.map(muscleType => {
@@ -149,7 +181,9 @@ class ExerciseList extends Component {
                     <h1 align="center">Select Exercise Type</h1>
                     <div aligh="center">
                         <p align="center" className="SelectedType">
-                            Selected Muscle Type: {this.state.muscleType} <Button id = "go-back-muscleType" onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</Button>
+                            Selected Muscle Type: {this.state.muscleType} <Button id="go-back-muscleType"
+                                                                                  onClick={() => this.onGoBackMuscleType()}>Select
+                            Muscle Type again</Button>
                         </p>
                         <hr/>
                     </div>
@@ -163,13 +197,13 @@ class ExerciseList extends Component {
                 for (let exercise of this.props.exerciseList) {
                     if (exercise['muscleType'] === this.state.muscleType &&
                         exercise['exerciseType'] === this.state.exerciseType
-                        && exercise['hardness'].indexOf(this.props.hardness)!==-1)
-
-                    {
+                        && exercise['hardness'].indexOf(this.props.hardness) !== -1) {
                         if (this.state.tags.length === 0) {
                             const name = exercise['name']
                             exerciseEntries.push(<ExerciseEntry name={name}
-                                                                onClick={() => this.onExerciseEntryClick(name)}/>)
+                                                                onClick={() => this.onExerciseEntryClick(name)}
+                                                                isFavorite={exercise['isFavorite']}
+                                                                onCheck={() => this.onFavoriteCheck(exercise['id'])}/>)
                         } else {
                             let flag = true;
                             let small_flag;
@@ -186,7 +220,9 @@ class ExerciseList extends Component {
                             if (flag) {
                                 const name = exercise['name']
                                 exerciseEntries.push(<ExerciseEntry name={name}
-                                                                    onClick={() => this.onExerciseEntryClick(name)}/>)
+                                                                    onClick={() => this.onExerciseEntryClick(name)}
+                                                                    onCheck={() => this.onFavoriteCheck(exercise['id'])}
+                                                                    isFavorite={exercise['isFavorite']}/>)
                             }
                         }
                     }
@@ -206,10 +242,14 @@ class ExerciseList extends Component {
                     {this.header()}
                     <div align="center">
                         <p className="SelectedType" align="center">
-                            Selected Muscle Type: {this.state.muscleType} <Button id = "go-back-muscleType" onClick={() => this.onGoBackMuscleType()}>Select Muscle Type again</Button>
+                            Selected Muscle Type: {this.state.muscleType} <Button id="go-back-muscleType"
+                                                                                  onClick={() => this.onGoBackMuscleType()}>Select
+                            Muscle Type again</Button>
                         </p>
                         <p className="SelectedType " align="center">
-                            Selected Exercise Type: {this.state.exerciseType} <Button id = "go-back-exerciseType" onClick={() => this.onGoBackExerciseType()}>Select Exercise Type again</Button>
+                            Selected Exercise Type: {this.state.exerciseType} <Button id="go-back-exerciseType"
+                                                                                      onClick={() => this.onGoBackExerciseType()}>Select
+                            Exercise Type again</Button>
                         </p>
                         <hr/>
                     </div>
@@ -240,4 +280,11 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null)(withRouter(ExerciseList));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onFavoriteCheck: (id) => dispatch(actionCreators.checkFavorite(id))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ExerciseList));

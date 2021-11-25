@@ -2,13 +2,33 @@ import React, { Component } from "react";
 import {withRouter} from "react-router";
 import { connect } from 'react-redux';
 import Logout from "../Logout/Logout";
-import {Button} from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 import { Box } from "@mui/system";
+
+import {Drawer} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 
 class Menu extends Component {    
     state = {
-        onToggle: false,
+        onToggle: true,
+        left: false,
         page: this.props.page
+    }
+
+    toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown'&& (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        this.setState({left: open})
     }
 
     redirectMainHandler = () => {
@@ -123,13 +143,39 @@ class Menu extends Component {
         }
         return (
             <Box className = "Menu" display="flex" justifyContent = "center" alignItems="center" flexDirection = "column" gap = {3}>
-                <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'></link>
-                <Button id = 'menu_button' 
-                        variant = "outlined"
-                        onClick={() => this.menuButtonHandler()}>
-                            <i className='bx bx-menu'></i>
-                </Button>
-                {comp}
+                <IconButton aria-label = "menu-open" onClick = {this.toggleDrawer(true)}>
+                    <MenuIcon/>
+                </IconButton>
+                <Drawer
+                    anchor = 'left'
+                    open = {this.state.left}
+                    onClose = {this.toggleDrawer(false)}
+                >
+                    <Box display = 'flex' justifyContent="center" alignItems='center'>
+                        <Box display = 'flex'  p = {2} sx = {{width: "15%"}}>
+                            <AccountCircleIcon style = {{fontSize: 45}}/>
+                        </Box>
+                        <Box display = 'flex'  p = {2} sx = {{width: "70%"}}>
+                            <Logout />
+                        </Box>
+                        <Box display = "flex" justifyContent = "flex-end" alignItems = "center" sx = {{width: "15%"}}>
+                            <IconButton onClick = {this.toggleDrawer(false)}>
+                                <ChevronRightIcon style = {{fontSize: 45}}/>
+                            </IconButton>
+                        </Box>
+                    </Box>
+                    <Divider />
+                    <List>
+                        <ListItem button key = {"Main Page"}>
+                            <ListItemIcon>
+                                <HomeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary = {"Main Page"}/>
+                        </ListItem>
+                    </List>
+                    <Divider variant ="middle" flexItem/>
+                
+                </Drawer>
             </Box>
         )
     }
