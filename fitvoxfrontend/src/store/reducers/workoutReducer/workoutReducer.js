@@ -1,5 +1,4 @@
 import * as actionTypes from '../../actions/actionTypes'
-
 const initState = {workoutList: null, workoutEntries: null}
 
 export default function workoutReducer(state=initState, action){

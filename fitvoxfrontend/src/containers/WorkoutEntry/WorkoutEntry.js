@@ -4,6 +4,7 @@ import * as actionCreators from '../../store/actions/index';
 import {withRouter} from 'react-router';
 import {Button} from "@mui/material";
 import './WorkoutEntry.css'
+import SetEntry from "../SetEntry/SetEntry";
 
 
 class WorkoutEntry extends Component {
@@ -22,13 +23,16 @@ class WorkoutEntry extends Component {
             return;
         }
         if (entry == null) return;
-        else const data = {
-            workout_entry_id: entry.id,
-            weight: this.state.weight,
-            repetition: this.state.repetition,
-            breaktime: this.state.minute * 60 + this.state.second
+        else {
+            const data = {
+                workout_entry_id: entry.id,
+                weight: this.state.weight,
+                repetition: this.state.repetition,
+                breaktime: this.state.minute * 60 + this.state.second
+            }
+            this.props.onConfirmAddSet(data);
+            this.onAddSet();
         }
-        this.props.onConfirmAddSet(data);
     }
 
     onAddSet = () => {
@@ -78,6 +82,14 @@ class WorkoutEntry extends Component {
         if (this.props.workoutEntries != null) {
             entry = this.props.workoutEntries.find(element => element.id === this.props.id);
             sets = entry.sets;
+            sets.sort((a,b)=>a.id-b.id);
+        }
+
+        let setEntries = [];
+        let set_number = 0;
+        for(let set of sets){
+            set_number++;
+            setEntries.push(<SetEntry id={set.id} weight={set.weight} repetition={set.repetition} breaktime={set.breaktime} set_number={set_number}/>)
         }
 
         let exercise = null;
@@ -91,6 +103,8 @@ class WorkoutEntry extends Component {
                 <Button
                     onClick={() => this.onAddSet()}>{this.state.addSet ? "Cancel" : "Add Set"}</Button>
                 {this.state.addSet ? this.addSetInputs(entry) : ""}
+                <hr/>
+                {setEntries}
             </div>
         );
     }
@@ -111,4 +125,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, null)(withRouter(WorkoutEntry));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(WorkoutEntry));

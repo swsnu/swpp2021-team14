@@ -31,10 +31,16 @@ class WorkoutDetail extends Component {
             }
         }
 
+        const date = this.props.match.params.date;
+
+        const year = date.substring(0, 4);
+        const month = date.substring(4, 6);
+        const day = date.substring(6, 8);
+
         return (
             <div className="WorkoutDetail" align="center">
                 <div>
-                    <h1>Workout Detail</h1>
+                    <h1>Workout of {year+". "+ month+ ". "+ day}</h1>
                     <Button onClick={()=>this.onAddWorkout()}>Add Exercise to workout</Button>
                     <hr/>
                     {workoutEntries}
