@@ -34,7 +34,7 @@ class Main extends Component {
         console.log(year)
         console.log(month)
         console.log(date)
-        let route = "/" + year + (month+1) + date
+        let route = "/workout/" + year + (month+1) + date
         console.log(route)
         this.props.history.push(route);
     }

@@ -11,12 +11,16 @@ class WorkoutDetail extends Component {
         this.props.onGetWorkout(this.props.match.params.date);
     }
 
+    onAddWorkout = ()=>{
+        this.props.history.push('/workout/'+ this.props.match.params.date + '/add');
+    }
+
     render() {
         return (
             <div className="WorkoutDetail" align="center">
                 <div>
                     <h1>Workout Detail</h1>
-                    <Button>Add Exercise to workout</Button>
+                    <Button onClick={()=>this.onAddWorkout()}>Add Exercise to workout</Button>
                 </div>
 
             </div>
