@@ -75,7 +75,7 @@ class SetEntry extends Component {
                     <input type="number" value={this.state.second}
                            onChange={(event) => this.setState({second: event.target.value})}/></p>
             </div>
-            <Button>Confirm Edit</Button>
+            <Button onClick={()=>this.onConfirmEdit()}>Confirm Edit</Button>
         </div>
     );
 
@@ -84,7 +84,7 @@ class SetEntry extends Component {
             <div className="SetEntry" style={{border: '1px solid orange'}}>
                 <p>
                     <h3>Set {this.props.set_number}</h3>
-                    <Button>Delete</Button>
+                    <Button onClick={()=>this.onDeleteSet()}>Delete</Button>
                     <Button onClick={() => this.onEditMode()}>{this.state.editMode ? "Cancel" : "Edit"}</Button>
                     {this.state.editMode ? this.editSetInfo : this.setInfo}
                 </p>

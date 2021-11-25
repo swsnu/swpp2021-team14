@@ -30,7 +30,7 @@ def signup(request):
         for exercise in ExerciseDefault.objects.all():
             new_exercise_per_user = ExercisePerUser(user=created_user, muscleType=exercise.muscleType,
                                                     exerciseType=exercise.exerciseType, name=exercise.name,
-                                                    hardness=exercise.hardness, tags={'tags':exercise.tags["tags"]},
+                                                    hardness=exercise.hardness, tags={'tags': exercise.tags["tags"]},
                                                     isFavorite=False, volumes={}, oneRMs={}, )
             new_exercise_per_user.save()
 
@@ -150,20 +150,21 @@ def exercise_list(request):
                 return HttpResponse(status=404)
         else:
             return HttpResponse(status=401)
-    elif request.method =='POST':
+    elif request.method == 'POST':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
 
             muscleType = req_data['muscleType']
             exerciseType = req_data['exerciseType']
-            name =req_data['name']
+            name = req_data['name']
             hardness = req_data['hardness']
             tags = req_data['tags']
             isFavorite = req_data['isFavorite']
             volumes = []
             oneRMs = []
 
-            new_exercise = ExercisePerUser(user=request.user, muscleType=muscleType, exerciseType=exerciseType, name=name, hardness=hardness, tags=tags,
+            new_exercise = ExercisePerUser(user=request.user, muscleType=muscleType, exerciseType=exerciseType,
+                                           name=name, hardness=hardness, tags=tags,
                                            isFavorite=isFavorite, volumes=volumes, oneRMs=oneRMs)
             new_exercise.save()
             return HttpResponse(status=204)
@@ -178,8 +179,8 @@ def exercise_list(request):
                 list_to_return = ExercisePerUser.objects.filter(user=request.user)
                 response = []
                 for entry in list_to_return:
-                    isFavorite =entry.isFavorite
-                    if entry.id==target_id:
+                    isFavorite = entry.isFavorite
+                    if entry.id == target_id:
                         isFavorite = not isFavorite
                         entry.isFavorite = isFavorite
                         entry.save()
@@ -204,7 +205,7 @@ def exercise_list(request):
 
     return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 
-  
+
 @csrf_exempt
 def workout_detail(request, date):
     if request.method == 'GET':
@@ -212,13 +213,7 @@ def workout_detail(request, date):
             if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
 
                 workout = WorkoutDetail.objects.get(user=request.user, date=date)
-                response = []
-
-                for entry in workout.entry.all():
-                    sets = []
-                    for set in entry.sets.all():
-                        sets.append({'id': set.id, 'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
-                    response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
+                response = make_response(workout)
                 return JsonResponse(response, safe=False, status=200)
             else:
                 new_workout = WorkoutDetail(user=request.user, date=date)
@@ -235,7 +230,7 @@ def workout_entry(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
-            date= int(req_data['date'])
+            date = int(req_data['date'])
             id = int(req_data['id'])
             if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
                 workout = WorkoutDetail.objects.get(user=request.user, date=date)
@@ -248,13 +243,7 @@ def workout_entry(request):
                 new_workout_entry.save()
 
                 workout = WorkoutDetail.objects.get(user=request.user, date=date)
-                response = []
-                for entry in workout.entry.all():
-                    sets = []
-                    for set in entry.sets.all():
-                        sets.append({'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
-
-                    response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
+                response = make_response(workout)
                 return JsonResponse(response, safe=False, status=200)
             else:
                 return HttpResponse(status=404)
@@ -263,14 +252,13 @@ def workout_entry(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+
 @csrf_exempt
-def workout_set(request):
+def workout_set(request, id=-1):
     if request.method == 'POST':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
             entry_id = int(req_data['workout_entry_id'])
-
-            print(req_data)
 
             if WorkoutEntry.objects.filter(id=entry_id).exists():
                 entry = WorkoutEntry.objects.get(id=entry_id)
@@ -283,18 +271,36 @@ def workout_set(request):
                 new_set.save()
 
                 workout_detail = WorkoutEntry.objects.get(id=entry_id).workout
-                print(workout_detail)
-                response = []
-                for entry in workout_detail.entry.all():
-                    sets = []
-                    for set in entry.sets.all():
-                        sets.append({'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
-
-                    response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
+                response = make_response(workout_detail)
                 return JsonResponse(response, safe=False, status=200)
             else:
                 return HttpResponse(status=404)
         else:
             return HttpResponse(status=401)
+    elif request.method == 'DELETE':
+        if request.user.is_authenticated:
+            if WorkoutSet.objects.filter(id=id).exists():
+                set = WorkoutSet.objects.get(id=id)
+                workout_detail = set.workout.workout
+                set.delete()
+                response = make_response(workout_detail)
+                return JsonResponse(response, safe=False, status=200)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
+    elif request.method == 'PUT':
+        return HttpResponse(status=200)
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE'])
+
+
+def make_response(workout_detail):
+    response = []
+    for entry in workout_detail.entry.all():
+        sets = []
+        for set in entry.sets.all():
+            sets.append({'id': set.id, 'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
+
+        response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
+    return response

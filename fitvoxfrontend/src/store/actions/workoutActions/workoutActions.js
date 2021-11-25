@@ -35,7 +35,9 @@ export const editSet = (data) => {
 }
 
 export const deleteSet = (id) =>{
+    console.log(id)
     return dispatch => {
-        axios.delete('/api/workout_set/', id).then(res => dispatch(getWorkout_(res.data)))
+        const url = '/api/workout_set/'+ id;
+        axios.delete(url).then(res => dispatch(getWorkout_(res.data)))
     }
 }
