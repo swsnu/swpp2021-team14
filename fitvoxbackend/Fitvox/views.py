@@ -5,7 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, Set
+from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, WorkoutSet
 
 
 @csrf_exempt
@@ -217,8 +217,7 @@ def workout_detail(request, date):
                 for entry in workout.entry.all():
                     sets = []
                     for set in entry.sets.all():
-                        sets.append({'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
-
+                        sets.append({'id': set.id, 'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
                     response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
                 return JsonResponse(response, safe=False, status=200)
             else:
@@ -251,6 +250,42 @@ def workout_entry(request):
                 workout = WorkoutDetail.objects.get(user=request.user, date=date)
                 response = []
                 for entry in workout.entry.all():
+                    sets = []
+                    for set in entry.sets.all():
+                        sets.append({'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
+
+                    response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
+                return JsonResponse(response, safe=False, status=200)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+@csrf_exempt
+def workout_set(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            req_data = json.loads(request.body.decode())
+            entry_id = int(req_data['workout_entry_id'])
+
+            print(req_data)
+
+            if WorkoutEntry.objects.filter(id=entry_id).exists():
+                entry = WorkoutEntry.objects.get(id=entry_id)
+
+                weight = float(req_data['weight'])
+                repetition = int(req_data['repetition'])
+                breaktime = int(req_data['breaktime'])
+
+                new_set = WorkoutSet(workout=entry, weight=weight, repetition=repetition, breaktime=breaktime)
+                new_set.save()
+
+                workout_detail = WorkoutEntry.objects.get(id=entry_id).workout
+                print(workout_detail)
+                response = []
+                for entry in workout_detail.entry.all():
                     sets = []
                     for set in entry.sets.all():
                         sets.append({'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
