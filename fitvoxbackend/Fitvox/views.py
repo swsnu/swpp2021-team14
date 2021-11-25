@@ -290,7 +290,26 @@ def workout_set(request, id=-1):
         else:
             return HttpResponse(status=401)
     elif request.method == 'PUT':
-        return HttpResponse(status=200)
+        if request.user.is_authenticated:
+            if WorkoutSet.objects.filter(id=id).exists():
+                set = WorkoutSet.objects.get(id=id)
+                req_data = json.loads(request.body.decode())
+                weight = req_data['weight']
+                repetition = req_data['repetition']
+                breaktime = req_data['breaktime']
+
+                set.weight = weight
+                set.repetition = repetition
+                set.breaktime = breaktime
+                set.save()
+
+                workout_detail = set.workout.workout
+                response = make_response(workout_detail)
+                return JsonResponse(response, safe=False, status=200)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
     else:
         return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE'])
 
@@ -300,7 +319,7 @@ def make_response(workout_detail):
     for entry in workout_detail.entry.all():
         sets = []
         for set in entry.sets.all():
-            sets.append({'id': set.id, 'repititions': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
+            sets.append({'id': set.id, 'repetition': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
 
         response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
     return response

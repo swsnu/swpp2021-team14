@@ -46,38 +46,40 @@ class SetEntry extends Component {
             breaktime: this.state.minute * 60 + this.state.second
         }
         this.props.onConfirmEditSet(data);
-        this.onEditMode();
-
+        console.log(this.state.weight)
+        this.setState({editMode: false})
     }
 
-    setInfo = (
-        <div className="SetInfo"><h4>Weight: {this.props.weight}kg </h4><h4>Repetition: {this.props.repetition}  </h4>
+    setInfo = ()=>{return (
+        <div className="SetInfo"><h4>Weight: {this.state.weight}kg </h4><h4>Repetition: {this.state.repetition}  </h4>
             <h4>Break
                 time: {this.state.minute} min, {this.state.second} sec</h4>
         </div>
-    );
+    )};
 
-    editSetInfo = (
-        <div>
-            <p><label>Weight</label>
-                <input type="number" value={this.state.weight}
-                       onChange={(event) => this.setState({weight: event.target.value})}/>
-            </p>
-            <p><label>Repetition</label>
-                <input type="number" value={this.state.repetition}
-                       onChange={(event) => this.setState({repetition: event.target.value})}/></p>
+    editSetInfo = () => {
+        return (
             <div>
-                <p><label>Break Time</label></p>
-                <p><label>Minute</label>
-                    <input type="number" value={this.state.minute}
-                           onChange={(event) => this.setState({minute: event.target.value})}/></p>
-                <p><label>Second</label>
-                    <input type="number" value={this.state.second}
-                           onChange={(event) => this.setState({second: event.target.value})}/></p>
+                <p><label>Weight</label>
+                    <input type="number" value={this.state.weight}
+                           onChange={(event) => this.setState({weight: event.target.value})}/>
+                </p>
+                <p><label>Repetition</label>
+                    <input type="number" value={this.state.repetition}
+                           onChange={(event) => this.setState({repetition: event.target.value})}/></p>
+                <div>
+                    <p><label>Break Time</label></p>
+                    <p><label>Minute</label>
+                        <input type="number" value={this.state.minute}
+                               onChange={(event) => this.setState({minute: event.target.value})}/></p>
+                    <p><label>Second</label>
+                        <input type="number" value={this.state.second}
+                               onChange={(event) => this.setState({second: event.target.value})}/></p>
+                </div>
+                <Button onClick={() => this.onConfirmEdit()}>Confirm Edit</Button>
             </div>
-            <Button onClick={()=>this.onConfirmEdit()}>Confirm Edit</Button>
-        </div>
-    );
+        );
+    }
 
     render() {
         return (
@@ -86,7 +88,7 @@ class SetEntry extends Component {
                     <h3>Set {this.props.set_number}</h3>
                     <Button onClick={()=>this.onDeleteSet()}>Delete</Button>
                     <Button onClick={() => this.onEditMode()}>{this.state.editMode ? "Cancel" : "Edit"}</Button>
-                    {this.state.editMode ? this.editSetInfo : this.setInfo}
+                    {this.state.editMode ? this.editSetInfo() : this.setInfo()}
                 </p>
             </div>
         );

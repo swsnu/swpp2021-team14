@@ -29,15 +29,15 @@ export const addSet = (data) => {
 }
 
 export const editSet = (data) => {
+    const url = '/api/workout_set/'+ data.id;
     return dispatch => {
-        axios.put('/api/workout_set/', data).then(res => dispatch(getWorkout_(res.data)))
+        axios.put(url, data).then(res =>  dispatch(getWorkout_(res.data)))
     }
 }
 
 export const deleteSet = (id) =>{
-    console.log(id)
     return dispatch => {
         const url = '/api/workout_set/'+ id;
-        axios.delete(url).then(res => dispatch(getWorkout_(res.data)))
+        axios.delete(url).then(res => {dispatch(getWorkout_(res.data))})
     }
 }
