@@ -17,22 +17,19 @@ class WorkoutEntry extends Component {
         second: this.props.second
     }
 
-    onConfirmAddSet = (entry) => {
+    onConfirmAddSet = (id) => {
         if (this.state.minute < 0 || this.state.second >= 60 || this.state.second < 0 || this.state.repetition < 0 || this.state.weight < 0) {
             alert("Wrong Input! Weight, Repetition, Second shouldn't be negative. Second should be between 0 and 59");
             return;
         }
-        if (entry == null) return;
-        else {
-            const data = {
-                workout_entry_id: entry.id,
-                weight: this.state.weight,
-                repetition: this.state.repetition,
-                breaktime: this.state.minute * 60 + this.state.second
-            }
-            this.props.onConfirmAddSet(data);
-            this.onAddSet();
+        const data = {
+            workout_entry_id: id,
+            weight: this.state.weight,
+            repetition: this.state.repetition,
+            breaktime: this.state.minute * 60 + this.state.second
         }
+        this.props.onConfirmAddSet(data);
+        this.onAddSet();
     }
 
     onAddSet = () => {
@@ -49,7 +46,7 @@ class WorkoutEntry extends Component {
         }
     }
 
-    addSetInputs = (entry) => {
+    addSetInputs = (id) => {
         return (
             <div>
                 <p><label>Weight</label>
@@ -69,10 +66,14 @@ class WorkoutEntry extends Component {
                                onChange={(event) => this.setState({second: event.target.value})}/></p>
                 </div>
 
-                <Button onClick={() => this.onConfirmAddSet(entry)}>Add</Button>
+                <Button onClick={() => this.onConfirmAddSet(id)}>Add</Button>
 
             </div>
         )
+    }
+
+    onDeleteEntry = (id) => {
+        this.props.onDeleteWorkout(id)
     }
 
     render() {
@@ -82,14 +83,15 @@ class WorkoutEntry extends Component {
         if (this.props.workoutEntries != null) {
             entry = this.props.workoutEntries.find(element => element.id === this.props.id);
             sets = entry.sets;
-            sets.sort((a,b)=>a.id-b.id);
+            sets.sort((a, b) => a.id - b.id);
         }
 
         let setEntries = [];
         let set_number = 0;
-        for(let set of sets){
+        for (let set of sets) {
             set_number++;
-            setEntries.push(<SetEntry id={set.id} weight={set.weight} repetition={set.repetition} breaktime={set.breaktime} set_number={set_number}/>)
+            setEntries.push(<SetEntry id={set.id} weight={set.weight} repetition={set.repetition}
+                                      breaktime={set.breaktime} set_number={set_number}/>)
         }
 
         let exercise = null;
@@ -98,13 +100,16 @@ class WorkoutEntry extends Component {
         }
 
         return (
-            <div className="WorkoutEntry" style={{border: '1px solid orange'}}>
-                <h3>{entry === null ? "" : exercise.name}</h3>
+            <div>{entry === null ? "" :
+                (<div className="WorkoutEntry" style={{border: '1px solid orange'}}>
+                <h3>{exercise.name}</h3>
+                <Button onClick={() => this.onDeleteEntry(entry.id)}>Delete</Button>
                 <Button
                     onClick={() => this.onAddSet()}>{this.state.addSet ? "Cancel" : "Add Set"}</Button>
-                {this.state.addSet ? this.addSetInputs(entry) : ""}
+                {this.state.addSet ? this.addSetInputs(entry.id) : ""}
                 <hr/>
                 {setEntries}
+            </div>)}
             </div>
         );
     }
@@ -121,7 +126,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onConfirmAddSet: (data) => dispatch(actionCreators.addSet(data))
+        onConfirmAddSet: (data) => dispatch(actionCreators.addSet(data)),
+        onDeleteWorkout: (id) => dispatch(actionCreators.deleteWorkout(id))
     }
 }
 

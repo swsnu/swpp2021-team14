@@ -226,7 +226,7 @@ def workout_detail(request, date):
 
 
 @csrf_exempt
-def workout_entry(request):
+def workout_entry(request, id=-1):
     if request.method == 'POST':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
@@ -249,8 +249,20 @@ def workout_entry(request):
                 return HttpResponse(status=404)
         else:
             return HttpResponse(status=401)
+    elif request.method == 'DELETE':
+        if request.user.is_authenticated:
+            if WorkoutEntry.objects.filter(id=id).exists():
+                entry = WorkoutEntry.objects.get(id=id)
+                workout_detail = entry.workout
+                entry.delete()
+                response = make_response(workout_detail)
+                return JsonResponse(response, safe=False, status=200)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return HttpResponseNotAllowed(['POST', 'DELETE'])
 
 
 @csrf_exempt
