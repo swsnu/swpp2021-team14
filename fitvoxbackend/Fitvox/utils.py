@@ -1,4 +1,7 @@
+from django.http import HttpResponse
+
 from .models import WorkoutEntry, WorkoutSet, WorkoutDetail, ExercisePerUser, User, PersonalSetting, OneRMInfo, VolumeInfo
+from functools import wraps
 
 def make_response(workout_detail):
     response = []
@@ -70,3 +73,30 @@ def return_volumes(entry):
             volumes.append({'date': volume_entry.date, 'value': volume_entry.volume})
 
     return volumes
+
+
+# Decorator for user authentication
+def check_logged_in(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if args and args[0].user.is_authenticated:
+            return func(*args, **kwargs)
+        return HttpResponse(status=401)
+    return wrapper
+
+
+def body_info_response(user):
+    response = []
+
+    for workout_detail in user.workout_detail.all():
+        bodyFat = workout_detail.bodyFat
+        bodyWeight = workout_detail.bodyWeight
+        skeletalMuscle = workout_detail.skeletalMuscle
+
+        if bodyFat == -1.0 or bodyWeight == -1.0 or skeletalMuscle == -1.0:
+            continue
+
+        response.append({'date': workout_detail.date, 'bodyFat': bodyFat,
+                         'bodyWeight': bodyWeight, 'skeletalMuscle': skeletalMuscle})
+
+    return response

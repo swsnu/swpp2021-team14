@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 import { withRouter } from 'react-router';
 import {Button, Box} from "@mui/material";
@@ -9,40 +9,75 @@ import Menu from '../Menu/Menu';
 
 class WorkoutDetail extends Component {
 
-    state = {
-        addBodyInfo: false,
-        bodyWeight: "",
-        bodyFat: "",
-        skeletalMuscle: ""
+    constructor(props) {
+        super(props);
+
+        const dayBodyInfo = this.props.bodyInfo.find(element=>element.date === parseInt(this.props.match.params.date))
+
+        let bodyWeight, bodyFat, skeletalMuscle;
+
+        if(dayBodyInfo==undefined){
+            bodyWeight="Not Given Yet";
+            bodyFat = "Not Given Yet";
+            skeletalMuscle = "Not Given Yet";
+        }
+        else{
+            bodyWeight = dayBodyInfo.bodyWeight;
+            bodyFat = dayBodyInfo.bodyFat;
+            skeletalMuscle = dayBodyInfo.skeletalMuscle;
+        }
+
+        this.state = {
+            addBodyInfo: false,
+            bodyWeight,
+            bodyFat,
+            skeletalMuscle
+        };
     }
 
     componentDidMount() {
         this.props.onGetWorkout(this.props.match.params.date);
+        this.props.onGetBodyInfo();
     }
 
-    onAddWorkout = ()=>{
-        this.props.history.push('/workout/'+ this.props.match.params.date + '/add');
+    onAddWorkout = () => {
+        this.props.history.push('/workout/' + this.props.match.params.date + '/add');
     }
 
-    compareEntry = (a, b) =>{
-        return a.id-b.id
+    compareEntry = (a, b) => {
+        return a.id - b.id
     }
 
-    onAddBodyInfo = ()=>{
-        if(this.state.addBodyInfo){
+    onAddBodyInfo = () => {
+        if (this.state.addBodyInfo) {
             this.setState({
                 addBodyInfo: false,
                 bodyWeight: "",
                 bodyFat: "",
                 skeletalMuscle: ""
             })
-        }
-        else{
+        } else {
             this.setState({addBodyInfo: true});
         }
     }
 
-    bodyInfoInput = ()=>{
+    onConfirmBodyInfo = () => {
+        if(this.state.bodyWeight<=0||this.state.bodyFat<=0||this.state.skeletalMuscle<=0){
+            alert("Wrong Input! Input number should be larger than 0")
+        }
+
+        const data = {
+            date: this.props.match.params.date,
+            bodyWeight: this.state.bodyWeight,
+            bodyFat: this.state.bodyFat,
+            skeletalMuscle: this.state.skeletalMuscle
+        }
+
+        this.props.onAddBodyInfo(data)
+        this.setState({addBodyInfo: false})
+    }
+
+    bodyInfoInput = () => {
         return (
             <div>
                 <p><label>Body Weight(kg)</label>
@@ -55,18 +90,18 @@ class WorkoutDetail extends Component {
                 <p><label>Body Fat Ratio(%)</label>
                     <input type="number" value={this.state.bodyFat}
                            onChange={(event) => this.setState({bodyFat: event.target.value})}/></p>
-                <Button onClick>Confirm</Button>
+                <Button onClick={()=>this.onConfirmBodyInfo()}>Confirm</Button>
 
             </div>
         )
     }
 
-    showBodyInfo = ()=>{
-        return(
+    showBodyInfo = () => {
+        return (
             <div>
-                <h4>Body Weight: {this.state.bodyWeight}kg</h4>
-                <h4>Skeletal Muscle Mass: {this.state.skeletalMuscle}kg</h4>
-                <h4>Body Fat Ratio(%): {this.state.bodyFat}%</h4>
+                <h4>Body Weight(kg): {this.state.bodyWeight}</h4>
+                <h4>Skeletal Muscle Mass(kg): {this.state.skeletalMuscle}</h4>
+                <h4>Body Fat Ratio(%): {this.state.bodyFat}</h4>
             </div>
         )
     }
@@ -74,11 +109,11 @@ class WorkoutDetail extends Component {
     render() {
 
         let workoutEntries = []
-        if(this.props.workoutEntries!=null){
+        if (this.props.workoutEntries != null) {
             this.props.workoutEntries.sort(this.compareEntry)
 
-            for(let entry of this.props.workoutEntries){
-                workoutEntries.push(<WorkoutEntry id={entry['id']} />)
+            for (let entry of this.props.workoutEntries) {
+                workoutEntries.push(<WorkoutEntry id={entry['id']}/>)
             }
         }
 
@@ -96,13 +131,14 @@ class WorkoutDetail extends Component {
                 <Box sx = {{width: "60%"}}>
                     <div className="WorkoutDetail" align="center">
                         <div>
-                            <h1>Workout of {year+". "+ month+ ". "+ day}</h1>
-                            <Button>Start Voice Partner</Button>
-                            <Button onClick={()=>this.onAddBodyInfo()}>{this.state.addBodyInfo?"Cancel":"Edit Body Info for the Day"}</Button>
-                            {this.state.addBodyInfo?this.bodyInfoInput():this.showBodyInfo()}
-                            <Button onClick={()=>this.onAddWorkout()}>Add Exercise to workout</Button>
-                            <hr/>
-                            {workoutEntries}
+                            <h1>Workout of {year + ". " + month + ". " + day}</h1>
+                    <Button>Start Voice Partner</Button>
+                    <Button
+                        onClick={() => this.onAddBodyInfo()}>{this.state.addBodyInfo ? "Cancel" : "Edit Body Info for the Day"}</Button>
+                    {this.state.addBodyInfo ? this.bodyInfoInput() : this.showBodyInfo()}
+                    <Button onClick={() => this.onAddWorkout()}>Add Exercise to workout</Button>
+                    <hr/>
+                    {workoutEntries}
                         </div>
 
                     </div>
@@ -112,15 +148,18 @@ class WorkoutDetail extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch) => {
     return {
-        onGetWorkout: (data)=>dispatch(actionCreators.getWorkout(data))
+        onGetWorkout: (data) => dispatch(actionCreators.getWorkout(data)),
+        onAddBodyInfo: (data) =>dispatch(actionCreators.addBodyInfo(data)),
+        onGetBodyInfo: ()=> dispatch(actionCreators.getBodyInfo())
     }
 }
 
-const mapStateToProps = (state)=>{
-    return{
-        workoutEntries: state.workout.workoutEntries
+const mapStateToProps = (state) => {
+    return {
+        workoutEntries: state.workout.workoutEntries,
+        bodyInfo: state.statistics.bodyInfo
     }
 }
 

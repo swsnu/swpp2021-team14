@@ -18,6 +18,26 @@ export const getWorkout = (date) => {
     }
 }
 
+export const getBodyInfo_ = (data)=>{
+    return {
+        type: actionTypes.GET_BODY_INFO,
+        bodyInfo: data
+    }
+}
+
+export const getBodyInfo = () =>{
+    return dispatch =>{
+        axios.get('/api/body_info/').then(res=>dispatch(getBodyInfo_(res.data)))
+    }
+}
+
+export const addBodyInfo = (data) =>{
+    const url = '/api/workout_detail/' + data.date + '/';
+    return dispatch =>{
+        axios.put(url, data).then(res=>dispatch(getBodyInfo_(res.data)))
+    }
+}
+
 export const addWorkout = (date, id) => {
     const data = {date, id};
     return dispatch => {

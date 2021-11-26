@@ -6,7 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, WorkoutSet, \
     OneRMInfo, VolumeInfo
-from .utils import make_response, get_1rm, update_volume, update_one_rm, return_volumes, return_onerms
+from .utils import make_response, get_1rm, update_volume, update_one_rm, return_volumes, return_onerms, \
+    check_logged_in, body_info_response
+import json
 
 
 @ensure_csrf_cookie
@@ -216,22 +218,36 @@ def exercise_list(request):
 
 
 @ensure_csrf_cookie
+@check_logged_in
 def workout_detail(request, date):
     if request.method == 'GET':
-        if request.user.is_authenticated:
-            if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
-
-                workout = WorkoutDetail.objects.get(user=request.user, date=date)
-                response = make_response(workout)
-                return JsonResponse(response, safe=False, status=200)
-            else:
-                new_workout = WorkoutDetail(user=request.user, date=date)
-                new_workout.save()
-                return JsonResponse([], safe=False, status=200)
+        if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
+            workout = WorkoutDetail.objects.get(user=request.user, date=date)
+            response = make_response(workout)
+            return JsonResponse(response, safe=False, status=200)
         else:
-            return HttpResponse(status=401)
+            new_workout = WorkoutDetail(user=request.user, date=date)
+            new_workout.save()
+            return JsonResponse([], safe=False, status=200)
+    elif request.method == 'PUT':
+        if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
+            workout = WorkoutDetail.objects.get(user=request.user, date=date)
+            req_data = json.loads(request.body.decode())
+            bodyFat = req_data['bodyFat']
+            bodyWeight = req_data['bodyWeight']
+            skeletalMuscle = req_data['skeletalMuscle']
+
+            workout.bodyFat = bodyFat
+            workout.bodyWeight = bodyWeight
+            workout.skeletalMuscle = skeletalMuscle
+            workout.save()
+
+            response = body_info_response(request.user)
+
+            return JsonResponse(response, safe=False, status=200)
+
     else:
-        return HttpResponseNotAllowed(['GET'])
+        return HttpResponseNotAllowed(['GET', 'PUT'])
 
 
 @ensure_csrf_cookie
@@ -419,3 +435,11 @@ def workout_set(request, id=-1):
         return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE'])
 
 
+@ensure_csrf_cookie
+@check_logged_in
+def body_info(request):
+    if request.method=='GET':
+        response = body_info_response(request.user)
+        return JsonResponse(response, safe=False, status=200)
+    else:
+        return HttpResponseNotAllowed(['GET'])

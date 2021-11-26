@@ -27,8 +27,11 @@ class ExercisePerUser(models.Model):
 
 
 class WorkoutDetail(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="workout_detail")
     date = models.IntegerField(default=0)
+    bodyWeight = models.FloatField(default=-1.0)
+    skeletalMuscle = models.FloatField(default=-1.0)
+    bodyFat = models.FloatField(default=-1.0)
 
 
 class WorkoutEntry(models.Model):
