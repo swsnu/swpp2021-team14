@@ -46,7 +46,7 @@ export const addWorkout = (date, id) => {
 }
 
 export const deleteWorkout = (id) => {
-    const url = '/api/workout_entry/' + id;
+    const url = '/api/workout_entry/' + id + '/';
     return dispatch => {
         axios.delete(url).then(res => dispatch(getWorkout_(res.data)))
     }
@@ -60,7 +60,7 @@ export const addSet = (data) => {
 }
 
 export const editSet = (data) => {
-    const url = '/api/workout_set/' + data.id;
+    const url = '/api/workout_set/' + data.id + '/';
     return dispatch => {
         axios.put(url, data).then(res => dispatch(getWorkout_(res.data)))
     }
@@ -68,7 +68,7 @@ export const editSet = (data) => {
 
 export const deleteSet = (id) => {
     return dispatch => {
-        const url = '/api/workout_set/' + id;
+        const url = '/api/workout_set/' + id + '/';
         axios.delete(url).then(res => {
             dispatch(getWorkout_(res.data))
         })

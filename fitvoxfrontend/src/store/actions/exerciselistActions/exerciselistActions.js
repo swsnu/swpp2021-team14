@@ -18,7 +18,6 @@ export const getExerciseList = () => {
 }
 
 export const addExercise_ = () =>{
-    alert("Exercise Added Successfully!")
     return{
         type: actionTypes.ADD_EXERCISE
     }

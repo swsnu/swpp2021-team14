@@ -65,22 +65,8 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/containers/Main/Main.js",
-      "src/components/Calendar/Calendar.js",
-      "src/App.js",
-      "src/components/ExerciseEntry/ExerciseEntry.js",
-      "src/components/ExerciseTypeIcon/ExerciseTypeIcon.js",
-      "src/components/MuscleTypeIcon/MuscleTypeIcon.js",
-      "src/containers/AddExercise/AddExercise.js",
-      "src/containers/ExerciseDetail/ExerciseDetail.js",
-      "src/containers/ExerciseList/ExerciseList.js",
-      "src/containers/Login/Login.js",
-      "src/containers/Logout/Logout.js",
-      "src/containers/Menu/Menu.js",
-      "src/containers/PersonalSetting/PersonalSetting.js",
-      "src/store/reducers/exerciselistReducer/exerciselistReducer.js",
-      "src/store/reducers/loginReducer/loginReducer.js",
-      "src/store/reducers/settingReducer/settingReducer.js"
+      "src/store/actions/exerciselistActions/*",
+      "src/store/actions/settingActions/*"
     ]
   },
   "devDependencies": {
