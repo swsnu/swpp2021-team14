@@ -45,7 +45,7 @@ class SelectedStatistics extends Component {
     filterFunction = (exercise, querySet) => {
         if (querySet.length > 2) {
             return ((exercise["muscleType"] === querySet[0]) && (exercise["exerciseType"] === querySet[1]) 
-                    && this.checkTags(exercise["tags"]["tags"], querySet.slice(2)))
+                    && this.checkTags(querySet.slice(2), exercise["tags"]["tags"]))
         }
         else {
             return (exercise["muscleType"] === querySet[0]) && (exercise["exerciseType"] === querySet[1])
@@ -94,13 +94,19 @@ class SelectedStatistics extends Component {
     }
 
     componentDidMount() {
+        console.log( this.props.match.params.query)
         let querySet = this.props.match.params.query.split("=");
+        for (let i = 0; i < querySet.length; i++){
+            if (i >= 2) querySet[i] = "#" + querySet[i]
+        }
         this.setState({query: querySet})
         let temp = ""
         for (let query of querySet){
             temp = temp + query + " & "
         }
         this.setState({header: temp.slice(0, -3)})
+
+        console.log(querySet.slice(2))
 
         // part for get numbers of exercise
         let filtered = this.props.exerciseList.filter((exercise) => this.filterFunction(exercise, querySet)); 

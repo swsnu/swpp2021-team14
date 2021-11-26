@@ -121,7 +121,8 @@ class ExerciseList extends Component {
     onRedirectSelectedStatsHandler = () => {
         let route = "/exercise_list/stats/"
         for (let q in this.state.query){
-            route = route + this.state.query[q] + "="
+            if (this.state.query[q][0] === "#") route = route + this.state.query[q].slice(1) + "=" 
+            else route = route + this.state.query[q] + "="
         }
         console.log(this.state.query)
         this.props.history.push(route.slice(0, -1))
