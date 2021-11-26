@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './ExerciseEnry.css'
+import './ExerciseEntry.css'
 
 
 

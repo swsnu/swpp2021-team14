@@ -31,14 +31,14 @@ class Main extends Component {
         let year = this.state.value.getFullYear()
         let month = this.state.value.getMonth() + 1
         let date = this.state.value.getDate()
+        
         if (month < 10) {
             month = "0"+month;
         }
         if (date < 10) {
             date = "0" + date;
         }
-        let route = "/" + year + month + date;
-        console.log(route)
+        let route = "/workout/" + year + month + date;
         this.props.history.push(route);
     }
 

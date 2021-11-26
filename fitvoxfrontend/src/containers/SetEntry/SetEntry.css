@@ -1,0 +1,13 @@
+.SetEntry{
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-bottom: 5px;
+}
+
+.SetEntry h3{
+    display: inline;
+}
+
+.SetInfo h4{
+    display:inline;
+}
