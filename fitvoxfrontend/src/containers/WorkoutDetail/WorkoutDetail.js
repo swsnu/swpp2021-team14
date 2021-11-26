@@ -8,11 +8,30 @@ import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 
 class WorkoutDetail extends Component {
 
-    state = {
-        addBodyInfo: false,
-        bodyWeight: "",
-        bodyFat: "",
-        skeletalMuscle: ""
+    constructor(props) {
+        super(props);
+
+        const dayBodyInfo = this.props.bodyInfo.find(element=>element.date === parseInt(this.props.match.params.date))
+
+        let bodyWeight, bodyFat, skeletalMuscle;
+
+        if(dayBodyInfo==undefined){
+            bodyWeight="Not Given Yet";
+            bodyFat = "Not Given Yet";
+            skeletalMuscle = "Not Given Yet";
+        }
+        else{
+            bodyWeight = dayBodyInfo.bodyWeight;
+            bodyFat = dayBodyInfo.bodyFat;
+            skeletalMuscle = dayBodyInfo.skeletalMuscle;
+        }
+
+        this.state = {
+            addBodyInfo: false,
+            bodyWeight,
+            bodyFat,
+            skeletalMuscle
+        };
     }
 
     componentDidMount() {
@@ -79,9 +98,9 @@ class WorkoutDetail extends Component {
     showBodyInfo = () => {
         return (
             <div>
-                <h4>Body Weight: {this.state.bodyWeight}kg</h4>
-                <h4>Skeletal Muscle Mass: {this.state.skeletalMuscle}kg</h4>
-                <h4>Body Fat Ratio(%): {this.state.bodyFat}%</h4>
+                <h4>Body Weight(kg): {this.state.bodyWeight}</h4>
+                <h4>Skeletal Muscle Mass(kg): {this.state.skeletalMuscle}</h4>
+                <h4>Body Fat Ratio(%): {this.state.bodyFat}</h4>
             </div>
         )
     }
