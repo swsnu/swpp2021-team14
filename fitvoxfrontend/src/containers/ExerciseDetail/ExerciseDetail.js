@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import * as actionCreators from "../../store/actions"
 
 import { Paper, Box, Typography, Button, Divider, TextField, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -72,6 +73,12 @@ class ExerciseDetail extends Component {
         })
         this.setState({tags: newTags})
         // TODO: adjust changed tags to Django backend server using axios
+        let data = {
+            id: this.state.exercise_id,
+            target: "tags",
+            tags: {tags: newTags},
+        }
+        this.props.onChangeTags(data)
     }
 
     // change this part for add new tags
@@ -81,15 +88,24 @@ class ExerciseDetail extends Component {
         }
         else {
             let newTag = this.state.tag;
+            let newTags = [...this.state.tags, newTag]
             this.setState({tag: "", tags:[...this.state.tags, newTag]})
+            let data = {
+                id: this.state.exercise_id,
+                target: "tags",
+                tags: {tags: newTags},
+            }
+            this.props.onChangeTags(data)
         }
         // TODO: adjust tag in state to django backend server using axios
+        
     }
 
     // change this part for bookmarking exercise
     onBookmarkHandler = () => {
         // TODO: adjust isFavorite value to Django backend server using axios
         this.setState({favorite: !this.state.favorite})
+        this.props.onFavoriteCheck({id: this.state.exercise_id, target: "favorite"});
     }
 
     onChangeChartTypeHandler = (type) => {
@@ -210,7 +226,10 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return {};
+    return {
+        onChangeTags: (data) => dispatch(actionCreators.changeTags(data)),
+        onFavoriteCheck: (data) => dispatch(actionCreators.checkFavorite(data))
+    };
 }
 
-export default connect(mapStateToProps, null)(withRouter(ExerciseDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ExerciseDetail));

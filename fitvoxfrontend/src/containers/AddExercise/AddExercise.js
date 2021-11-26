@@ -102,7 +102,7 @@ class AddExercise extends Component {
             exerciseType: this.state.exerciseType,
             name: this.state.exercise_name,
             hardness: this.props.hardness,
-            tags: this.state.tags,
+            tags: {tags: this.state.tags},
             isFavorite: this.state.isFavorite,
         }
 
