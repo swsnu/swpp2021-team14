@@ -16,6 +16,7 @@ import AddExercise from './containers/AddExercise/AddExercise';
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import TimeframeStatistics from './containers/TimeframeStatistics/TimeframeStatistics';
 
 class App extends Component {
   componentDidMount() {
@@ -36,6 +37,7 @@ class App extends Component {
                   <Route path="/exercise_list" exact component={ExerciseList} />
                   <Route path="/add" exact component={AddExercise} />
                   <Route path="/exercise_list/:exercisename" exact component={ExerciseDetail} />
+                  <Route path="/time_stats" exact component={TimeframeStatistics} />
                   <Redirect exact from="/login" to="/main" />
                   <Redirect exact from="/" to="/main" />
                 </>
