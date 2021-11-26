@@ -66,7 +66,14 @@
   "jest": {
     "collectCoverageFrom": [
       "src/store/actions/exerciselistActions/*",
-      "src/store/actions/settingActions/*"
+      "src/store/actions/settingActions/*",
+      "src/store/actions/loginActions/*",
+      "src/store/actions/workoutActions/*",
+      "src/store/reducers/exerciselistReducer/*",
+      "src/store/reducers/loginReducer/*",
+      "src/store/reducers/statisticsReducer/*",
+      "src/store/reducers/workoutReducer/*",
+      "src/store/reducers/settingReducer/*"
     ]
   },
   "devDependencies": {
