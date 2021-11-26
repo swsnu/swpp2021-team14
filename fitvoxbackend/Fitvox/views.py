@@ -1,8 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, \
     JsonResponse
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-import json
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, WorkoutSet, \
@@ -10,7 +9,7 @@ from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDe
 from .utils import make_response, get_1rm, update_volume, update_one_rm, return_volumes, return_onerms
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def signup(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
@@ -49,7 +48,7 @@ def token(request):
         return HttpResponseNotAllowed(['GET'])
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def signin(request):
     if request.method == 'POST':
         req_data = json.loads(request.body.decode())
@@ -65,7 +64,7 @@ def signin(request):
         return HttpResponseNotAllowed(['POST'])
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def signout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -77,7 +76,7 @@ def signout(request):
         return HttpResponseNotAllowed(['GET'])
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def psetting(request, user_id=0):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -117,7 +116,7 @@ def psetting(request, user_id=0):
         return HttpResponseNotAllowed(['GET', 'PUT'])
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def is_auth(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -127,7 +126,7 @@ def is_auth(request):
     return HttpResponseNotAllowed(['GET'])
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def exercise_list(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -212,7 +211,7 @@ def exercise_list(request):
     return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def workout_detail(request, date):
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -231,7 +230,7 @@ def workout_detail(request, date):
         return HttpResponseNotAllowed(['GET'])
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def workout_entry(request, id=-1):
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -288,7 +287,7 @@ def workout_entry(request, id=-1):
         return HttpResponseNotAllowed(['POST', 'DELETE'])
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def workout_set(request, id=-1):
     if request.method == 'POST':
         if request.user.is_authenticated:

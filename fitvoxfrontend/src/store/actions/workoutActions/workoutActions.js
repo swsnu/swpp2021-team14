@@ -1,6 +1,9 @@
 import * as actionTypes from '../actionTypes';
 import axios from 'axios';
 
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
 export const getWorkout_ = (data) => {
     return {
         type: actionTypes.GET_WORKOUT_ENTRIES,
