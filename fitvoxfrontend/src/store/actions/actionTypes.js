@@ -10,6 +10,3 @@ export const GET_EXERCISE_LIST = 'GET_EXERCISE_LIST'
 export const ADD_EXERCISE = 'ADD_EXERCISE'
 
 export const GET_WORKOUT_ENTRIES = 'GET_WORKOUT_ENTRIES'
-
-export const ADD_SET = 'ADD_SET'
-
