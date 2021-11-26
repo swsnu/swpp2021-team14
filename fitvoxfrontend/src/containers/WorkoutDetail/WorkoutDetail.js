@@ -8,6 +8,13 @@ import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 
 class WorkoutDetail extends Component {
 
+    state = {
+        addBodyInfo: false,
+        bodyWeight: "",
+        bodyFat: "",
+        skeletalMuscle: ""
+    }
+
     componentDidMount() {
         this.props.onGetWorkout(this.props.match.params.date);
     }
@@ -18,6 +25,49 @@ class WorkoutDetail extends Component {
 
     compareEntry = (a, b) =>{
         return a.id-b.id
+    }
+
+    onAddBodyInfo = ()=>{
+        if(this.state.addBodyInfo){
+            this.setState({
+                addBodyInfo: false,
+                bodyWeight: "",
+                bodyFat: "",
+                skeletalMuscle: ""
+            })
+        }
+        else{
+            this.setState({addBodyInfo: true});
+        }
+    }
+
+    bodyInfoInput = ()=>{
+        return (
+            <div>
+                <p><label>Body Weight(kg)</label>
+                    <input type="number" value={this.state.bodyWeight}
+                           onChange={(event) => this.setState({bodyWeight: event.target.value})}/>
+                </p>
+                <p><label>Skeletal Muscle Mass(kg)</label>
+                    <input type="number" value={this.state.skeletalMuscle}
+                           onChange={(event) => this.setState({skeletalMuscle: event.target.value})}/></p>
+                <p><label>Body Fat Ratio(%)</label>
+                    <input type="number" value={this.state.bodyFat}
+                           onChange={(event) => this.setState({bodyFat: event.target.value})}/></p>
+                <Button onClick>Confirm</Button>
+
+            </div>
+        )
+    }
+
+    showBodyInfo = ()=>{
+        return(
+            <div>
+                <h4>Body Weight: {this.state.bodyWeight}kg</h4>
+                <h4>Skeletal Muscle Mass: {this.state.skeletalMuscle}kg</h4>
+                <h4>Body Fat Ratio(%): {this.state.bodyFat}%</h4>
+            </div>
+        )
     }
 
     render() {
@@ -41,6 +91,9 @@ class WorkoutDetail extends Component {
             <div className="WorkoutDetail" align="center">
                 <div>
                     <h1>Workout of {year+". "+ month+ ". "+ day}</h1>
+                    <Button>Start Voice Partner</Button>
+                    <Button onClick={()=>this.onAddBodyInfo()}>{this.state.addBodyInfo?"Cancel":"Edit Body Info for the Day"}</Button>
+                    {this.state.addBodyInfo?this.bodyInfoInput():this.showBodyInfo()}
                     <Button onClick={()=>this.onAddWorkout()}>Add Exercise to workout</Button>
                     <hr/>
                     {workoutEntries}
