@@ -13,14 +13,15 @@ import { Line } from 'react-chartjs-2'
 
 class ExerciseDetail extends Component {
     state = {
+        exercise_id: -1,
         exercisename: "",
         exercise: null,
         tags: [],
         tag: "",
         favorite: false,
         one_rm: {
-            labels: ['sun', 'mon', 'tue', 'wed', 'thur', 'fri', 'sat'],
-            data: [65, 59, 80, 81, 56, 55, 40]
+            labels: [],
+            data: []
         },
         volume: {
             labels: ['sun', 'mon', 'tue', 'wed', 'thur', 'fri', 'sat'],
@@ -28,26 +29,44 @@ class ExerciseDetail extends Component {
         },
         chart_type: "one_rm",
     }
+
+    sortFunction = (a, b) => {
+        return a.date-b.date
+    }
     
-    componentDidMount() {
-        let exercisename = this.props.match.params.exercisename;
-        this.setState({exercisename: exercisename})
-        let exercise = this.props.exerciseList.filter((exercise) => {
-            return exercise['name'] === exercisename
-        })[0] //assert that there is no duplicated names for exercise
-        for (let tag of exercise['tags']['tags']){
-            this.setState({tags: [...this.state.tags, tag]})
+    setChartData = (data_set) => {
+        let labels = [];
+        let datas = [];
+        for(let data in data_set){
+            labels.push(data_set[data].date)
+            datas.push(data_set[data].value.toFixed(2))
         }
+        return {labels: labels, data: datas}
+    }
+
+    componentDidMount() {
+        let exid = parseInt(this.props.match.params.exercise_id);
+        this.setState({exercise_id: exid})
+        console.log(this.props.exerciseList)
+        let exercise = this.props.exerciseList.filter((exercise) => {
+            return exercise['id'] === exid
+        })[0] 
+        console.log(exercise)
         this.setState({exercise: exercise})
+        this.setState({exercisename: exercise['name']})
         this.setState({tags: exercise['tags']['tags']})
         this.setState({favorite: exercise['isFavorite']})
-
+        let oneRM_data = exercise['oneRms']
+        let volume_data = exercise['volumes']
+        oneRM_data.sort(this.sortFunction)
+        volume_data.sort(this.sortFunction)
+        this.setState({one_rm: this.setChartData(oneRM_data)})
+        this.setState({volume: this.setChartData(volume_data)})
         //assert that in this page, the value of 1RM and Volume don't change
     }
 
     // change this part for delete tag
     onDeleteTagHandler = (tag) => {
-        console.log(tag);
         let newTags = this.state.tags.filter((_tag) => {
             return _tag !== tag 
         })
@@ -57,7 +76,6 @@ class ExerciseDetail extends Component {
 
     // change this part for add new tags
     onAddTagHandler = () => {
-        console.log(this.state.tag)
         if (this.state.tag ===  "" || this.state.tag === '#') {
             this.setState({tag: ""})
         }
@@ -79,7 +97,7 @@ class ExerciseDetail extends Component {
     }
 
     render() {
-        console.log(this.state)
+        //console.log(this.state)
         let tagIcons = [];
         for (let tag of this.state.tags) {
             tagIcons.push(
