@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 import { withRouter } from 'react-router';
-import {Button} from "@mui/material";
+import {Button, Box} from "@mui/material";
 import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
+import Menu from '../Menu/Menu';
 
 class WorkoutDetail extends Component {
 
@@ -88,18 +89,25 @@ class WorkoutDetail extends Component {
         const day = date.substring(6, 8);
 
         return (
-            <div className="WorkoutDetail" align="center">
-                <div>
-                    <h1>Workout of {year+". "+ month+ ". "+ day}</h1>
-                    <Button>Start Voice Partner</Button>
-                    <Button onClick={()=>this.onAddBodyInfo()}>{this.state.addBodyInfo?"Cancel":"Edit Body Info for the Day"}</Button>
-                    {this.state.addBodyInfo?this.bodyInfoInput():this.showBodyInfo()}
-                    <Button onClick={()=>this.onAddWorkout()}>Add Exercise to workout</Button>
-                    <hr/>
-                    {workoutEntries}
-                </div>
+            <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                <Box p = {1}>
+                    <Menu page = "workoutDetail"></Menu>
+                </Box>
+                <Box sx = {{width: "60%"}}>
+                    <div className="WorkoutDetail" align="center">
+                        <div>
+                            <h1>Workout of {year+". "+ month+ ". "+ day}</h1>
+                            <Button>Start Voice Partner</Button>
+                            <Button onClick={()=>this.onAddBodyInfo()}>{this.state.addBodyInfo?"Cancel":"Edit Body Info for the Day"}</Button>
+                            {this.state.addBodyInfo?this.bodyInfoInput():this.showBodyInfo()}
+                            <Button onClick={()=>this.onAddWorkout()}>Add Exercise to workout</Button>
+                            <hr/>
+                            {workoutEntries}
+                        </div>
 
-            </div>
+                    </div>
+                </Box>
+            </Box>
         );
     }
 }
