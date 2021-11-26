@@ -29,6 +29,7 @@ export const getMockStore = (initialState)=> {
 
     const mockStore = createStore(reducer, applyMiddleware(...middlewares));
     return mockStore
+
 }
 
 export const stubInitialState = {
