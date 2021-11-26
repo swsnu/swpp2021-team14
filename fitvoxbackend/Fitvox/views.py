@@ -5,7 +5,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, WorkoutSet
+from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, WorkoutSet, \
+    OneRMInfo, VolumeInfo
+from .utils import make_response, get_1rm, update_volume, update_one_rm
 
 
 @csrf_exempt
@@ -141,8 +143,6 @@ def exercise_list(request):
                         'hardness': entry.hardness,
                         'tags': entry.tags,
                         'isFavorite': entry.isFavorite,
-                        'volumes': entry.volumes,
-                        'oneRMs': entry.oneRMs
                     }
                     response.append(entry_in_dict)
                 return JsonResponse(response, safe=False, status=200)
@@ -160,12 +160,10 @@ def exercise_list(request):
             hardness = req_data['hardness']
             tags = req_data['tags']
             isFavorite = req_data['isFavorite']
-            volumes = []
-            oneRMs = []
 
             new_exercise = ExercisePerUser(user=request.user, muscleType=muscleType, exerciseType=exerciseType,
                                            name=name, hardness=hardness, tags=tags,
-                                           isFavorite=isFavorite, volumes=volumes, oneRMs=oneRMs)
+                                           isFavorite=isFavorite)
             new_exercise.save()
             return HttpResponse(status=204)
         else:
@@ -193,8 +191,6 @@ def exercise_list(request):
                         'hardness': entry.hardness,
                         'tags': entry.tags,
                         'isFavorite': isFavorite,
-                        'volumes': entry.volumes,
-                        'oneRMs': entry.oneRMs
                     }
                     response.append(entry_in_dict)
                 return JsonResponse(response, safe=False, status=200)
@@ -254,7 +250,24 @@ def workout_entry(request, id=-1):
             if WorkoutEntry.objects.filter(id=id).exists():
                 entry = WorkoutEntry.objects.get(id=id)
                 workout_detail = entry.workout
+                exercise = entry.exercise
+                date = workout_detail.date
+
+                one_rm_flag = False
+                volume_flag = False
+                if OneRMInfo.objects.filter(exercise=exercise, date=date).exists():
+                    if OneRMInfo.objects.get(exercise=exercise, date=date).set.workout == entry:
+                        one_rm_flag = True
+                if VolumeInfo.objects.filter(exercise=exercise, date=date).exists():
+                    if VolumeInfo.objects.get(exercise=exercise, date=date).set.workout == entry:
+                        volume_flag = True
                 entry.delete()
+
+                if one_rm_flag:
+                    update_one_rm(workout_detail, exercise)
+                if volume_flag:
+                    update_volume(workout_detail, exercise)
+
                 response = make_response(workout_detail)
                 return JsonResponse(response, safe=False, status=200)
             else:
@@ -282,7 +295,35 @@ def workout_set(request, id=-1):
                 new_set = WorkoutSet(workout=entry, weight=weight, repetition=repetition, breaktime=breaktime)
                 new_set.save()
 
-                workout_detail = WorkoutEntry.objects.get(id=entry_id).workout
+                entry = WorkoutEntry.objects.get(id=entry_id)
+                workout_detail = entry.workout
+                date = workout_detail.date
+                exercise = entry.exercise
+
+                # Add oneRM & volume info here
+                candidate_1rm = get_1rm(weight, repetition)
+                if exercise.oneRM.filter(date=date).exists():
+                    one_rm = exercise.oneRM.get(date=date)
+                    if candidate_1rm > one_rm.oneRM:
+                        one_rm.oneRM = candidate_1rm
+                        one_rm.set = new_set
+                        one_rm.save()
+                else:
+                    new_1rm = OneRMInfo(exercise=exercise, set=new_set, date=date, oneRM=candidate_1rm)
+                    new_1rm.save()
+
+                candidate_volume = weight * repetition
+                if exercise.volume.filter(date=date).exists():
+                    volume = exercise.volume.get(date=date)
+
+                    if candidate_volume > volume.volume:
+                        volume.volume = candidate_volume
+                        volume.set = new_set
+                        volume.save()
+                else:
+                    new_volume = VolumeInfo(exercise=exercise, set=new_set, date=date, volume=candidate_volume)
+                    new_volume.save()
+
                 response = make_response(workout_detail)
                 return JsonResponse(response, safe=False, status=200)
             else:
@@ -294,8 +335,27 @@ def workout_set(request, id=-1):
             if WorkoutSet.objects.filter(id=id).exists():
                 set = WorkoutSet.objects.get(id=id)
                 workout_detail = set.workout.workout
+
+                one_rm_flag = False
+                if set.oneRM.exists():
+                    one_rm_flag = True
+
+                volume_flag = False
+                if set.volume.exists():
+                    volume_flag = True
+
                 set.delete()
+
+                exercise = set.workout.exercise
+
+                if one_rm_flag:
+                    update_one_rm(workout_detail, exercise)
+
+                if volume_flag:
+                    update_volume(workout_detail, exercise)
+
                 response = make_response(workout_detail)
+
                 return JsonResponse(response, safe=False, status=200)
             else:
                 return HttpResponse(status=404)
@@ -315,8 +375,28 @@ def workout_set(request, id=-1):
                 set.breaktime = breaktime
                 set.save()
 
-                workout_detail = set.workout.workout
+                entry = set.workout
+                workout_detail = entry.workout
+                date = workout_detail.date
+                exercise = entry.exercise
+
+                candidate_1rm = get_1rm(weight, repetition)
+                one_rm = exercise.oneRM.get(date=date)
+                if candidate_1rm > one_rm.oneRM:
+                    one_rm.oneRM = candidate_1rm
+                    one_rm.set = set
+                    one_rm.save()
+
+                candidate_volume = weight * repetition
+                volume = exercise.volume.get(date=date)
+
+                if candidate_volume > volume.volume:
+                    volume.volume = candidate_volume
+                    volume.set = set
+                    volume.save()
+
                 response = make_response(workout_detail)
+
                 return JsonResponse(response, safe=False, status=200)
             else:
                 return HttpResponse(status=404)
@@ -326,12 +406,3 @@ def workout_set(request, id=-1):
         return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE'])
 
 
-def make_response(workout_detail):
-    response = []
-    for entry in workout_detail.entry.all():
-        sets = []
-        for set in entry.sets.all():
-            sets.append({'id': set.id, 'repetition': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
-
-        response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
-    return response

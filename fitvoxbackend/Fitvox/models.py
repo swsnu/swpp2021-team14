@@ -24,8 +24,6 @@ class ExercisePerUser(models.Model):
     hardness = models.TextField()
     tags = models.JSONField(default=dict, null=True)
     isFavorite = models.BooleanField()
-    volumes = models.JSONField(default=dict, null=True)
-    oneRMs = models.JSONField(default=dict, null=True)
 
 
 class WorkoutDetail(models.Model):
@@ -43,4 +41,18 @@ class WorkoutSet(models.Model):
     weight = models.FloatField(default=0.0)
     repetition = models.IntegerField(default=0)
     breaktime = models.IntegerField(default=0)
+
+
+class OneRMInfo(models.Model):
+    exercise = models.ForeignKey(ExercisePerUser, on_delete=models.CASCADE, related_name='oneRM')
+    set = models.ForeignKey(WorkoutSet, on_delete=models.CASCADE, related_name='oneRM')
+    date = models.IntegerField(default=0)
+    oneRM = models.FloatField(default=0.0)
+
+
+class VolumeInfo(models.Model):
+    exercise = models.ForeignKey(ExercisePerUser, on_delete=models.CASCADE, related_name='volume')
+    set = models.ForeignKey(WorkoutSet, on_delete=models.CASCADE, related_name='volume')
+    date = models.IntegerField(default=0)
+    volume = models.FloatField(default=0.0)
 
