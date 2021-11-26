@@ -20,7 +20,6 @@ class Login extends Component {
   render() {
     return (
       <Box className="Login" display="flex" justifyContent="center" alignItems="center" gap={2}>
-        <span>&lt;</span>
         <Paper>
           <Box component="form" p={6} display="flex" flexDirection="column" gap={4}>
             <Box textAlign="left">
@@ -69,7 +68,6 @@ class Login extends Component {
             </Box>
           </Box>
         </Paper>
-        <span>&gt;</span>
       </Box>
     );
   }
