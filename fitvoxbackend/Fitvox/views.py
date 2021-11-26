@@ -176,19 +176,23 @@ def exercise_list(request):
             return HttpResponse(status=401)
     elif request.method == 'PUT':
         if request.user.is_authenticated:
-
-            target_id = int(request.body.decode())
-
+            req_data = json.loads(request.body.decode())
+            target_id = int(req_data["id"])
+            target_field = req_data["target"]
             if ExercisePerUser.objects.filter(user=request.user).exists():
                 list_to_return = ExercisePerUser.objects.filter(user=request.user)
                 response = []
                 for entry in list_to_return:
-                    isFavorite = entry.isFavorite
-                    if entry.id == target_id:
-                        isFavorite = not isFavorite
-                        entry.isFavorite = isFavorite
-                        entry.save()
-
+                    if target_field == "favorite":
+                        isFavorite = entry.isFavorite
+                        if entry.id == target_id:
+                            isFavorite = not isFavorite
+                            entry.isFavorite = isFavorite
+                            entry.save()
+                    elif target_field == "tags":
+                        if entry.id == target_id:
+                            entry.tags = req_data["tags"]
+                            entry.save()
                     oneRMs = return_onerms(entry)
                     volumes = return_volumes(entry)
 
@@ -199,7 +203,7 @@ def exercise_list(request):
                         'name': entry.name,
                         'hardness': entry.hardness,
                         'tags': entry.tags,
-                        'isFavorite': isFavorite,
+                        'isFavorite': entry.isFavorite,
                         'oneRms': oneRMs,
                         'volumes': volumes
                     }

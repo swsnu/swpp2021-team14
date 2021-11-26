@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 import { withRouter } from 'react-router';
-import {Button} from "@mui/material";
+import {Button, Box} from "@mui/material";
 import './WorkoutAdd.css';
 import Menu from "../Menu/Menu";
 import ExerciseEntry from "../../components/ExerciseEntry/ExerciseEntry";
@@ -74,7 +74,7 @@ class WorkoutAdd extends Component {
 
     onFavoriteCheck = (id) => {
         console.log("Favorite Checked!");
-        this.props.onFavoriteCheck(id);
+        this.props.onFavoriteCheck({id: id, target: "favorite"});
     }
 
     onCancel = () =>{
@@ -107,7 +107,6 @@ class WorkoutAdd extends Component {
         return (
             <div align="center">
                 <h1 align="center">Add Exercise to Workout</h1>
-                <Menu page="exercise_list"></Menu>
                 <Button
                     onClick={() => this.onShowFavorite()}>{this.state.show_favorite ? "Show Exercise Lists" : "Show Favorite"}</Button>
                 <Button onClick={()=>this.onCancel()}>Cancel</Button>
@@ -148,11 +147,18 @@ class WorkoutAdd extends Component {
                 })
             }
             return (
-                <div align="center" className="ExerciseList">
-                    {this.header()}
-                    <h1>Select Muscle Type</h1>
-                    <div>{muscleTypeIcons}</div>
-                </div>
+                <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                    <Box p = {1}>
+                        <Menu page = "addWorkout"></Menu>
+                    </Box>
+                    <Box sx = {{width: "60%"}}>
+                        <div align="center" className="ExerciseList">
+                            {this.header()}
+                            <h1>Select Muscle Type</h1>
+                            <div>{muscleTypeIcons}</div>
+                        </div>
+                    </Box>
+                </Box>
             );
         } else if (!this.state.exerciseType_selected) {
             let exerciseTypeIcons = ""
@@ -168,19 +174,26 @@ class WorkoutAdd extends Component {
             }
 
             return (
-                <div className="ExerciseList">
-                    {this.header()}
-                    <h1 align="center">Select Exercise Type</h1>
-                    <div aligh="center">
-                        <p align="center" className="SelectedType">
-                            Selected Muscle Type: {this.state.muscleType} <Button id="go-back-muscleType"
-                                                                                  onClick={() => this.onGoBackMuscleType()}>Select
-                            Muscle Type again</Button>
-                        </p>
-                        <hr/>
-                    </div>
-                    <div>{exerciseTypeIcons}</div>
-                </div>
+                <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                    <Box p = {1}>
+                        <Menu page = "addWorkout"></Menu>
+                    </Box>
+                    <Box sx = {{width: "60%"}}>
+                        <div className="ExerciseList">
+                            {this.header()}
+                            <h1 align="center">Select Exercise Type</h1>
+                            <div aligh="center">
+                                <p align="center" className="SelectedType">
+                                    Selected Muscle Type: {this.state.muscleType} <Button id="go-back-muscleType"
+                                                                                        onClick={() => this.onGoBackMuscleType()}>Select
+                                    Muscle Type again</Button>
+                                </p>
+                                <hr/>
+                            </div>
+                            <div>{exerciseTypeIcons}</div>
+                        </div>
+                    </Box>
+                </Box>
             )
         } else {
             let exerciseEntries = ""
@@ -230,34 +243,41 @@ class WorkoutAdd extends Component {
             }
 
             return (
-                <div className="ExerciseList">
-                    {this.header()}
-                    <div align="center">
-                        <p className="SelectedType" align="center">
-                            Selected Muscle Type: {this.state.muscleType} <Button id="go-back-muscleType"
-                                                                                  onClick={() => this.onGoBackMuscleType()}>Select
-                            Muscle Type again</Button>
-                        </p>
-                        <p className="SelectedType " align="center">
-                            Selected Exercise Type: {this.state.exerciseType} <Button id="go-back-exerciseType"
-                                                                                      onClick={() => this.onGoBackExerciseType()}>Select
-                            Exercise Type again</Button>
-                        </p>
-                        <hr/>
-                    </div>
-                    <div align="center">
-                        <h2>Selected Tags</h2>
-                        {tag_entries.length == 0 ? "None" : tag_entries}
-                        <Button>Show Selected Statistics</Button>
-                    </div>
-                    <div align="center">
-                        {this.addTag()}
-                        <hr/>
-                    </div>
-                    <div>
-                        {exerciseEntries}
-                    </div>
-                </div>
+                <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                    <Box p = {1}>
+                        <Menu page = "addWorkout"></Menu>
+                    </Box>
+                    <Box sx = {{width: "60%"}}>
+                        <div className="ExerciseList">
+                            {this.header()}
+                            <div align="center">
+                                <p className="SelectedType" align="center">
+                                    Selected Muscle Type: {this.state.muscleType} <Button id="go-back-muscleType"
+                                                                                        onClick={() => this.onGoBackMuscleType()}>Select
+                                    Muscle Type again</Button>
+                                </p>
+                                <p className="SelectedType " align="center">
+                                    Selected Exercise Type: {this.state.exerciseType} <Button id="go-back-exerciseType"
+                                                                                            onClick={() => this.onGoBackExerciseType()}>Select
+                                    Exercise Type again</Button>
+                                </p>
+                                <hr/>
+                            </div>
+                            <div align="center">
+                                <h2>Selected Tags</h2>
+                                {tag_entries.length == 0 ? "None" : tag_entries}
+                                <Button>Show Selected Statistics</Button>
+                            </div>
+                            <div align="center">
+                                {this.addTag()}
+                                <hr/>
+                            </div>
+                            <div>
+                                {exerciseEntries}
+                            </div>
+                        </div>
+                    </Box>
+                </Box>
             )
         }
     }
@@ -274,7 +294,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFavoriteCheck: (id) => dispatch(actionCreators.checkFavorite(id)),
+        onFavoriteCheck: (data) => dispatch(actionCreators.checkFavorite(data)),
         onAddWorkout: (date, id) => dispatch(actionCreators.addWorkout(date, id))
     }
 }

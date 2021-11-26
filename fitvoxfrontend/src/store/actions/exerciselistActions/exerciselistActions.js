@@ -30,8 +30,14 @@ export const addExercise = (data) =>{
     }
 }
 
-export const checkFavorite = (id) =>{
+export const changeTags = (data) => {
+    return dispatch => {
+        axios.put('/api/exercise_list/', data).then((res) => dispatch(getExerciseList_(res.data)))
+    }
+}
+
+export const checkFavorite = (data) =>{
     return dispatch =>{
-        axios.put('/api/exercise_list/', id).then((res)=>dispatch(getExerciseList_(res.data)))
+        axios.put('/api/exercise_list/', data).then((res)=>dispatch(getExerciseList_(res.data)))
     }
 }
