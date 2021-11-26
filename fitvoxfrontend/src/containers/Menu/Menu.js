@@ -27,11 +27,9 @@ class Menu extends Component {
     }
 
     toggleDrawer = (open) => (event) => {
-        if (event.type === 'keydown'&& (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
+        if (!(event.type === 'keyDown'&& (event.key === 'Tab' || event.key === 'Shift'))) {
+            this.setState({left: open})
         }
-
-        this.setState({left: open})
     }
 
     redirectMainHandler = () => {
@@ -48,10 +46,6 @@ class Menu extends Component {
 
     redirectExerciseListHandler = () => {
         this.props.history.push('/exercise_list')
-    }
-
-    menuButtonHandler = () => {
-        this.setState({onToggle: (this.state.onToggle ? false : true)})
     }
 
     buttons = (page) => {
@@ -149,10 +143,7 @@ class Menu extends Component {
     }
 
     render() {
-        let comp = null;
-        if (this.state.onToggle === true) {
-            comp = this.buttons(this.state.page);
-        }
+        let comp = this.buttons(this.state.page);
         return (
             <Box className = "Menu" display="flex" justifyContent = "center" alignItems="center" flexDirection = "column" gap = {3}>
                 <IconButton aria-label = "menu-open" onClick = {this.toggleDrawer(true)}>
