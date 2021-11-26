@@ -13,6 +13,7 @@ import PersonalSetting from './containers/PersonalSetting/PersonalSetting';
 import ExerciseList from './containers/ExerciseList/ExerciseList';
 import ExerciseDetail from './containers/ExerciseDetail/ExerciseDetail';
 import AddExercise from './containers/AddExercise/AddExercise';
+import SelectedStatistics from './containers/SelectedStatistics/SelectedStatistics';
 
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -42,6 +43,7 @@ class App extends Component {
                       <Route path="/time_stats" exact component={TimeframeStatistics} />
                       <Route path="/workout/:date" exact component={WorkoutDetail}/>
                       <Route path="/workout/:date/add" exact component={WorkoutAdd}/>
+                      <Route path="/exercise_list/stats/:query" exact component = {SelectedStatistics} />
                       <Redirect exact from="/login" to="/main" />
                       <Redirect exact from="/" to="/main" />
                     </>

@@ -6,6 +6,7 @@ import * as actionCreators from '../../store/actions/index';
 import Menu from '../Menu/Menu';
 import './PersonalSetting.css';
 import Button from '@mui/material/Button';
+import {Box} from "@mui/material"
 
 class PersonalSetting extends Component {
 
@@ -59,62 +60,65 @@ class PersonalSetting extends Component {
 
     render() {
         return (
-            <div className="PersonalSetting" id="personal-setting" align="center" >
-                <div className="Title">
-                    <h1>Personal Setting</h1>
-                    <hr></hr>
-                </div>
-                <div className="SettingSelect" id='hardness-setting'>
-                    <h2>Hardness</h2>
-                    <Select options={this.hardness_options}
-                            defaultValue={this.hardness_options[this.props.hardness - 1]}
-                            onChange={(value) => this.onChangeHardness(value)}/>
-                </div>
-                <br/>
-                <br/>
-                <div id='default-break-time'>
-                    <h2>Default Break time</h2>
-                    <label>Minute </label>
-                    <input
-                        id="min-input"
-                        type="number"
-                        value={this.state.minute}
-                        onChange={(event) =>
-                            this.setState({minute: event.target.value})
-                        }
-                    />
-                    <label> Second </label>
-                    <input
-                        id="second-input"
-                        type="number"
-                        value={this.state.second}
-                        onChange={(event) =>
-                            this.setState({second: event.target.value})
-                        }
-                    />
-                </div>
-                <br/>
-                <br/>
-                <div className="SettingSelect" id='voice-partner setting'>
-                    <h2>Voice Partner</h2>
-                    <h3>BGM</h3>
-                    <Select options={this.voice_bgm_options}
-                            defaultValue={this.voice_bgm_options[0]}
-                    />
-                    <h3>Voice setting</h3>
-                    <Select options={this.voice_setting_options}
-                            defaultValue={this.voice_setting_options[0]}
-                    />
-                </div>
-                <div>
-                    <br/>
-                    <Button id='change-setting' onClick={() => this.onChangeSetting()}>Change</Button>
-                </div>
-                <Menu page = "setting"></Menu>
-                <br/>
-                <br/>
-            </div>
-
+            <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                <Box p = {1}>
+                    <Menu page = "setting"></Menu>
+                </Box>
+                <Box sx = {{width: "60%"}}>
+                    <div className="PersonalSetting" id="personal-setting" align="center" >
+                        <div className="Title">
+                            <h1>Personal Setting</h1>
+                            <hr></hr>
+                        </div>
+                        <div className="SettingSelect" id='hardness-setting'>
+                            <h2>Hardness</h2>
+                            <Select options={this.hardness_options}
+                                    defaultValue={this.hardness_options[this.props.hardness - 1]}
+                                    onChange={(value) => this.onChangeHardness(value)}/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div id='default-break-time'>
+                            <h2>Default Break time</h2>
+                            <label>Minute </label>
+                            <input
+                                id="min-input"
+                                type="number"
+                                value={this.state.minute}
+                                onChange={(event) =>
+                                    this.setState({minute: event.target.value})
+                                }
+                            />
+                            <label> Second </label>
+                            <input
+                                id="second-input"
+                                type="number"
+                                value={this.state.second}
+                                onChange={(event) =>
+                                    this.setState({second: event.target.value})
+                                }
+                            />
+                        </div>
+                        <br/>
+                        <br/>
+                        <div className="SettingSelect" id='voice-partner setting'>
+                            <h2>Voice Partner</h2>
+                            <h3>BGM</h3>
+                            <Select options={this.voice_bgm_options}
+                                    defaultValue={this.voice_bgm_options[0]}
+                            />
+                            <h3>Voice setting</h3>
+                            <Select options={this.voice_setting_options}
+                                    defaultValue={this.voice_setting_options[0]}
+                            />
+                        </div>
+                        <div>
+                            <br/>
+                            <Button id='change-setting' onClick={() => this.onChangeSetting()}>Change</Button>
+                        </div>
+                    </div>
+                </Box>
+            </Box>
         );
     }
 }
