@@ -38,7 +38,7 @@ class App extends Component {
                       <Route path="/setting" exact component={PersonalSetting} />
                       <Route path="/exercise_list" exact component={ExerciseList} />
                       <Route path="/add" exact component={AddExercise} />
-                      <Route path="/exercise_list/:exercisename" exact component={ExerciseDetail} />
+                      <Route path="/exercise_list/:exercise_id" exact component={ExerciseDetail} />
                       <Route path="/time_stats" exact component={TimeframeStatistics} />
                       <Route path="/workout/:date" exact component={WorkoutDetail}/>
                       <Route path="/workout/:date/add" exact component={WorkoutAdd}/>

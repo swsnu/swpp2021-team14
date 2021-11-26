@@ -35,9 +35,8 @@ class ExerciseList extends Component {
         this.setState({query: [...this.state.query, exerciseType]})
     }
 
-    onExerciseEntryClick = (name) => {
-        // Should Fix
-        this.props.history.push('/exercise_list/' + name)
+    onExerciseEntryClick = (id) => {
+        this.props.history.push('/exercise_list/' + id)
     }
 
     onGoBackMuscleType = () => {
@@ -135,7 +134,7 @@ class ExerciseList extends Component {
                         && exercise['isFavorite']) {
                         const name = exercise['name']
                         exerciseEntries.push(<ExerciseEntry name={name}
-                                                            onClick={() => this.onExerciseEntryClick(name)}
+                                                            onClick={() => this.onExerciseEntryClick(exercise['id'])}
                                                             onCheck={() => this.onFavoriteCheck(exercise['id'])}
                                                             isFavorite={exercise['isFavorite']}/>)
                     }
@@ -201,7 +200,7 @@ class ExerciseList extends Component {
                         if (this.state.tags.length === 0) {
                             const name = exercise['name']
                             exerciseEntries.push(<ExerciseEntry name={name}
-                                                                onClick={() => this.onExerciseEntryClick(name)}
+                                                                onClick={() => this.onExerciseEntryClick(exercise['id'])}
                                                                 isFavorite={exercise['isFavorite']}
                                                                 onCheck={() => this.onFavoriteCheck(exercise['id'])}/>)
                         } else {
@@ -220,7 +219,7 @@ class ExerciseList extends Component {
                             if (flag) {
                                 const name = exercise['name']
                                 exerciseEntries.push(<ExerciseEntry name={name}
-                                                                    onClick={() => this.onExerciseEntryClick(name)}
+                                                                    onClick={() => this.onExerciseEntryClick(exercise['id'])}
                                                                     onCheck={() => this.onFavoriteCheck(exercise['id'])}
                                                                     isFavorite={exercise['isFavorite']}/>)
                             }
