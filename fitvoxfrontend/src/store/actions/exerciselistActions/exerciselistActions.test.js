@@ -4,7 +4,7 @@ import store from "../../store";
 
 const exerciseList = []
 
-describe('ActionCreator Exercise', () => {
+describe('ActionCreator for Exercise', () => {
     afterEach(() => jest.clearAllMocks());
 
     it('should get exercise list correctly', (done) => {
