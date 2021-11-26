@@ -46,7 +46,6 @@ class SetEntry extends Component {
             breaktime: this.state.minute * 60 + this.state.second
         }
         this.props.onConfirmEditSet(data);
-        console.log(this.state.weight)
         this.setState({editMode: false})
     }
 
