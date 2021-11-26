@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import './ExerciseEnry.css'
+
+
+
 class ExerciseEntry extends Component {
     render() {
         return (
-            <div className="ExerciseEntry" onClick={() => this.props.onClick()} style={{border: '1px solid orange'}}>
-                <h2>{this.props.name}</h2>
+            <div  className="ExerciseEntry" style={{border: '1px solid orange'}}>
+                <div onClick={() => this.props.onClick()}>
+                    <h2>{this.props.name}</h2>
+                </div>
+                <label><input type="checkbox" checked={this.props.isFavorite} onChange={()=>this.props.onCheck()} />Favorite</label>
             </div>
         );
     }

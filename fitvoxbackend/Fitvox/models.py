@@ -28,4 +28,17 @@ class ExercisePerUser(models.Model):
     oneRMs = models.JSONField(default=dict, null=True)
 
 
+class WorkoutDetail(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.IntegerField(default=0)
 
+
+class WorkoutEntry(models.Model):
+    workout = models.ForeignKey(WorkoutDetail, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(ExercisePerUser, on_delete=models.CASCADE)
+
+
+class Set(models.Model):
+    breaktime = models.IntegerField
+    weight = models.FloatField
+    repetition = models.IntegerField

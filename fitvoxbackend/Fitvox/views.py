@@ -5,7 +5,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from .models import PersonalSetting, ExerciseDefault, ExercisePerUser
+from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, Set
 
 
 @csrf_exempt
@@ -134,6 +134,7 @@ def exercise_list(request):
                 response = []
                 for entry in list_to_return:
                     entry_in_dict = {
+                        'id': entry.id,
                         'muscleType': entry.muscleType,
                         'exerciseType': entry.exerciseType,
                         'name': entry.name,
@@ -152,7 +153,7 @@ def exercise_list(request):
     elif request.method =='POST':
         if request.user.is_authenticated:
             req_data = json.loads(request.body.decode())
-            print(req_data)
+
             muscleType = req_data['muscleType']
             exerciseType = req_data['exerciseType']
             name =req_data['name']
@@ -168,6 +169,64 @@ def exercise_list(request):
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=401)
+    elif request.method == 'PUT':
+        if request.user.is_authenticated:
+
+            target_id = int(request.body.decode())
+
+            if ExercisePerUser.objects.filter(user=request.user).exists():
+                list_to_return = ExercisePerUser.objects.filter(user=request.user)
+                response = []
+                for entry in list_to_return:
+                    isFavorite =entry.isFavorite
+                    if entry.id==target_id:
+                        isFavorite = not isFavorite
+                        entry.isFavorite = isFavorite
+                        entry.save()
+
+                    entry_in_dict = {
+                        'id': entry.id,
+                        'muscleType': entry.muscleType,
+                        'exerciseType': entry.exerciseType,
+                        'name': entry.name,
+                        'hardness': entry.hardness,
+                        'tags': entry.tags,
+                        'isFavorite': isFavorite,
+                        'volumes': entry.volumes,
+                        'oneRMs': entry.oneRMs
+                    }
+                    response.append(entry_in_dict)
+                return JsonResponse(response, safe=False, status=200)
+            else:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
+
+    return HttpResponseNotAllowed(['GET', 'POST', 'PUT'])
+
+  
+@csrf_exempt
+def workout_detail(request, date):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
+
+                workout = WorkoutDetail.objects.filter(user=request.user, date=date)
+                response = []
+                for entry in workout:
+                    response.append(entry.workoutentry_set)
+                return JsonResponse(status=200)
+            else:
+                new_workout = WorkoutDetail(user=request.user, date=date)
+                new_workout.save()
+                return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
 
 
-    return HttpResponseNotAllowed(['GET', 'POST'])
+@csrf_exempt
+def workout_entry(request):
+    return HttpResponse(status=200)
+
