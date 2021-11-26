@@ -52,3 +52,21 @@ def update_volume(workout_detail, exercise):
         new_volume = VolumeInfo(set=candidate_volume_set, date=workout_detail.date, exercise=exercise,
                                 volume=candidate_volume)
         new_volume.save()
+
+
+def return_onerms(entry):
+    oneRMs = []
+    if OneRMInfo.objects.filter(exercise=entry).exists():
+        for oneRM_entry in OneRMInfo.objects.filter(exercise=entry):
+            oneRMs.append({'date': oneRM_entry.date, 'value': oneRM_entry.oneRM})
+
+    return oneRMs
+
+
+def return_volumes(entry):
+    volumes = []
+    if VolumeInfo.objects.filter(exercise=entry).exists():
+        for volume_entry in VolumeInfo.objects.filter(exercise=entry):
+            volumes.append({'date': volume_entry.date, 'value': volume_entry.volume})
+
+    return volumes

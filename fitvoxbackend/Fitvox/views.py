@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, WorkoutSet, \
     OneRMInfo, VolumeInfo
-from .utils import make_response, get_1rm, update_volume, update_one_rm
+from .utils import make_response, get_1rm, update_volume, update_one_rm, return_volumes, return_onerms
 
 
 @csrf_exempt
@@ -135,6 +135,10 @@ def exercise_list(request):
                 list_to_return = ExercisePerUser.objects.filter(user=request.user)
                 response = []
                 for entry in list_to_return:
+
+                    oneRMs = return_onerms(entry)
+                    volumes = return_volumes(entry)
+
                     entry_in_dict = {
                         'id': entry.id,
                         'muscleType': entry.muscleType,
@@ -142,7 +146,8 @@ def exercise_list(request):
                         'name': entry.name,
                         'hardness': entry.hardness,
                         'tags': entry.tags,
-                        'isFavorite': entry.isFavorite,
+                        'oneRms': oneRMs,
+                        'volumes': volumes
                     }
                     response.append(entry_in_dict)
                 return JsonResponse(response, safe=False, status=200)
@@ -183,6 +188,9 @@ def exercise_list(request):
                         entry.isFavorite = isFavorite
                         entry.save()
 
+                    oneRMs = return_onerms(entry)
+                    volumes = return_volumes(entry)
+
                     entry_in_dict = {
                         'id': entry.id,
                         'muscleType': entry.muscleType,
@@ -191,6 +199,8 @@ def exercise_list(request):
                         'hardness': entry.hardness,
                         'tags': entry.tags,
                         'isFavorite': isFavorite,
+                        'oneRms': oneRMs,
+                        'volumes': volumes
                     }
                     response.append(entry_in_dict)
                 return JsonResponse(response, safe=False, status=200)
