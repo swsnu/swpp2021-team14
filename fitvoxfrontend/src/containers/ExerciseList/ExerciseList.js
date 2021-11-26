@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Logout from "../Logout/Logout";
 import * as actionCreators from "../../store/actions"
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
@@ -64,10 +63,17 @@ class ExerciseList extends Component {
 
     onDeleteTag = (tag) => {
         const idx = this.state.tags.indexOf(tag);
-        if (this.state.tags.length == 1) this.setState({tags: []})
+        if (this.state.tags.length == 1) {
+            const newQuery = this.state.query
+            newQuery.splice(2 + idx, 1)
+            this.setState({query: newQuery, tags: []})
+        }
         else {
-            const newTags = this.state.tags.splice(idx, 1)
-            this.setState({tags: newTags})
+            const newTags = this.state.tags
+            newTags.splice(idx, 1)
+            const newQuery = this.state.query
+            newQuery.splice(2 + idx, 1)
+            this.setState({query: newQuery, tags: newTags})
         }
     }
 
@@ -112,6 +118,15 @@ class ExerciseList extends Component {
         )
     }
 
+    onRedirectSelectedStatsHandler = () => {
+        let route = "/exercise_list/stats/"
+        for (let q in this.state.query){
+            route = route + this.state.query[q] + "="
+        }
+        console.log(this.state.query)
+        this.props.history.push(route.slice(0, -1))
+    }
+
     header = () => {
         return (
             <div align="center">
@@ -126,6 +141,8 @@ class ExerciseList extends Component {
     }
 
     render() {
+        //console.log(this.props.history)
+        //console.log(this.state)
         if (this.state.show_favorite) {
             let exerciseEntries = ""
             if (this.props.exerciseList != null) {
@@ -142,10 +159,17 @@ class ExerciseList extends Component {
                 }
             }
             return (
-                <div align="center" className="ExerciseList">
-                    {this.header()}
-                    <div> {exerciseEntries}</div>
-                </div>
+                <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                    <Box p = {1}>
+                        <Menu page = "exercise_list"></Menu>
+                    </Box>
+                    <Box sx = {{width: "60%"}}>
+                        <div align="center" className="ExerciseList">
+                            {this.header()}
+                            <div> {exerciseEntries}</div>
+                        </div>
+                    </Box>
+                </Box>
             )
         } else if (!this.state.muscleType_selected) {
             let muscleTypeIcons = "";
@@ -275,7 +299,7 @@ class ExerciseList extends Component {
                             <div align="center">
                                 <h2>Selected Tags</h2>
                                 {tag_entries.length == 0 ? "None" : tag_entries}
-                                <Button>Show Selected Statistics</Button>
+                                <Button onClick = {() => this.onRedirectSelectedStatsHandler()}>Show Selected Statistics</Button>
                             </div>
                             <div align="center">
                                 {this.addTag()}

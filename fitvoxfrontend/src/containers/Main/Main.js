@@ -49,48 +49,21 @@ class Main extends Component {
         this.props.onGetExerciseList()
     }
 
-    handleClickPrev = () => {
-        this.setState({
-            year: this.state.month === 1 ? this.state.year - 1 : this.state.year,
-            month: this.state.month === 1 ? 12 : this.state.month - 1,
-        })
-    }
-
-    handleClickNext = () => {
-        this.setState({
-            year: this.state.month === 12 ? this.state.year + 1 : this.state.year,
-            month: this.state.month === 12 ? 1 : this.state.month + 1
-        })
-    }
-
     handleTimeStats = () => {
         this.props.history.push("/time_stats");
     }
 
     render() {
         return (
-            <Box className = "Main" display = "flex" justifyContent="center" alignItems="center" gap ={2}>
-                <Box display = "flex" flexDirection='column' gap = {'35vh'} sx = {{height:'100%'}}>
+            <Box p = {6} className = "Main" display = "flex" justifyContent="center" gap ={2}>
+                <Box p = {1}>
                     <Box>
                         <Menu page = 'main'></Menu>
                     </Box>
                     
-                    <Box>
-                        <IconButton 
-                            id="previous-month-button"
-                            aria-label = "previous-month-button"
-                            variant = "text" 
-                            onClick={() => this.handleClickPrev()}>
-                                <ChevronLeftIcon style = {{fontSize: 60}}/>
-                        </IconButton>
-                    </Box>
-                    <Box></Box>
                 </Box>
                 <Paper p ={6} display = "flex" flexDirection = "column" justifyContent='center' alignItems='center' gap = {4} sx = {{width: '60%'}}>              
-                    <Box component = "form" display = "flex" flexDirection="column" justifyContent='center' alignItems='center'>
-                        <Box p ={1}>
-                            <Typography variant = "h2">{this.state.year}.{this.state.month}</Typography>
-                        </Box>
+                    <Box sx = {{minHeight: 500}} component = "form" display = "flex" flexDirection="column" justifyContent='center' alignItems='center'>
                         <Box p = {2}>
                             <StaticDatePicker
                                 orientation="landscape"
@@ -116,13 +89,6 @@ class Main extends Component {
                         </Button>
                     </Box>
                 </Paper>
-                <IconButton 
-                    id="next-month-button" 
-                    aria-label = "next-month-button"
-                    variant = "text"
-                    onClick={() => this.handleClickNext()}>
-                        <ChevronRightIcon style = {{fontSize: 60}}></ChevronRightIcon>
-                </IconButton>
             </Box>
         );
     }
