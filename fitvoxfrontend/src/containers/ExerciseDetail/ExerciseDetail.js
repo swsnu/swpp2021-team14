@@ -2,18 +2,31 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux'
 
-import { Paper, Box, Typography, Button, Divider, Stack, TextField, IconButton} from "@mui/material";
+import { Paper, Box, Typography, Button, Divider, TextField, IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
+import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
+import Menu from '../Menu/Menu';
+
+import { Line } from 'react-chartjs-2'
 
 class ExerciseDetail extends Component {
     state = {
         exercisename: "",
+        exercise: null,
         tags: [],
         tag: "",
-        favorite: false
+        favorite: false,
+        one_rm: {
+            labels: ['sun', 'mon', 'tue', 'wed', 'thur', 'fri', 'sat'],
+            data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        volume: {
+            labels: ['sun', 'mon', 'tue', 'wed', 'thur', 'fri', 'sat'],
+            data: [71, 68, 63, 78, 60, 46, 61],
+        },
+        chart_type: "one_rm",
     }
     
     componentDidMount() {
@@ -25,8 +38,11 @@ class ExerciseDetail extends Component {
         for (let tag of exercise['tags']['tags']){
             this.setState({tags: [...this.state.tags, tag]})
         }
+        this.setState({exercise: exercise})
         this.setState({tags: exercise['tags']['tags']})
         this.setState({favorite: exercise['isFavorite']})
+
+        //assert that in this page, the value of 1RM and Volume don't change
     }
 
     // change this part for delete tag
@@ -58,6 +74,9 @@ class ExerciseDetail extends Component {
         this.setState({favorite: !this.state.favorite})
     }
 
+    onChangeChartTypeHandler = (type) => {
+        this.setState({chart_type: type})
+    }
 
     render() {
         console.log(this.state)
@@ -80,12 +99,17 @@ class ExerciseDetail extends Component {
         if (this.state.favorite) {
             star = (
                 <IconButton aria-label = "isFavorite" onClick = {() => this.onBookmarkHandler()}>
-                    <StarIcon style = {{fill: 'gold', fontSize: 45, borderColor: "black"}}/>
+                    <StarTwoToneIcon style = {{fill: 'gold', fontSize: 45}}/>
                 </IconButton>
             )
         } 
+
+        
         return (
-            <Box p = {6} display = "flex" justifyContent="center" alignItems="center" gap ={2}>
+            <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                <Box p = {1}>
+                    <Menu page = "exerciseDetail"></Menu>
+                </Box>
                 <Paper p ={6} display = 'flex' flexDirection = "column" justifyContent='center' alignItems = "center" sx={{width: "60%"}}>
                     <Box p = {1} display = "flex" justifyContent = 'center' alignItems = 'center'>
                         <Box sx ={{width: "90%"}}><Typography variant = "h2">{this.state.exercisename}</Typography></Box>
@@ -116,6 +140,40 @@ class ExerciseDetail extends Component {
                             </Box>
                         </Box>
                         <Divider orientation = "vertical" variant = "middle" flexItem/>
+                        <Box sx = {{width: "70%"}} display ="flex" flexDirection = "column" justifyContent = "center" alignItems = "center" gap ={1}>
+                            <Box sx = {{width: "90%", height: "90%"}}>
+                                <Line
+                                    data={{
+                                        labels: this.state.chart_type === "volume" ? this.state.volume.labels : this.state.one_rm.labels,
+                                        datasets: [{
+                                        label: this.state.exercisename + (this.state.chart_type === "volume" ? " (Volume)" : " (1RM)"),
+                                        data: this.state.chart_type === "volume" ? this.state.volume.data : this.state.one_rm.data,
+                                        fill: false,
+                                        borderColor: 'rgb(75, 192, 192)',
+                                        tension: 0.3
+                                        }]
+                                    }}
+                                    width = {'60%'}
+                                    options={{ maintainAspectRatio: false }}
+                                />
+                            </Box>
+                            <Box display = "flex" flexDirection = "row" justifyContent = "center" alignItems = "center" gap = {6}>
+                                <Box sx = {{width: "50%"}} display = "flex" justifyContent = "center" alignItems = "center">
+                                    {
+                                        this.state.chart_type === "volume" ? 
+                                        (<Button variant = "contained" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>) : 
+                                        (<Button variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>)
+                                    }    
+                                </Box>
+                                <Box sx = {{width: "50%"}}>
+                                    {
+                                        this.state.chart_type === "one_rm" ? 
+                                        (<Button variant = "contained" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>) : 
+                                        (<Button variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>)
+                                    }
+                                </Box>
+                            </Box>
+                        </Box>
                     </Box>
                 </Paper>
             </Box>

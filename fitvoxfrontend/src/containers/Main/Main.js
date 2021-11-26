@@ -29,13 +29,16 @@ class Main extends Component {
 
     Workout = () => {
         let year = this.state.value.getFullYear()
-        let month = this.state.value.getMonth()
+        let month = this.state.value.getMonth() + 1
         let date = this.state.value.getDate()
-        console.log(year)
-        console.log(month)
-        console.log(date)
-        let route = "/workout/" + year + (month+1) + date
-        console.log(route)
+        
+        if (month < 10) {
+            month = "0"+month;
+        }
+        if (date < 10) {
+            date = "0" + date;
+        }
+        let route = "/workout/" + year + month + date;
         this.props.history.push(route);
     }
 
@@ -58,6 +61,10 @@ class Main extends Component {
             year: this.state.month === 12 ? this.state.year + 1 : this.state.year,
             month: this.state.month === 12 ? 1 : this.state.month + 1
         })
+    }
+
+    handleTimeStats = () => {
+        this.props.history.push("/time_stats");
     }
 
     render() {
@@ -104,7 +111,7 @@ class Main extends Component {
                         <Button 
                             id="timeframe-statistics-button" 
                             variant="contained"
-                            onClick={() => {}}>
+                            onClick={() => this.handleTimeStats()}>
                             Timeframe Statistics
                         </Button>
                     </Box>
