@@ -31,6 +31,13 @@ const getsettingReducer = jest.fn(
     }
 );
 
+const getstatisticsReducer = jest.fn(
+    initialState => (state=initialState, action)=>{
+        return {...initialState.statistics}
+    }
+);
+
+
 const history = createBrowserHistory()
 const middlewares = [thunk, routerMiddleware(history)]
 
@@ -40,12 +47,14 @@ export const getMockStore = (initialState)=> {
     const workoutReducer = getworkoutReducer(initialState);
     const exerciseReducer = getexerciseReducer(initialState);
     const settingReducer = getsettingReducer(initialState);
+    const statisticsReducer = getstatisticsReducer(initialState);
 
     const reducer = combineReducers({
         login: loginReducer,
         workout: workoutReducer,
         exercise: exerciseReducer,
         setting: settingReducer,
+        statistics: statisticsReducer,
         router: connectRouter(history)
     })
 
