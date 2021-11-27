@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { connectRouter, ConnectedRouter } from 'connected-react-router';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import {Button} from "@mui/material"
+import {Button, ButtonBase, TextField, Typography} from "@mui/material"
 
 import Main from './Main';
 import { getMockStore } from '../../test-utils/mocks';
@@ -95,7 +95,13 @@ describe('<Main />', () => {
         const component = mount(main)
         const date_picker = component.find(StaticDatePicker);
         const instance = component.find(Main.WrappedComponent).instance()
-        date_picker.simulate('change', new Date(2021, 3, 1))
-        //expect(instance.state.value).toEqual(new Date(2021, 3, 1))
+        const button_asdf = date_picker.find(ButtonBase).at(4)
+        
+        button_asdf.simulate('click')
+        console.log(button_asdf.debug())
+        expect(instance.state.value.getFullYear()).toBe(2021)
+        expect(instance.state.value.getMonth()).toBe(10)
+        expect(instance.state.value.getDate()).toBe(1)
+        date_picker.find(ButtonBase).at(0).simulate('click')
     })
 }) 
