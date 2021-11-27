@@ -4,81 +4,13 @@ import { Provider } from 'react-redux';
 import {createStore} from 'redux';
 import thunk from 'redux-thunk';
 import { applyMiddleware } from 'redux';
-import { history } from '../../store/store';
-import { Route, Switch, Router } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import ExerciseDetail from './ExerciseDetail';
 import { createMemoryHistory } from 'history';
 import * as actionCreators from '../../store/actions/exerciselistActions/exerciselistActions'
 
 import {TextField} from "@mui/material"
-
-
-let stubInitialState = {
-    exercise: {
-        exerciseList: [
-            {
-                "id": 0,
-                "muscleType": "Neck",
-                "exerciseType": "Neck Raise",
-                "name": "Neck Raise",
-                "hardness": "1;2;3;",
-                "isFavorite": true,
-                "tags": {
-                    "tags": [
-                        "#Neck_Raise",
-                    ]
-                },
-                "oneRms": [
-                    {
-                        date: 20211126,
-                        value: 120.0001
-                    },
-                    {
-                        date: 20211125,
-                        value: 130.0001
-                    } 
-                ],
-                "volumes": [
-                    {
-                        date: 20211126,
-                        value: 300
-                    },
-                    {
-                        date: 20211125,
-                        value: 240
-                    }
-                ]
-            },
-            {
-                "id": 1,
-                "muscleType": "Neck",
-                "exerciseType": "Neck Raise",
-                "name": "Neck Raise Side",
-                "hardness": "1;2;3;",
-                "isFavorite": true,
-                "tags": {
-                    "tags": [
-                        "#Neck_Raise",
-                        "#Side"
-                    ]
-                }
-            },
-            {   
-                "id": 2,
-                "muscleType": "Trapezius",
-                "exerciseType": "Y-Raise",
-                "name": "Y-Raise: Dumbbell",
-                "hardness": "2;3;",
-                "isFavorite": false,
-                "tags": {
-                    "tags": [
-                        "#Dumbbell",
-                    ]
-                }
-            },
-        ],
-    }
-}
+import { stubInitialState } from '../../test-utils/mocks';
 
 const mockStore = createStore((state, action) => state,
                             stubInitialState,

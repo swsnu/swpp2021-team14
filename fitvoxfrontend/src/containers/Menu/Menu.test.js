@@ -1,10 +1,10 @@
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import {mount} from 'enzyme';
 import Menu from "./Menu";
 import { Provider } from 'react-redux';
-import { Button, IconButton, ListItem, Box, Drawer } from '@mui/material';
+import { IconButton, ListItem, Drawer } from '@mui/material';
 import { history } from '../../store/store';
-import { Route, Switch, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import {createStore} from 'redux';
 import thunk from 'redux-thunk';
 import { applyMiddleware } from 'redux';
