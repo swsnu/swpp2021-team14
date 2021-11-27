@@ -139,6 +139,9 @@ To test backend of the application, run the following commands on `fitvoxbackend
 
 ```shell
 # pip install coveralls
+# If error related to db happends, please run 
+# python3 manage.py makemigrations
+# first.
 coverage run --source='./Fitvox' manage.py test
 ```
 
