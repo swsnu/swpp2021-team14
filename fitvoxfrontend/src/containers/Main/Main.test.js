@@ -98,7 +98,6 @@ describe('<Main />', () => {
         const button_asdf = date_picker.find(ButtonBase).at(4)
         
         button_asdf.simulate('click')
-        console.log(button_asdf.debug())
         expect(instance.state.value.getFullYear()).toBe(2021)
         expect(instance.state.value.getMonth()).toBe(10)
         expect(instance.state.value.getDate()).toBe(1)

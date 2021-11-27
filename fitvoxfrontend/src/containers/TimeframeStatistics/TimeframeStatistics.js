@@ -27,7 +27,7 @@ class TimeframeStatistics extends Component {
     render() { 
 
         return(
-            <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+            <Box p = {6} id = "time_stats" display = "flex" justifyContent="center" gap = {1}>
                 <Box p = {1}>
                     <Menu page = "exerciseDetail"></Menu>
                 </Box>
@@ -50,13 +50,9 @@ class TimeframeStatistics extends Component {
                     <Divider variant = "middle" flexItem />
                     <Box display = "flex" justifyContent = "center" alignItems = "center"><Button>ASDF</Button></Box>
                 </Paper>
-                
             </Box>
         )
     }
-
-
-
 }
 
 export default connect(null, null)(withRouter(TimeframeStatistics))

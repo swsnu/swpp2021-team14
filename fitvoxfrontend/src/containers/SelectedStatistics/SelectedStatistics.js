@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import Menu from '../Menu/Menu';
 
-import { Paper, Box, Typography, Button, Divider} from "@mui/material";
+import { Paper, Box, Typography, Button, Divider, paperClasses} from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -191,7 +191,7 @@ class SelectedStatistics extends Component {
 
         return (
             
-            <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+            <Box p = {6} id = "selected_stats" display = "flex" justifyContent="center" gap = {1}>
                 <Box p = {1}>
                     <Menu page = "exerciseDetail"></Menu>
                 </Box>
@@ -222,15 +222,15 @@ class SelectedStatistics extends Component {
                                 <Box sx = {{width: "50%"}} display = "flex" justifyContent = "center" alignItems = "center">
                                     {
                                         this.state.chartType === "volume" ? 
-                                        (<Button variant = "contained" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>) : 
-                                        (<Button variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>)
+                                        (<Button id = "volume" variant = "contained" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>) : 
+                                        (<Button id = "volume" variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>)
                                     }    
                                 </Box>
                                 <Box sx = {{width: "50%"}}>
                                     {
                                         this.state.chartType === "one_rm" ? 
-                                        (<Button variant = "contained" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>) : 
-                                        (<Button variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>)
+                                        (<Button id = "one_rm" variant = "contained" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>) : 
+                                        (<Button id = "one_rm" variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>)
                                     }
                                 </Box>
                             </Box>
@@ -247,10 +247,6 @@ const mapStateToProps = (state) => {
     return {
         exerciseList: state.exercise.exerciseList,
     };
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {};
 }
 
 export default connect(mapStateToProps, null)(withRouter(SelectedStatistics))
