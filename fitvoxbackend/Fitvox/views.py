@@ -233,9 +233,9 @@ def workout_detail(request, date):
         if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
             workout = WorkoutDetail.objects.get(user=request.user, date=date)
             req_data = json.loads(request.body.decode())
-            bodyFat = req_data['bodyFat']
-            bodyWeight = req_data['bodyWeight']
-            skeletalMuscle = req_data['skeletalMuscle']
+            bodyFat = float(req_data['bodyFat'])
+            bodyWeight = float(req_data['bodyWeight'])
+            skeletalMuscle = float(req_data['skeletalMuscle'])
 
             workout.bodyFat = bodyFat
             workout.bodyWeight = bodyWeight
@@ -397,7 +397,7 @@ def workout_set(request, id=-1):
                 req_data = json.loads(request.body.decode())
                 weight = float(req_data['weight'])
                 repetition = int(req_data['repetition'])
-                breaktime = int(req_data['breaktime'])
+                breaktime = int(req_data['breaktime'])   
 
                 set.weight = weight
                 set.repetition = repetition
