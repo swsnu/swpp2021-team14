@@ -96,7 +96,7 @@ yarn start #Run react app
 cd swpp2021-team14
 cd fitvoxbackend
 pip install -r requirements.txt
-python manage.py makemigrations Fitvox
+python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver # Run Django Backend Server
 ```
