@@ -62,5 +62,88 @@ export const getMockStore = (initialState)=> {
 }
 
 export const stubInitialState = {
-    login: { authenticated: true, currentUser: 'test' },
+    exercise: {
+        exerciseList: [
+            {
+                "id": 0,
+                "muscleType": "Neck",
+                "exerciseType": "Neck Raise",
+                "name": "Neck Raise",
+                "hardness": "1;2;3;",
+                "isFavorite": true,
+                "tags": {
+                    "tags": [
+                        "#Neck_Raise",
+                    ]
+                },
+                "oneRms": [
+                    {
+                        date: 20211126,
+                        value: 120.0001
+                    },
+                    {
+                        date: 20211125,
+                        value: 130.0001
+                    } 
+                ],
+                "volumes": [
+                    {
+                        date: 20211126,
+                        value: 300
+                    },
+                    {
+                        date: 20211125,
+                        value: 240
+                    }
+                ]
+            },
+            {
+                "id": 1,
+                "muscleType": "Neck",
+                "exerciseType": "Neck Raise",
+                "name": "Neck Raise Side",
+                "hardness": "1;2;3;",
+                "isFavorite": true,
+                "tags": {
+                    "tags": [
+                        "#Neck_Raise",
+                        "#Side"
+                    ]
+                },
+                "oneRms": [
+                    {
+                        date: 20211127,
+                        value: 170
+                    },
+                    {
+                        date: 20211125,
+                        value: 170
+                    },
+                ],
+                "volumes": [
+                    {
+                        date: 20211127,
+                        value: 400
+                    },
+                    {
+                        date: 20211125,
+                        value: 420
+                    },
+                ]
+            },
+            {   
+                "id": 2,
+                "muscleType": "Trapezius",
+                "exerciseType": "Y-Raise",
+                "name": "Y-Raise: Dumbbell",
+                "hardness": "2;3;",
+                "isFavorite": false,
+                "tags": {
+                    "tags": [
+                        "#Dumbbell",
+                    ]
+                }
+            },
+        ],
+    }
 };
