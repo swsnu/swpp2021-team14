@@ -11,7 +11,6 @@ import { createMemoryHistory } from 'history';
 import * as actionCreators from '../../store/actions/exerciselistActions/exerciselistActions'
 
 import {TextField} from "@mui/material"
-import { Line } from 'react-chartjs-2'
 
 
 let stubInitialState = {
