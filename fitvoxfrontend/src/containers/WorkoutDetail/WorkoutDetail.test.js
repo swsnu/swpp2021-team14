@@ -165,6 +165,9 @@ describe("Test <Workout Detail/>", ()=>{
         button.simulate('click');
 
         const spyAlert = jest.spyOn(window, 'alert').mockImplementation(()=>{return 0})
+        const spyAddBodyInfo = jest.spyOn(actionCreators, 'addBodyInfo').mockImplementation((data)=>{
+            return {type: actionTypes.GET_BODY_INFO, bodyInfo: []};
+        });
 
         const weightInput = wrapper.find('#bodyWeight-input');
         weightInput.simulate('change', {target:{value:-1}});
