@@ -72,7 +72,6 @@ class ExerciseDetail extends Component {
             return _tag !== tag 
         })
         this.setState({tags: newTags})
-        // TODO: adjust changed tags to Django backend server using axios
         let data = {
             id: this.state.exercise_id,
             target: "tags",
@@ -89,7 +88,7 @@ class ExerciseDetail extends Component {
         else {
             let newTag = this.state.tag;
             let newTags = [...this.state.tags, newTag]
-            this.setState({tag: "", tags:[...this.state.tags, newTag]})
+            this.setState({tag: "", tags: newTags})
             let data = {
                 id: this.state.exercise_id,
                 target: "tags",
@@ -97,8 +96,6 @@ class ExerciseDetail extends Component {
             }
             this.props.onChangeTags(data)
         }
-        // TODO: adjust tag in state to django backend server using axios
-        
     }
 
     // change this part for bookmarking exercise
@@ -119,20 +116,20 @@ class ExerciseDetail extends Component {
             tagIcons.push(
                 <Box display = 'flex' flexDirection = 'row' alignItems='center'>
                     <Typography color = 'blue'>{tag}</Typography>
-                    <IconButton aria-label="delete" size ='small' onClick = {()=> this.onDeleteTagHandler(tag)}>
+                    <IconButton id = "delete_tag" aria-label="delete" size ='small' onClick = {()=> this.onDeleteTagHandler(tag)}>
                         <DeleteIcon fontSize = 'inherit' />
                     </IconButton>
                 </Box>
             )
         }
         let star = (
-            <IconButton aria-label = "isFavorite" onClick = {() => this.onBookmarkHandler()}>
+            <IconButton id = "favorite" aria-label = "isFavorite" onClick = {() => this.onBookmarkHandler()}>
                 <StarBorderIcon style = {{fill: 'black', fontSize: 45}}/>
             </IconButton>
         )
         if (this.state.favorite) {
             star = (
-                <IconButton aria-label = "isFavorite" onClick = {() => this.onBookmarkHandler()}>
+                <IconButton id = "favorite" aria-label = "isFavorite" onClick = {() => this.onBookmarkHandler()}>
                     <StarTwoToneIcon style = {{fill: 'gold', fontSize: 45}}/>
                 </IconButton>
             )
@@ -140,7 +137,7 @@ class ExerciseDetail extends Component {
 
         
         return (
-            <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+            <Box p = {6} id = "ExerciseDetail" display = "flex" justifyContent="center" gap = {1}>
                 <Box p = {1}>
                     <Menu page = "exerciseDetail"></Menu>
                 </Box>
@@ -162,13 +159,14 @@ class ExerciseDetail extends Component {
                             <Box p={2}></Box>
                             <Box p={1} display = 'flex' flexDirection = 'row' justifyContent = 'center' alignItems='center'>
                                 <TextField
+                                    id = "tag_input"
                                     variant="outlined"
                                     label="New Tag"
                                     value={this.state.tag}
                                     onClick = {() => this.setState({tag: "#"})}
                                     onChange={(event) => this.setState({ tag: event.target.value })}
                                 />
-                                <IconButton aria-label="add" onClick = {() => {this.onAddTagHandler()}}>
+                                <IconButton id = "add_tag_button" aria-label="add" onClick = {() => {this.onAddTagHandler()}}>
                                     <AddIcon/>
                                 </IconButton>
                             </Box>
@@ -195,15 +193,15 @@ class ExerciseDetail extends Component {
                                 <Box sx = {{width: "50%"}} display = "flex" justifyContent = "center" alignItems = "center">
                                     {
                                         this.state.chart_type === "volume" ? 
-                                        (<Button variant = "contained" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>) : 
-                                        (<Button variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>)
+                                        (<Button id = "volume" variant = "contained" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>) : 
+                                        (<Button id = "volume" variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>)
                                     }    
                                 </Box>
                                 <Box sx = {{width: "50%"}}>
                                     {
                                         this.state.chart_type === "one_rm" ? 
-                                        (<Button variant = "contained" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>) : 
-                                        (<Button variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>)
+                                        (<Button id = "one_rm" variant = "contained" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>) : 
+                                        (<Button id = "one_rm" variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>)
                                     }
                                 </Box>
                             </Box>
@@ -218,10 +216,7 @@ class ExerciseDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        muscleTypes: state.exercise.muscleTypes,
-        exerciseTypes: state.exercise.exerciseTypes,
         exerciseList: state.exercise.exerciseList,
-        hardness: state.setting.hardness
     };
 }
 

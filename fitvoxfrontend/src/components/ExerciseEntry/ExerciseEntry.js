@@ -11,7 +11,7 @@ class ExerciseEntry extends Component {
             <div  className="ExerciseEntry" style={{border: '1px solid orange'}}>
                 <Box display = "flex" justifyContent = "center" alignItems="center">
                     <Box sx ={{width: "50%"}}>
-                        <div onClick={() => this.props.onClick()}>
+                        <div id = "button" onClick={() => this.props.onClick()}>
                             <h2>{this.props.name}</h2>
                         </div>
                     </Box>

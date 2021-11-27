@@ -9,6 +9,12 @@ import Main from './Main';
 import { getMockStore } from '../../test-utils/mocks';
 import { history } from '../../store/store';
 
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
+import StaticDatePicker from '@mui/lab/StaticDatePicker';
+
+
 jest.mock('../../components/Calendar/Calendar', () => {
     return props => {
         return (
@@ -18,6 +24,7 @@ jest.mock('../../components/Calendar/Calendar', () => {
         );
     };
 });
+
 
 const stubInitialState = {
     year: 2021,
@@ -30,56 +37,65 @@ describe('<Main />', () => {
     let main;
     beforeEach(() => {
         main = (
-            <Provider store ={mockStore}>
-                <ConnectedRouter history = {history}>
-                    <Switch>
-                        <Route path = "/" exact
-                            component = {Main} />
-                    </Switch>
-                </ConnectedRouter>
-            </Provider>
+            <LocalizationProvider dateAdapter = {AdapterDateFns}>
+                <Provider store ={mockStore}>
+                    <ConnectedRouter history = {history}>
+                        <Switch>
+                            <Route path = "/" exact
+                                component = {Main} />
+                        </Switch>
+                    </ConnectedRouter>
+                </Provider>  
+            </LocalizationProvider>
         );
     });
 
-    it ('should call clicking prev', () => {
+    it ('should render without error', () => {
         const component = mount(main);
-        const wrapper = component.find(Button).at(0);
-        const MainInstance = component.find(Main.WrappedComponent).instance();
-        for (let i = stubInitialState.month -1; i> 0; i--){
-            wrapper.simulate('click');
-            expect(MainInstance.state.year).toEqual(2021);
-            expect(MainInstance.state.month).toEqual(i);
-        }
-        wrapper.simulate('click');
-        expect(MainInstance.state.year).toEqual(2020);
-        expect(MainInstance.state.month).toEqual(12);
-        wrapper.simulate('click');
-        expect(MainInstance.state.year).toEqual(2020);
-        expect(MainInstance.state.month).toEqual(11);
-    });
-
-    it ('should call clicking next', () => {
-        const component = mount(main);
-        const wrapper = component.find(Button).at(3);
-        const MainInstance = component.find(Main.WrappedComponent).instance();
-        for (let i = stubInitialState.month + 1; i <= 12; i++){
-            wrapper.simulate('click');
-            expect(MainInstance.state.year).toEqual(2021);
-            expect(MainInstance.state.month).toEqual(i);
-        }
-        wrapper.simulate('click');
-        expect(MainInstance.state.year).toEqual(2022);
-        expect(MainInstance.state.month).toEqual(1);
-        wrapper.simulate('click');
-        expect(MainInstance.state.year).toEqual(2022);
-        expect(MainInstance.state.month).toEqual(2);
-    });
+        expect(component.find(".Main").length).toBe(3)
+    })
 
     it ("should call clicking timeframe-statistics button", () => {
-        const mockClick = jest.fn();
+        const spyPush = jest.spyOn(history, 'push').mockImplementation(() => {})
         const component = mount(main);
         const wrapper = component.find(Button).at(1);
         wrapper.simulate('click');
-        expect(mockClick).toHaveBeenCalledTimes(0);
+        expect(spyPush).toBeCalledWith("/time_stats")
+    })
+
+    it('should call workout button properly', () => {
+        const spyPush = jest.spyOn(history, 'push').mockImplementation(() => {})
+        const component = mount(main)
+        const wrapper = component.find(Button).at(0);
+        const value = new Date();
+        let year = value.getFullYear();
+        let month = value.getMonth() + 1;
+        let date = value.getDate();
+        if (month < 10) {
+            month = "0"+month;
+        }
+        if (date < 10) {
+            date = "0" + date;
+        }
+        wrapper.simulate('click')
+        expect(spyPush).toBeCalledWith('/workout/' + year + month + date)
+    })
+
+    it ('should render workout page properly', () => {
+        const spyPush = jest.spyOn(history, 'push').mockImplementation(() => {})
+        const component = mount(main)
+        const wrapper = component.find(Button).at(0);
+        const instance = component.find(Main.WrappedComponent).instance()
+        instance.setState({value: new Date(2021, 3, 1)})
+        wrapper.simulate('click')
+        expect(spyPush).toBeCalledWith("/workout/20210401")
+    })
+
+    it ('should handle staticDatePicker properly', () => {
+        const component = mount(main)
+        const date_picker = component.find(StaticDatePicker);
+        const instance = component.find(Main.WrappedComponent).instance()
+        date_picker.simulate('change', new Date(2021, 3, 1))
+        expect(instance.state.value).toEqual(new Date(2021, 3, 1))
     })
 }) 

@@ -7,6 +7,8 @@ import thunk from 'redux-thunk';
 import { applyMiddleware } from 'redux';
 import { history } from '../../store/store';
 import { Route, Switch, Router } from 'react-router-dom';
+import * as actionCreators from '../../store/actions/exerciselistActions/exerciselistActions'
+
 
 let stubInitialState = {
     exercise: {
@@ -16,6 +18,7 @@ let stubInitialState = {
                 "exerciseType": "Neck Raise",
                 "name": "Neck Raise",
                 "hardness": "1;2;3;",
+                "isFavorite": true,
                 "tags": {
                     "tags": [
                         "#Neck_Raise",
@@ -27,6 +30,7 @@ let stubInitialState = {
                 "exerciseType": "Neck Raise",
                 "name": "Neck Raise Side",
                 "hardness": "1;2;3;",
+                "isFavorite": true,
                 "tags": {
                     "tags": [
                         "#Neck_Raise",
@@ -39,6 +43,7 @@ let stubInitialState = {
                 "exerciseType": "Y-Raise",
                 "name": "Y-Raise: Dumbbell",
                 "hardness": "2;3;",
+                "isFavorite": false,
                 "tags": {
                     "tags": [
                         "#Dumbbell",
@@ -128,6 +133,7 @@ jest.mock('../../components/ExerciseEntry/ExerciseEntry', () => (props) => {
     return (
         <div className = "ExerciseEntry" onClick = {() => props.onClick()}>
             <span id = "exerciseName">{props.name}</span>
+            <span id = "check_favorite_button" onClick = {() => {props.onCheck()}}/>
         </div>
     )
 })
@@ -226,7 +232,7 @@ describe("Test <ExerciseList/>", () => {
         expect(component.find("#tag-bar").length).toBe(1)
         expect(component.find(".ExerciseEntry").length).toBe(2);
         component.find(".ExerciseEntry").at(0).simulate('click')
-        expect(spyPush).toBeCalledWith("/exercise_list/Neck Raise")
+        expect(spyPush).toHaveBeenCalledTimes(1)
         const tag_bar = component.find("#tag-bar").at(0)
         const add_tag = component.find("#search-with-tag").at(0)
         tag_bar.simulate("change", {target: {value: "#Side"}})
@@ -237,7 +243,7 @@ describe("Test <ExerciseList/>", () => {
         expect(instance.state.query).toEqual(['Neck', 'Neck Raise', "#Side"])
         expect(component.find(".ExerciseEntry").length).toBe(1);
         component.find(".ExerciseEntry").at(0).simulate('click')
-        expect(spyPush).toBeCalledWith("/exercise_list/Neck Raise Side")
+        expect(spyPush).toHaveBeenCalledTimes(2)
     })
 
     it("should handle tags", () => {
@@ -270,11 +276,73 @@ describe("Test <ExerciseList/>", () => {
         expect(instance.state.tags.length).toBe(0)
     })
 
+    it ('should handle selectedStatistics button', () => {
+        const spyPush = jest.spyOn(history, 'push').mockImplementation(() => {})
+        const component = mount(exercise_list);
+        component.find('.MuscleTypeIcon').at(0).simulate('click');
+        component.find('.ExerciseTypeIcon').at(0).simulate('click');
+        const tag_bar = component.find("#tag-bar").at(0)
+        const add_tag = component.find("#search-with-tag").at(0)
+        tag_bar.simulate("change", {target: {value: "#Side"}})
+        add_tag.simulate("click")
+        component.find("#selected_stats").at(0).simulate('click')
+        expect(spyPush).toBeCalledWith('/exercise_list/stats/Neck=Neck Raise=Side')
+
+    })
+
+    it ('should handle check favorite button before tag searching', () => {
+        const spyCheckFavorite = jest.spyOn(actionCreators, 'checkFavorite').mockImplementation(() => {
+            return (dispatch) => {}})
+        const component = mount(exercise_list);
+        component.find('.MuscleTypeIcon').at(0).simulate('click');
+        component.find('.ExerciseTypeIcon').at(0).simulate('click');
+        component.find("#check_favorite_button").at(0).simulate('click');
+        expect(spyCheckFavorite).toBeCalledTimes(1)
+    })
+
+    it ('should handle check favorite button after show favorite button', () => {
+        const spyCheckFavorite = jest.spyOn(actionCreators, 'checkFavorite').mockImplementation(() => {
+            return (dispatch) => {}})
+        const component = mount(exercise_list);
+        const wrapper = component.find("#show_favorite").at(0);
+        wrapper.simulate('click')
+        component.find("#check_favorite_button").at(0).simulate('click');
+        expect(spyCheckFavorite).toBeCalledTimes(1)
+    })
+
+    it ('should handle check favorite button after tag searching', () => {
+        const spyCheckFavorite = jest.spyOn(actionCreators, 'checkFavorite').mockImplementation(() => {
+            return (dispatch) => {}})
+        const component = mount(exercise_list);
+        component.find('.MuscleTypeIcon').at(0).simulate('click');
+        component.find('.ExerciseTypeIcon').at(0).simulate('click');
+        const tag_bar = component.find("#tag-bar").at(0)
+        const add_tag = component.find("#search-with-tag").at(0)
+        tag_bar.simulate("change", {target: {value: "#Side"}})
+        add_tag.simulate("click")
+        component.find("#check_favorite_button").at(0).simulate('click');
+        expect(spyCheckFavorite).toBeCalledTimes(1)
+    })
+
+    it ('should handle show favorite buttons', () => {
+        const spyPush = jest.spyOn(history, 'push').mockImplementation(() => {})
+        const component = mount(exercise_list);
+        const instance = component.find(ExerciseList.WrappedComponent).instance()
+        const wrapper = component.find("#show_favorite").at(0);
+        wrapper.simulate('click')
+        expect(instance.state.show_favorite).toBe(true);
+        expect(component.find('.ExerciseEntry').length).toBe(2)
+        component.find('.ExerciseEntry').at(0).simulate('click')
+        expect(spyPush).toBeCalledTimes(1)
+    })
+
     it ("should handle null exerciseList", () => {
         new_mock(nullExerciseListState)
         const component = mount(exercise_list)
         component.find('.MuscleTypeIcon').at(0).simulate('click');
         component.find('.ExerciseTypeIcon').at(0).simulate('click');
+        expect(component.find(".ExerciseEntry").length).toBe(0);
+        component.find("#show_favorite").at(0).simulate('click')
         expect(component.find(".ExerciseEntry").length).toBe(0);
     })
 
