@@ -14,12 +14,12 @@ import ExerciseList from './containers/ExerciseList/ExerciseList';
 import ExerciseDetail from './containers/ExerciseDetail/ExerciseDetail';
 import AddExercise from './containers/AddExercise/AddExercise';
 import SelectedStatistics from './containers/SelectedStatistics/SelectedStatistics';
-
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimeframeStatistics from './containers/TimeframeStatistics/TimeframeStatistics';
 import WorkoutDetail from "./containers/WorkoutDetail/WorkoutDetail";
 import WorkoutAdd from "./containers/WorkoutAdd/WorkoutAdd";
+
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 class App extends Component {
   componentDidMount() {

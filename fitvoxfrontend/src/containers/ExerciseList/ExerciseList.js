@@ -134,7 +134,7 @@ class ExerciseList extends Component {
                 <h1 align="center">Exercise List</h1>
                 {this.addExerciseButton()}
                 <Button
-                    onClick={() => this.onShowFavorite()}>{this.state.show_favorite ? "Show Exercise Lists" : "Show Favorite"}</Button>
+                    id = "show_favorite" onClick={() => this.onShowFavorite()}>{this.state.show_favorite ? "Show Exercise Lists" : "Show Favorite"}</Button>
                 <hr/>
             </div>
         )
@@ -300,7 +300,7 @@ class ExerciseList extends Component {
                             <div align="center">
                                 <h2>Selected Tags</h2>
                                 {tag_entries.length == 0 ? "None" : tag_entries}
-                                <Button onClick = {() => this.onRedirectSelectedStatsHandler()}>Show Selected Statistics</Button>
+                                <Button id = "selected_stats" onClick = {() => this.onRedirectSelectedStatsHandler()}>Show Selected Statistics</Button>
                             </div>
                             <div align="center">
                                 {this.addTag()}

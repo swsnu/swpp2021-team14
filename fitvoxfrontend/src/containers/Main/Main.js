@@ -10,9 +10,7 @@ import './Main.css'
 import * as actionCreators from "../../store/actions/index";
 import Menu from "../Menu/Menu";
 
-import { Paper, Box, Typography, Button, IconButton} from "@mui/material";
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Paper, Box, Button} from "@mui/material";
 
 import isWeekend from 'date-fns/isWeekend';
 import TextField from '@mui/material/TextField';
