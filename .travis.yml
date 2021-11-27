@@ -1,4 +1,8 @@
 # CI environment
+os: linux
+
+language: generic
+
 dist: bionic
 
 jobs:
