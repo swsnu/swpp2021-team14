@@ -1,18 +1,12 @@
 import React, {Component} from 'react';
-
-import {NavLink} from 'react-router-dom';
-
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import Calendar from '../../components/Calendar/Calendar';
 
 import './Main.css'
 import * as actionCreators from "../../store/actions/index";
 import Menu from "../Menu/Menu";
 
 import { Paper, Box, Button} from "@mui/material";
-
-import isWeekend from 'date-fns/isWeekend';
 import TextField from '@mui/material/TextField';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 

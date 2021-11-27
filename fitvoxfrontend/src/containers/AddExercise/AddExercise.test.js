@@ -2,7 +2,6 @@ import React from 'react';
 import {mount} from 'enzyme';
 import AddExercise from './AddExercise';
 import { Provider } from 'react-redux';
-import * as actionCreators from '../../store/actions/loginActions/loginActions';
 import {createStore} from 'redux';
 import thunk from 'redux-thunk';
 import { applyMiddleware } from 'redux';
