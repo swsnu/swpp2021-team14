@@ -75,3 +75,72 @@ To test backend of the application, run the following commands on `fitvoxbackend
 coverage run --source='./Fitvox' manage.py test
 ```
 
+
+
+## Sprint4
+
+After cloning the repository, you should run the following commands to run the application.
+
+### Run frontend server
+
+```shell
+cd swpp2021-team14
+cd fitvoxfrontend
+yarn install #Install dependencies
+yarn start #Run react app
+```
+
+### Run backend server
+
+```shell
+cd swpp2021-team14
+cd fitvoxbackend
+pip install -r requirements.txt
+python manage.py makemigrations Fitvox
+python manage.py migrate
+python manage.py runserver # Run Django Backend Server
+```
+
+### Features
+
+* For sprint 4, you can login with default user
+
+  * username: test
+  * password: password
+
+* Or you can login with your own account after create one in Create Account page
+
+* You can change personal settings for exercise hardness and default break time in setting page, search exercises through exericse_list page, and add new exercise in add page
+
+* You can use Menu button on the right top of the page to move to the proper page.
+
+* You can check favorite exercises in exercise list page, but this feature has minor errors and will improved in Sprint5.
+
+* After selecting muscle type and exercise type, and by adding some tags, you can see the statistics for the selected exercises. 
+
+* After selecting exercise in exercise list page, you may see the detail for the exercise. You may see the statistics for the exercise, and may modify tags or mark the exercise as favorite.
+
+* If you click the appropriate date on the calendar of main page and click the move button, you can see the workout detail for the date.
+
+* You can do following jobs in the workout detail page for the date.
+
+  * You can add the body information of the date if you want. 
+  * You can add or delete an exercise to the workout using the same query system as in the exercis list page.
+  * You can add, modify, or delete the set information for each exercise in the workout.
+
+  
+
+To test frontend of the application, run the following commands on the `fitvoxfrontend` directory. In sprint4 we support tests for frontend features except `CreateAccount.js`.
+
+```shell
+# yarn add coveralls
+yarn test --coverage --watchAll=false
+```
+
+To test backend of the application, run the following commands on `fitvoxbackend` directory. Make sure that your python version is more than 3.7.0.
+
+```shell
+# pip install coveralls
+coverage run --source='./Fitvox' manage.py test
+```
+
