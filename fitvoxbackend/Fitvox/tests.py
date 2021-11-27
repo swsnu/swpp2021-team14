@@ -11,7 +11,6 @@ class FitvoxTestCase(TestCase):
         user3 = User.objects.create_user(username='username3', email='email3',password='password3')
         personalsetting1 = PersonalSetting.objects.create(id=1,hardness="1",breaktime='300',user=user1)
         personalsetting2 = PersonalSetting.objects.create(id=2,hardness="2",breaktime='180',user=user2)
-        defaultexercise = ExerciseDefault.objects.create(muscleType='samplemuscle3', exerciseType='sampleextype3',name='samplename3', hardness='3', tags={'tags':'press'},volume='{}')
         exerciseuser1 = ExercisePerUser.objects.create(user=user1, muscleType='samplemuscle1', exerciseType='sampleextype1',name='samplename', hardness='1', isFavorite=False)
         exerciseuser2 = ExercisePerUser.objects.create(user=user2, muscleType='samplemuscle2', exerciseType='sampleextype2',name='samplename2',hardness='2', isFavorite=False)
         workoutdetail1 = WorkoutDetail.objects.create(user=user1, date='20211127')
