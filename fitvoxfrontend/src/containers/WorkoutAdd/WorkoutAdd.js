@@ -107,7 +107,7 @@ class WorkoutAdd extends Component {
         return (
             <div align="center">
                 <h1 align="center">Add Exercise to Workout</h1>
-                <Button
+                <Button id="show_favorite"
                     onClick={() => this.onShowFavorite()}>{this.state.show_favorite ? "Show Exercise Lists" : "Show Favorite"}</Button>
                 <Button onClick={()=>this.onCancel()}>Cancel</Button>
                 <hr/>

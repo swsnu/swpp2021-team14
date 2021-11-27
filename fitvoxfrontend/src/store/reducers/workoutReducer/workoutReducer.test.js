@@ -2,7 +2,7 @@ import React from "react";
 import reducer from './workoutReducer'
 import * as actionTypes from '../../actions/actionTypes'
 
-const initState = {workoutList: null, workoutEntries: null}
+const initState = {workoutList: null, workoutEntries: []}
 
 describe('Test workout Reducer', ()=>{
     it('should return default state', ()=>{
