@@ -81,16 +81,16 @@ class WorkoutDetail extends Component {
         return (
             <div>
                 <p><label>Body Weight(kg)</label>
-                    <input type="number" value={this.state.bodyWeight}
+                    <input id="bodyWeight-input" type="number" value={this.state.bodyWeight}
                            onChange={(event) => this.setState({bodyWeight: event.target.value})}/>
                 </p>
                 <p><label>Skeletal Muscle Mass(kg)</label>
-                    <input type="number" value={this.state.skeletalMuscle}
+                    <input id="smm-input" type="number" value={this.state.skeletalMuscle}
                            onChange={(event) => this.setState({skeletalMuscle: event.target.value})}/></p>
                 <p><label>Body Fat Ratio(%)</label>
-                    <input type="number" value={this.state.bodyFat}
+                    <input id="bodyFat-input" type="number" value={this.state.bodyFat}
                            onChange={(event) => this.setState({bodyFat: event.target.value})}/></p>
-                <Button onClick={()=>this.onConfirmBodyInfo()}>Confirm</Button>
+                <Button id="confirm-body-info-button" onClick={()=>this.onConfirmBodyInfo()}>Confirm</Button>
 
             </div>
         )
@@ -109,12 +109,11 @@ class WorkoutDetail extends Component {
     render() {
 
         let workoutEntries = []
-        if (this.props.workoutEntries != null) {
-            this.props.workoutEntries.sort(this.compareEntry)
 
-            for (let entry of this.props.workoutEntries) {
-                workoutEntries.push(<WorkoutEntry id={entry['id']}/>)
-            }
+        this.props.workoutEntries.sort(this.compareEntry)
+
+        for (let entry of this.props.workoutEntries) {
+            workoutEntries.push(<WorkoutEntry id={entry['id']}/>)
         }
 
         const date = this.props.match.params.date;
@@ -130,17 +129,14 @@ class WorkoutDetail extends Component {
                 </Box>
                 <Box sx = {{width: "60%"}}>
                     <div className="WorkoutDetail" align="center">
-                        <div>
                             <h1>Workout of {year + ". " + month + ". " + day}</h1>
                     <Button>Start Voice Partner</Button>
-                    <Button
+                    <Button id="edit-body-info-button"
                         onClick={() => this.onAddBodyInfo()}>{this.state.addBodyInfo ? "Cancel" : "Edit Body Info for the Day"}</Button>
                     {this.state.addBodyInfo ? this.bodyInfoInput() : this.showBodyInfo()}
-                    <Button onClick={() => this.onAddWorkout()}>Add Exercise to workout</Button>
+                    <Button id="add-workout-button" onClick={() => this.onAddWorkout()}>Add Exercise to workout</Button>
                     <hr/>
                     {workoutEntries}
-                        </div>
-
                     </div>
                 </Box>
             </Box>

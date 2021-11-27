@@ -65,8 +65,14 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/store/actions/exerciselistActions/*",
-      "src/store/actions/settingActions/*"
+      "src/**/*.{js,jsx}",
+      "!src/index.js",
+      "!src/serviceWorker.js",
+      "!src/reportWebVitals.js",
+      "!src/store/actions/index.js",
+      "!src/store/reducers/index.js",
+      "!src/test-utils/mocks.js",
+      "!src/containers/Main/*"
     ]
   },
   "devDependencies": {

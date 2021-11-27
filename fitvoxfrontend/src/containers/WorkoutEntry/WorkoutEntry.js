@@ -50,23 +50,23 @@ class WorkoutEntry extends Component {
         return (
             <div>
                 <p><label>Weight</label>
-                    <input type="number" value={this.state.weight}
+                    <input id="weight-input" type="number" value={this.state.weight}
                            onChange={(event) => this.setState({weight: event.target.value})}/>
                 </p>
                 <p><label>Repetition</label>
-                    <input type="number" value={this.state.repetition}
+                    <input id="rep-input" type="number" value={this.state.repetition}
                            onChange={(event) => this.setState({repetition: event.target.value})}/></p>
                 <div>
                     <p><label>Break Time</label></p>
                     <p><label>Minute</label>
-                        <input type="number" value={this.state.minute}
+                        <input id="min-input" type="number" value={this.state.minute}
                                onChange={(event) => this.setState({minute: event.target.value})}/></p>
                     <p><label>Second</label>
-                        <input type="number" value={this.state.second}
+                        <input id="sec-input" type="number" value={this.state.second}
                                onChange={(event) => this.setState({second: event.target.value})}/></p>
                 </div>
 
-                <Button onClick={() => this.onConfirmAddSet(id)}>Add</Button>
+                <Button id="confirm-add-set-button" onClick={() => this.onConfirmAddSet(id)}>Add</Button>
 
             </div>
         )
@@ -80,11 +80,10 @@ class WorkoutEntry extends Component {
         let entry = null;
         let sets = [];
 
-        if (this.props.workoutEntries != null) {
-            entry = this.props.workoutEntries.find(element => element.id === this.props.id);
-            sets = entry.sets;
-            sets.sort((a, b) => a.id - b.id);
-        }
+        entry = this.props.workoutEntries.find(element => element.id === this.props.id);
+        sets = entry.sets;
+        sets.sort((a, b) => a.id - b.id);
+
 
         let setEntries = [];
         let set_number = 0;
@@ -95,21 +94,18 @@ class WorkoutEntry extends Component {
         }
 
         let exercise = null;
-        if (entry != null) {
-            exercise = this.props.exerciseList.find(element => element.id === entry.exercise_id)
-        }
+        exercise = this.props.exerciseList.find(element => element.id === entry.exercise_id)
+
 
         return (
-            <div>{entry === null ? "" :
-                (<div className="WorkoutEntry" style={{border: '1px solid orange'}}>
+                <div className="WorkoutEntry" style={{border: '1px solid orange'}}>
                 <h3>{exercise.name}</h3>
-                <Button onClick={() => this.onDeleteEntry(entry.id)}>Delete</Button>
-                <Button
+                <Button id="delete-workout-entry-button" onClick={() => this.onDeleteEntry(entry.id)}>Delete</Button>
+                <Button id="add-set-button"
                     onClick={() => this.onAddSet()}>{this.state.addSet ? "Cancel" : "Add Set"}</Button>
                 {this.state.addSet ? this.addSetInputs(entry.id) : ""}
                 <hr/>
                 {setEntries}
-            </div>)}
             </div>
         );
     }

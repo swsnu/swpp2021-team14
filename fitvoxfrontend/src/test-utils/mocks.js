@@ -1,8 +1,7 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
-import { connectRouter, routerMiddleware } from "connected-react-router";
-import { createBrowserHistory } from "history";
-import * as actionTypes from '../store/actions/actionTypes'
+import {connectRouter, routerMiddleware} from "connected-react-router";
+import {createBrowserHistory} from "history";
 
 
 const getLoginReducer = jest.fn(
@@ -12,7 +11,31 @@ const getLoginReducer = jest.fn(
                 return {...initialState.login}
         }
     }
-)
+);
+
+const getworkoutReducer = jest.fn(
+    initialstate => (state=initialstate, action)=>{
+        return {...initialstate.workout}
+    }
+);
+
+const getexerciseReducer = jest.fn(
+    initialstate=>(state=initialstate, action)=>{
+        return {...initialstate.exercise}
+    }
+);
+
+const getsettingReducer = jest.fn(
+    initialState => (state=initialState, action)=>{
+        return {...initialState.setting}
+    }
+);
+
+const getstatisticsReducer = jest.fn(
+    initialState => (state=initialState, action)=>{
+        return {...initialState.statistics}
+    }
+);
 
 
 const history = createBrowserHistory()
@@ -20,16 +43,22 @@ const middlewares = [thunk, routerMiddleware(history)]
 
 export const getMockStore = (initialState)=> {
 
-    const loginReducer = getLoginReducer(initialState)
+    const loginReducer = getLoginReducer(initialState);
+    const workoutReducer = getworkoutReducer(initialState);
+    const exerciseReducer = getexerciseReducer(initialState);
+    const settingReducer = getsettingReducer(initialState);
+    const statisticsReducer = getstatisticsReducer(initialState);
 
     const reducer = combineReducers({
         login: loginReducer,
+        workout: workoutReducer,
+        exercise: exerciseReducer,
+        setting: settingReducer,
+        statistics: statisticsReducer,
         router: connectRouter(history)
     })
 
-    const mockStore = createStore(reducer, applyMiddleware(...middlewares));
-    return mockStore
-
+    return createStore(reducer, applyMiddleware(...middlewares))
 }
 
 export const stubInitialState = {

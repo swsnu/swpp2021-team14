@@ -60,22 +60,22 @@ class SetEntry extends Component {
         return (
             <div>
                 <p><label>Weight</label>
-                    <input type="number" value={this.state.weight}
+                    <input id="weight-input" type="number" value={this.state.weight}
                            onChange={(event) => this.setState({weight: event.target.value})}/>
                 </p>
                 <p><label>Repetition</label>
-                    <input type="number" value={this.state.repetition}
+                    <input id="rep-input" type="number" value={this.state.repetition}
                            onChange={(event) => this.setState({repetition: event.target.value})}/></p>
                 <div>
                     <p><label>Break Time</label></p>
                     <p><label>Minute</label>
-                        <input type="number" value={this.state.minute}
+                        <input id="min-input" type="number" value={this.state.minute}
                                onChange={(event) => this.setState({minute: event.target.value})}/></p>
                     <p><label>Second</label>
-                        <input type="number" value={this.state.second}
+                        <input id="sec-input" type="number" value={this.state.second}
                                onChange={(event) => this.setState({second: event.target.value})}/></p>
                 </div>
-                <Button onClick={() => this.onConfirmEdit()}>Confirm Edit</Button>
+                <Button id="confirm-edit-button" onClick={() => this.onConfirmEdit()}>Confirm Edit</Button>
             </div>
         );
     }
@@ -83,21 +83,12 @@ class SetEntry extends Component {
     render() {
         return (
             <div className="SetEntry" style={{border: '1px solid orange'}}>
-                <p>
-                    <h3>Set {this.props.set_number}</h3>
-                    <Button onClick={()=>this.onDeleteSet()}>Delete</Button>
-                    <Button onClick={() => this.onEditMode()}>{this.state.editMode ? "Cancel" : "Edit"}</Button>
-                    {this.state.editMode ? this.editSetInfo() : this.setInfo()}
-                </p>
+                <h3>Set {this.props.set_number}</h3>
+                <Button id="Delete-set-button" onClick={()=>this.onDeleteSet()}>Delete</Button>
+                <Button id="Edit-mode-button" onClick={() => this.onEditMode()}>{this.state.editMode ? "Cancel" : "Edit"}</Button>
+                {this.state.editMode ? this.editSetInfo() : this.setInfo()}
             </div>
         );
-    }
-}
-
-const mapStateToProps = (state) => {
-    return {
-        workoutEntries: state.workout.workoutEntries,
-        exerciseList: state.exercise.exerciseList
     }
 }
 
@@ -108,4 +99,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SetEntry));
+export default connect(null, mapDispatchToProps)(withRouter(SetEntry));

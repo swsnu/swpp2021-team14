@@ -1,5 +1,5 @@
 import * as actionTypes from '../../actions/actionTypes'
-const initState = {workoutList: null, workoutEntries: null}
+const initState = {workoutList: null, workoutEntries: []}
 
 export default function workoutReducer(state=initState, action){
     switch (action.type){
