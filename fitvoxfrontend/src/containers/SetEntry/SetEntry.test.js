@@ -8,9 +8,9 @@ import {ConnectedRouter} from "connected-react-router";
 import {createBrowserHistory} from "history";
 import * as actionTypes from "../../store/actions/actionTypes"
 
-const stubInitialState = {}
+const stubInitialState = {};
 
-const store = getMockStore(stubInitialState)
+const store = getMockStore(stubInitialState);
 
 describe("Test <SetEntry />", ()=>{
     let history, setEntry;

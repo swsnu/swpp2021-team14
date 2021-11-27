@@ -11,26 +11,41 @@ const getLoginReducer = jest.fn(
                 return {...initialState.login}
         }
     }
-)
+);
 
 const getworkoutReducer = jest.fn(
     initialstate => (state=initialstate, action)=>{
         return {...initialstate.workout}
     }
-)
+);
 
+const getexerciseReducer = jest.fn(
+    initialstate=>(state=initialstate, action)=>{
+        return {...initialstate.exercise}
+    }
+);
+
+const getsettingReducer = jest.fn(
+    initialState => (state=initialState, action)=>{
+        return {...initialState.setting}
+    }
+);
 
 const history = createBrowserHistory()
 const middlewares = [thunk, routerMiddleware(history)]
 
 export const getMockStore = (initialState)=> {
 
-    const loginReducer = getLoginReducer(initialState)
-    const workoutReducer = getworkoutReducer(initialState)
+    const loginReducer = getLoginReducer(initialState);
+    const workoutReducer = getworkoutReducer(initialState);
+    const exerciseReducer = getexerciseReducer(initialState);
+    const settingReducer = getsettingReducer(initialState);
 
     const reducer = combineReducers({
         login: loginReducer,
         workout: workoutReducer,
+        exercise: exerciseReducer,
+        setting: settingReducer,
         router: connectRouter(history)
     })
 
