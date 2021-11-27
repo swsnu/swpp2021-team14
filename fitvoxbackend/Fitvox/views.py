@@ -395,9 +395,9 @@ def workout_set(request, id=-1):
             if WorkoutSet.objects.filter(id=id).exists():
                 set = WorkoutSet.objects.get(id=id)
                 req_data = json.loads(request.body.decode())
-                weight = req_data['weight']
-                repetition = req_data['repetition']
-                breaktime = req_data['breaktime']
+                weight = float(req_data['weight'])
+                repetition = int(req_data['repetition'])
+                breaktime = int(req_data['breaktime'])
 
                 set.weight = weight
                 set.repetition = repetition
