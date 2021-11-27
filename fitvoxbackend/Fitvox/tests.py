@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 import json
-from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry
+from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, WorkoutSet, OneRMInfo, VolumeInfo
 from django.contrib.auth.models import User
 
 class FitvoxTestCase(TestCase):
@@ -11,11 +11,13 @@ class FitvoxTestCase(TestCase):
         user3 = User.objects.create_user(username='username3', email='email3',password='password3')
         personalsetting1 = PersonalSetting.objects.create(id=1,hardness="1",breaktime='300',user=user1)
         personalsetting2 = PersonalSetting.objects.create(id=2,hardness="2",breaktime='180',user=user2)
-        defaultexercise = ExerciseDefault.objects.create(muscleType='samplemuscle3', exerciseType='sampleextype3',name='samplename3', hardness='3', tags={'tags':'press'},volume='{}')
         exerciseuser1 = ExercisePerUser.objects.create(user=user1, muscleType='samplemuscle1', exerciseType='sampleextype1',name='samplename', hardness='1', isFavorite=False)
         exerciseuser2 = ExercisePerUser.objects.create(user=user2, muscleType='samplemuscle2', exerciseType='sampleextype2',name='samplename2',hardness='2', isFavorite=False)
         workoutdetail1 = WorkoutDetail.objects.create(user=user1, date='20211127')
-        workoutdetail3 = WorkoutDetail.objects.create(user=user3, date='20211127')
+        workoutentry1 = WorkoutEntry.objects.create(workout=workoutdetail1, exercise=exerciseuser1)
+        workoutset1 = WorkoutSet.objects.create(workout=workoutentry1)
+        onerminfo1 = OneRMInfo.objects.create(exercise=exerciseuser1, set=workoutset1)
+        volumeinfo1 = VolumeInfo.objects.create(exercise=exerciseuser1, set=workoutset1)
 
     def test_notallowed(self):
         client = Client()
@@ -310,9 +312,16 @@ class FitvoxTestCase(TestCase):
                                 content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
-        response = client.delete('/api/workout_entry/1/', json.dumps({'id':'1'}),
+
+    def test_deleteworks2(self):
+        client = Client()
+        response = client.post('/api/signin/', json.dumps({'username':'username1', 'password':'password1'}),
+                                content_type='application/json')
+        
+        response = client.delete('/api/workout_entry/1/',
                                 content_type='application/json')
         self.assertEqual(response.status_code, 200)
+
 
 
     def test_isauth(self):
