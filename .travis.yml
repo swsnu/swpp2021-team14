@@ -1,22 +1,20 @@
 # CI environment
 os: linux
 
-language: generic
-
 dist: bionic
 
 jobs:
   include:
     - language: node_js
       node_js: 16
-      python: "3.8.10"
+      python: "3.7.9"
       addons:
         sonarcloud:
           organization: "swsnu"
           token:
             secure: "EWlg6Q/JldryCwVOtxsAo2wQ83BVFj1ML8+mVjixCK9f3sLGv5+yAxVqAg1cyvxnAg3iIFLrYSFmnzBxGZLy7hRdsKHADvIEjZTT51UCEIQSsbN7NuIC5p2BkGUfK5T7oA+Z4R3EavTEvPdrWQ7JToWSJOMoQ1yBpv12cR6WE6vZV18NtXtTiIowlDahgy56vKOlAcAVSZpvLqXMx0McGmYm6zyCfCgM9WhrUKXfM3qhjPNv9LZOxHGjDld+o3wkJd4aosFOjlFQaslQAJSVA/tRt0TMpK0kmUJgs/Ym5e6E44tBkitkXfxdbfgIL5zDP5qbVXpQBrtPnpiHJaJj43ijI9qLKaI+jmgVe1/v0RaV0CgZmd0PLa5NQ8kvzudIq4TedVrwju7hpYu68/mHmXYYwrLsMXSsKbkPUiZ43Twt8k/kxTohaW5kalazLwfORNMX4Jhjs1q4WZ2GFs/lveMS2ehgvwOLi5Y8/FBBvXBbhybJiS5D1VLDecXcKRzWZnIOmUgd1P6o8a4/IWlVS24iPsGrx369jhvF32TuQQE89UX1FdlBqlzQTzzJGQSRBNzQmEYazXD+3QrF4X06jk/HpcKurmTm3FHdYeHSNCE2T0vFD4Kgibq0pdqi43u+ryr+XGAvqjOVryG6xnEy5IRPD3erzzht6FUB42lx600="
       install:
-        - source django-env/bin/activate
+        - source ~/virtualenv/python3.7/bin/activate
         - cd fitvoxbackend
         - pip install -r requirements.txt
         - pip install coveralls
