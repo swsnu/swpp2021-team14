@@ -48,11 +48,11 @@ class ExerciseDetail extends Component {
     componentDidMount() {
         let exid = parseInt(this.props.match.params.exercise_id);
         this.setState({exercise_id: exid})
-        console.log(this.props.exerciseList)
+        // console.log(this.props.exerciseList)
         let exercise = this.props.exerciseList.filter((exercise) => {
             return exercise['id'] === exid
         })[0] 
-        console.log(exercise)
+        // console.log(exercise)
         this.setState({exercise: exercise})
         this.setState({exercisename: exercise['name']})
         this.setState({tags: exercise['tags']['tags']})

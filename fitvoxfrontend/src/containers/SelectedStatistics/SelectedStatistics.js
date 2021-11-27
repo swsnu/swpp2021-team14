@@ -94,7 +94,7 @@ class SelectedStatistics extends Component {
     }
 
     componentDidMount() {
-        console.log( this.props.match.params.query)
+        // console.log( this.props.match.params.query)
         let querySet = this.props.match.params.query.split("=");
         for (let i = 0; i < querySet.length; i++){
             if (i >= 2) querySet[i] = "#" + querySet[i]
@@ -106,11 +106,11 @@ class SelectedStatistics extends Component {
         }
         this.setState({header: temp.slice(0, -3)})
 
-        console.log(querySet.slice(2))
+        // console.log(querySet.slice(2))
 
         // part for get numbers of exercise
         let filtered = this.props.exerciseList.filter((exercise) => this.filterFunction(exercise, querySet)); 
-        console.log(filtered)
+        // console.log(filtered)
         this.setState({num_exercise: filtered.length, target_exercise: filtered})
 
         //part for setting random colors
@@ -160,7 +160,7 @@ class SelectedStatistics extends Component {
     }
 
     render() {
-        console.log(this.state)
+        //console.log(this.state)
         let colorList = null;
         let datasets = null;
         let labels = null;

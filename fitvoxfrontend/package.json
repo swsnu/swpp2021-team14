@@ -72,7 +72,7 @@
       "!src/store/actions/index.js",
       "!src/store/reducers/index.js",
       "!src/test-utils/mocks.js",
-      "!src/containers/Main/*"
+      "!src/containers/CreateAccount/CreateAccount.js"
     ]
   },
   "devDependencies": {
