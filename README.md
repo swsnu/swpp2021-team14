@@ -112,7 +112,7 @@ python manage.py runserver # Run Django Backend Server
 
 * You can change personal settings for exercise hardness and default break time in setting page, search exercises through exericse_list page, and add new exercise in add page
 
-* You can use Menu button on the right top of the page to move to the proper page.
+* You can use Menu button on the left top of the page to move to the proper page.
 
 * You can check favorite exercises in exercise list page, but this feature has minor errors and will improved in Sprint5.
 
