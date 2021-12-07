@@ -6,6 +6,7 @@ import {Button, Box} from "@mui/material";
 import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
+import ReactAudioPlayer from "react-audio-player";
 
 class WorkoutDetail extends Component {
 
@@ -31,7 +32,8 @@ class WorkoutDetail extends Component {
             addBodyInfo: false,
             bodyWeight,
             bodyFat,
-            skeletalMuscle
+            skeletalMuscle,
+            currWav: -1
         };
     }
 
@@ -106,6 +108,36 @@ class WorkoutDetail extends Component {
         )
     }
 
+    onStartVoicePartner = ()=>{
+        // Confirming the condition for starting the voice partner
+        let existVoicePartner = false;
+        for(let entry of this.props.workoutEntries){
+            if(entry['isVoicePartner']&&entry['sets'].length!==0){
+                existVoicePartner = true;
+                break;
+            }
+        }
+
+        if(!existVoicePartner){
+            alert("Should check at least one exercise with more than one sets");
+            return;
+        }
+
+        this.props.onStartVoicePartner(this.props.match.params.date);
+    }
+
+    onVoicePartner=()=>{
+
+        if(this.state.currWav===-1){
+            this.setState({currWav:0});
+            return;
+        }
+
+        return(
+            <ReactAudioPlayer>Audio Player</ReactAudioPlayer>
+        )
+    }
+
     render() {
 
         let workoutEntries = []
@@ -113,7 +145,7 @@ class WorkoutDetail extends Component {
         this.props.workoutEntries.sort(this.compareEntry)
 
         for (let entry of this.props.workoutEntries) {
-            workoutEntries.push(<WorkoutEntry id={entry['id']}/>)
+            workoutEntries.push(<WorkoutEntry id={entry['id']} isVoicePartner={entry['isVoicePartner']}/>);
         }
 
         const date = this.props.match.params.date;
@@ -130,7 +162,8 @@ class WorkoutDetail extends Component {
                 <Box sx = {{width: "60%"}}>
                     <div className="WorkoutDetail" align="center">
                             <h1>Workout of {year + ". " + month + ". " + day}</h1>
-                    <Button>Start Voice Partner</Button>
+                    <Button onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>
+                        {this.props.voicePartner.length>0?this.onVoicePartner():""}
                     <Button id="edit-body-info-button"
                         onClick={() => this.onAddBodyInfo()}>{this.state.addBodyInfo ? "Cancel" : "Edit Body Info for the Day"}</Button>
                     {this.state.addBodyInfo ? this.bodyInfoInput() : this.showBodyInfo()}
@@ -148,14 +181,16 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onGetWorkout: (data) => dispatch(actionCreators.getWorkout(data)),
         onAddBodyInfo: (data) =>dispatch(actionCreators.addBodyInfo(data)),
-        onGetBodyInfo: ()=> dispatch(actionCreators.getBodyInfo())
+        onGetBodyInfo: ()=> dispatch(actionCreators.getBodyInfo()),
+        onStartVoicePartner: (date) => dispatch(actionCreators.startVoicePartner(date))
     }
 }
 
 const mapStateToProps = (state) => {
     return {
         workoutEntries: state.workout.workoutEntries,
-        bodyInfo: state.statistics.bodyInfo
+        bodyInfo: state.statistics.bodyInfo,
+        voicePartner: state.workout.voicePartner
     }
 }
 

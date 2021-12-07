@@ -3,13 +3,14 @@ from django.http import HttpResponse
 from .models import WorkoutEntry, WorkoutSet, WorkoutDetail, ExercisePerUser, User, PersonalSetting, OneRMInfo, VolumeInfo
 from functools import wraps
 
+
 def make_response(workout_detail):
     response = []
     for entry in workout_detail.entry.all():
         sets = []
         for set in entry.sets.all():
             sets.append({'id': set.id, 'repetition': set.repetition, 'weight': set.weight, 'breaktime': set.breaktime})
-        response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'sets': sets})
+        response.append({'id': entry.id, 'exercise_id': entry.exercise.id, 'isVoicePartner': entry.voice_partner, 'sets': sets})
     return response
 
 

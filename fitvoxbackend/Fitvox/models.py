@@ -23,7 +23,7 @@ class ExercisePerUser(models.Model):
     name = models.CharField(max_length=64)
     hardness = models.TextField()
     tags = models.JSONField(default=dict, null=True)
-    isFavorite = models.BooleanField()
+    isFavorite = models.BooleanField(default=False)
 
 
 class WorkoutDetail(models.Model):
@@ -37,6 +37,7 @@ class WorkoutDetail(models.Model):
 class WorkoutEntry(models.Model):
     workout = models.ForeignKey(WorkoutDetail, on_delete=models.CASCADE, related_name='entry')
     exercise = models.ForeignKey(ExercisePerUser, on_delete=models.CASCADE)
+    voice_partner = models.BooleanField(default=False)
 
 
 class WorkoutSet(models.Model):

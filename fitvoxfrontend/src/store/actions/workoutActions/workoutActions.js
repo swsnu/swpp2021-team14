@@ -74,3 +74,29 @@ export const deleteSet = (id) => {
         })
     }
 }
+
+export const checkVoicePartner = (id) =>{
+    return dispatch=>{
+        const url = '/api/voice_partner/' + id + '/';
+        axios.put(url).then(res=>{
+            dispatch(getWorkout_(res.data))
+        })
+    }
+}
+
+export const startVoicePartner_ = (data)=>{
+    console.log(data)
+    return {
+        type:actionTypes.START_VOICE_PARTNER,
+        data
+    };
+}
+
+export const startVoicePartner = (date) =>{
+    return dispatch=>{
+        const url = '/api/voice_partner/' + date + '/';
+        axios.get(url).then(res=>{
+            dispatch(startVoicePartner_(res.data))
+        })
+    };
+}
