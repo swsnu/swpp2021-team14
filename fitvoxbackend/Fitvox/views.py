@@ -10,6 +10,8 @@ from .utils import make_response, get_1rm, update_volume, update_one_rm, return_
     check_logged_in, body_info_response
 import json
 
+# For Voice Partner
+from .voice_partner import VoicePartner
 
 @ensure_csrf_cookie
 def signup(request):
@@ -451,9 +453,24 @@ def voice_partner(request, id):
     if request.method == 'GET':
         date = id
         if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
-            workout = WorkoutDetail.objects.get(user=request.user, date=date)
-            response = make_response(workout)
-            return JsonResponse(response, safe=False, status=200)
+            workout_detail = WorkoutDetail.objects.get(user=request.user, date=date)
+
+            voice_partner_entry_list=[]
+            for entry in workout_detail.entry.all():
+                if entry.voice_partner is False:
+                    continue
+                entry_dict = {'name': entry.exercise.name, 'sets': []}
+                for (idx, set) in enumerate(entry.sets.all()):
+                    entry_dict['sets'].append({'set_num': idx+1, 'repetition': set.repetition, 'breaktime': set.breaktime})
+
+                voice_partner_entry_list.append(entry_dict)
+
+            url_list = []
+            if len(voice_partner_entry_list)!=0:
+                partner = VoicePartner.get_instance()
+                url_list = partner.make_wavs(voice_partner_entry_list)
+
+            return JsonResponse(url_list, safe=False, status=200)
         else:
             return HttpResponse(status=404)
     elif request.method == 'PUT':
