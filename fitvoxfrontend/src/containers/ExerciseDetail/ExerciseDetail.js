@@ -25,8 +25,8 @@ class ExerciseDetail extends Component {
             data: []
         },
         volume: {
-            labels: ['sun', 'mon', 'tue', 'wed', 'thur', 'fri', 'sat'],
-            data: [71, 68, 63, 78, 60, 46, 61],
+            labels: [],
+            data: [],
         },
         chart_type: "one_rm",
     }

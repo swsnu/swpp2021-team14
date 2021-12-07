@@ -148,7 +148,8 @@ def exercise_list(request):
                         'hardness': entry.hardness,
                         'tags': entry.tags,
                         'oneRms': oneRMs,
-                        'volumes': volumes
+                        'volumes': volumes,
+                        'isFavorite': entry.isFavorite
                     }
                     response.append(entry_in_dict)
                 return JsonResponse(response, safe=False, status=200)
