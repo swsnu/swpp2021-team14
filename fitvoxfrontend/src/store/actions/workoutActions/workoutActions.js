@@ -84,11 +84,19 @@ export const checkVoicePartner = (id) =>{
     }
 }
 
+export const startVoicePartner_ = (data)=>{
+    console.log(data)
+    return {
+        type:actionTypes.START_VOICE_PARTNER,
+        data
+    };
+}
+
 export const startVoicePartner = (date) =>{
     return dispatch=>{
         const url = '/api/voice_partner/' + date + '/';
         axios.get(url).then(res=>{
-            dispatch(getWorkout_(res.data))
+            dispatch(startVoicePartner_(res.data))
         })
-    }
+    };
 }

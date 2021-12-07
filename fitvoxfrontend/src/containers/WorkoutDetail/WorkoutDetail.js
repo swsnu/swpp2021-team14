@@ -6,6 +6,7 @@ import {Button, Box} from "@mui/material";
 import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
+import ReactAudioPlayer from "react-audio-player";
 
 class WorkoutDetail extends Component {
 
@@ -31,7 +32,8 @@ class WorkoutDetail extends Component {
             addBodyInfo: false,
             bodyWeight,
             bodyFat,
-            skeletalMuscle
+            skeletalMuscle,
+            currWav: -1
         };
     }
 
@@ -124,6 +126,18 @@ class WorkoutDetail extends Component {
         this.props.onStartVoicePartner(this.props.match.params.date);
     }
 
+    onVoicePartner=()=>{
+
+        if(this.state.currWav===-1){
+            this.setState({currWav:0});
+            return;
+        }
+
+        return(
+            <ReactAudioPlayer>Audio Player</ReactAudioPlayer>
+        )
+    }
+
     render() {
 
         let workoutEntries = []
@@ -131,7 +145,6 @@ class WorkoutDetail extends Component {
         this.props.workoutEntries.sort(this.compareEntry)
 
         for (let entry of this.props.workoutEntries) {
-            console.log(entry['isVoicePartner']);
             workoutEntries.push(<WorkoutEntry id={entry['id']} isVoicePartner={entry['isVoicePartner']}/>);
         }
 
@@ -150,6 +163,7 @@ class WorkoutDetail extends Component {
                     <div className="WorkoutDetail" align="center">
                             <h1>Workout of {year + ". " + month + ". " + day}</h1>
                     <Button onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>
+                        {this.props.voicePartner.length>0?this.onVoicePartner():""}
                     <Button id="edit-body-info-button"
                         onClick={() => this.onAddBodyInfo()}>{this.state.addBodyInfo ? "Cancel" : "Edit Body Info for the Day"}</Button>
                     {this.state.addBodyInfo ? this.bodyInfoInput() : this.showBodyInfo()}
@@ -175,7 +189,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return {
         workoutEntries: state.workout.workoutEntries,
-        bodyInfo: state.statistics.bodyInfo
+        bodyInfo: state.statistics.bodyInfo,
+        voicePartner: state.workout.voicePartner
     }
 }
 

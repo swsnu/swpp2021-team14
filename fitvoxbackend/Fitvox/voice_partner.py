@@ -7,7 +7,7 @@ class VoicePartner:
 
     # Use Singleton to prevent repetitive loading of pretrained weights
     __instance = None
-    savepath = "/data/VoicePartner"
+    savepath = "/home/jaeyeonkim99/swpp2021-team14/fitvoxfrontend/public/data"
 
     @classmethod
     def get_instance(cls):
@@ -93,7 +93,7 @@ class VoicePartner:
                 curr_breaktime = breaktime_list[int((idx-1)/2)]
             else:
                 curr_breaktime = -1
-            url_dict = {'id': idx, 'url': url, 'breaktime': curr_breaktime}
+            url_dict = {'id': idx, 'url': f'data/{idx}.wav', 'breaktime': curr_breaktime}
             url_list.append(url_dict)
 
         return url_list
