@@ -74,3 +74,12 @@ export const deleteSet = (id) => {
         })
     }
 }
+
+export const checkVoicePartner = (id) =>{
+    return dispatch=>{
+        const url = '/api/voice_partner/' + id + '/';
+        axios.put(url).then(res=>{
+            dispatch(getWorkout_(res.data))
+        })
+    }
+}

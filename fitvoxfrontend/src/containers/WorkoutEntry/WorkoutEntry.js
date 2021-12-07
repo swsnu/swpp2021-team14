@@ -14,7 +14,8 @@ class WorkoutEntry extends Component {
         weight: "",
         repetition: "",
         minute: this.props.minute,
-        second: this.props.second
+        second: this.props.second,
+        isVoicePartner: this.props.isVoicePartner
     }
 
     onConfirmAddSet = (id) => {
@@ -39,7 +40,8 @@ class WorkoutEntry extends Component {
                 weight: "",
                 repetition: "",
                 minute: this.props.minute,
-                second: this.props.second
+                second: this.props.second,
+                isVoicePartner: this.state.isVoicePartner
             })
         } else {
             this.setState({addSet: true})
@@ -73,7 +75,13 @@ class WorkoutEntry extends Component {
     }
 
     onDeleteEntry = (id) => {
-        this.props.onDeleteWorkout(id)
+        this.props.onDeleteWorkout(id);
+    }
+
+    onCheckVoicePartner = (id)=>{
+        const changed = !this.state.isVoicePartner;
+        this.setState({isVoicePartner: changed});
+        this.props.onCheckVoicePartner(id);
     }
 
     render() {
@@ -83,7 +91,6 @@ class WorkoutEntry extends Component {
         entry = this.props.workoutEntries.find(element => element.id === this.props.id);
         sets = entry.sets;
         sets.sort((a, b) => a.id - b.id);
-
 
         let setEntries = [];
         let set_number = 0;
@@ -96,11 +103,11 @@ class WorkoutEntry extends Component {
         let exercise = null;
         exercise = this.props.exerciseList.find(element => element.id === entry.exercise_id)
 
-
         return (
                 <div className="WorkoutEntry" style={{border: '1px solid orange'}}>
                 <h3>{exercise.name}</h3>
                 <Button id="delete-workout-entry-button" onClick={() => this.onDeleteEntry(entry.id)}>Delete</Button>
+                    <label>Include in Voice Partner</label><input type="checkbox" checked={this.state.isVoicePartner} onChange={()=>this.onCheckVoicePartner(entry.id)}/>
                 <Button id="add-set-button"
                     onClick={() => this.onAddSet()}>{this.state.addSet ? "Cancel" : "Add Set"}</Button>
                 {this.state.addSet ? this.addSetInputs(entry.id) : ""}
@@ -123,7 +130,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onConfirmAddSet: (data) => dispatch(actionCreators.addSet(data)),
-        onDeleteWorkout: (id) => dispatch(actionCreators.deleteWorkout(id))
+        onDeleteWorkout: (id) => dispatch(actionCreators.deleteWorkout(id)),
+        onCheckVoicePartner: (id) => dispatch(actionCreators.checkVoicePartner(id))
     }
 }
 

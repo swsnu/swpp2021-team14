@@ -443,3 +443,24 @@ def body_info(request):
         return JsonResponse(response, safe=False, status=200)
     else:
         return HttpResponseNotAllowed(['GET'])
+
+
+@ensure_csrf_cookie
+@check_logged_in
+def voice_partner(request, id):
+    if request.method == 'GET':
+        return
+    elif request.method == 'PUT':
+        if WorkoutEntry.objects.filter(id=id).exists():
+            entry = WorkoutEntry.objects.get(id=id)
+            changed = not entry.voice_partner
+            entry.voice_partner = changed
+            entry.save()
+
+            workout_detail = entry.workout
+            response = make_response(workout_detail)
+            return JsonResponse(response, safe=False, status=200)
+        else:
+            return HttpResponse(status=404)
+    else:
+        return HttpResponseNotAllowed(['GET', 'PUT'])

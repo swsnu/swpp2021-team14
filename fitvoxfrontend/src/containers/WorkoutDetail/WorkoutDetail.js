@@ -113,7 +113,8 @@ class WorkoutDetail extends Component {
         this.props.workoutEntries.sort(this.compareEntry)
 
         for (let entry of this.props.workoutEntries) {
-            workoutEntries.push(<WorkoutEntry id={entry['id']}/>)
+            console.log(entry['isVoicePartner']);
+            workoutEntries.push(<WorkoutEntry id={entry['id']} isVoicePartner={entry['isVoicePartner']}/>);
         }
 
         const date = this.props.match.params.date;
