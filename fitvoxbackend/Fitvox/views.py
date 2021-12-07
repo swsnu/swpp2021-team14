@@ -449,7 +449,13 @@ def body_info(request):
 @check_logged_in
 def voice_partner(request, id):
     if request.method == 'GET':
-        return
+        date = id
+        if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
+            workout = WorkoutDetail.objects.get(user=request.user, date=date)
+            response = make_response(workout)
+            return JsonResponse(response, safe=False, status=200)
+        else:
+            return HttpResponse(status=404)
     elif request.method == 'PUT':
         if WorkoutEntry.objects.filter(id=id).exists():
             entry = WorkoutEntry.objects.get(id=id)

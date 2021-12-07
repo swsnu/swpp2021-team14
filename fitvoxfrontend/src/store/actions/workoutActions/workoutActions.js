@@ -83,3 +83,12 @@ export const checkVoicePartner = (id) =>{
         })
     }
 }
+
+export const startVoicePartner = (date) =>{
+    return dispatch=>{
+        const url = '/api/voice_partner/' + date + '/';
+        axios.get(url).then(res=>{
+            dispatch(getWorkout_(res.data))
+        })
+    }
+}
