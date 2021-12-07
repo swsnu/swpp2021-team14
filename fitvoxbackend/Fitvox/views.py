@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, \
-    JsonResponse
+    JsonResponse, FileResponse
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth import authenticate, login, logout
@@ -487,3 +487,25 @@ def voice_partner(request, id):
             return HttpResponse(status=404)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
+
+
+@ensure_csrf_cookie
+@check_logged_in
+def wav_file(request, id):
+    if request.method == 'GET':
+        filepath = f'/data/VoicePartner/{id}.wav'
+        with open(filepath, 'rb') as fp:
+            data = fp.read()
+
+        response = HttpResponse(content_type="audio/wav")
+        response['Content-Disposition'] = 'attachment; filename=voice_partner.wav'
+        response.write(data)
+        return response
+
+        '''
+        wav = open(filepath, 'rb')
+        response = FileResponse(wav)
+        return response
+        '''
+    else:
+        return HttpResponseNotAllowed(['GET'])

@@ -3,11 +3,13 @@ from scipy.io.wavfile import write
 import numpy as np
 from datetime import datetime
 
+
 class VoicePartner:
 
     # Use Singleton to prevent repetitive loading of pretrained weights
     __instance = None
-    savepath = "/home/jaeyeonkim99/swpp2021-team14/fitvoxfrontend/public/data"
+    savepath = "/data/VoicePartner"
+    django_url = "/api/wav_file"
 
     @classmethod
     def get_instance(cls):
@@ -93,7 +95,7 @@ class VoicePartner:
                 curr_breaktime = breaktime_list[int((idx-1)/2)]
             else:
                 curr_breaktime = -1
-            url_dict = {'id': idx, 'url': f'data/{idx}.wav', 'breaktime': curr_breaktime}
+            url_dict = {'id': idx, 'url': f'{self.django_url}/{idx}/', 'breaktime': curr_breaktime}
             url_list.append(url_dict)
 
         return url_list
