@@ -105,7 +105,7 @@ def psetting(request, user_id=0):
                     body = request.body.decode()
                     sethardness = json.loads(body)['hardness']
                     setbreak = json.loads(body)['breaktime']
-
+                    #print(setbreak)
                     psettingdata.hardness = sethardness
                     psettingdata.breaktime = setbreak
                     psettingdata.save()
