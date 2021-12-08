@@ -33,10 +33,10 @@ class App extends Component {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <BrowserRouter>
             <div className="App">
-              <Switch>
                 {this.props.authenticated ? (
                     <>
-                      <Route path="/main" exact component={Main} />
+                      <Switch>
+                      <Route path="/main" exact={true} component={Main} />
                       <Route path="/setting" exact component={PersonalSetting} />
                       <Route path="/user-info" exact component={UserInfo}/>
                       <Route path="/exercise_list" exact component={ExerciseList} />
@@ -48,16 +48,18 @@ class App extends Component {
                       <Route path="/exercise_list/stats/:query" exact component = {SelectedStatistics} />
                       <Redirect exact from="/login" to="/main" />
                       <Redirect exact from="/" to="/main" />
+                      </Switch>
                     </>
                 ) : (
                     <>
+                    <Switch>
                       <Route path="/login" exact render={() => <Login />} />
                       <Route path="/create_account" exact component={CreateAccount} />
                       <Redirect exact from="/" to="/login" />
                       <Route render={() => <Redirect to={{ pathname: '/login' }} />} />
+                      </Switch>
                     </>
                 )}
-              </Switch>
             </div>
           </BrowserRouter>
         </LocalizationProvider>

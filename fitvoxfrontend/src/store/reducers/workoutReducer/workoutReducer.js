@@ -10,9 +10,9 @@ export default function workoutReducer(state=initState, action){
         case actionTypes.START_VOICE_PARTNER:{
             return {...state, voicePartner: action.data};
         }
-        case actionTypes.GET_WAV:{
-            return {...state, wav: action.data}
-        }  
+        case actionTypes.END_VOICE_PARTNER:{
+            return {...state, voicePartner: []}
+        }
         case actionTypes.GET_WORKOUT_SUMMARY:{
             return {...state, workoutList: action.data}
         }

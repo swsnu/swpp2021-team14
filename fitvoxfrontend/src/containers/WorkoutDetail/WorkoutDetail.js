@@ -7,8 +7,9 @@ import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
 import AudioPlayer from "react-h5-audio-player"
-import ReactAudioPlayer from "react-audio-player"
 import 'react-h5-audio-player/lib/styles.css'
+import * as actionTypes from '../../store/actions/actionTypes'
+
 
 
 class WorkoutDetail extends Component {
@@ -36,13 +37,14 @@ class WorkoutDetail extends Component {
             bodyWeight,
             bodyFat,
             skeletalMuscle,
-            currWav: 0
+            currWav: -1
         };
     }
 
     componentDidMount() {
         this.props.onGetWorkout(this.props.match.params.date);
         this.props.onGetBodyInfo();
+        this.props.onEndVoicePartner()
     }
 
     onAddWorkout = () => {
@@ -131,29 +133,52 @@ class WorkoutDetail extends Component {
     }
 
     onVoicePartner=()=>{
-        /*
+
         if(this.state.currWav===-1){
             this.setState({currWav:0});
             return;
         }
-        */
-        //let blob = new Blob(this.props.voicePartner[this.state.currWav].url)
-        //let sound = new Audio(this.props.voicePartner[this.state.currWav].url)
-       // sound.play()
 
-        //let blob = new Blob([this.props.wav], {type: "audio/wav"})
-        //let url = URL.createObjectURL(blob);
-
+        const voicePartner_entry = this.props.voicePartner[this.state.currWav]
         return (
-            <AudioPlayer/> //onPlay={e=>console.log("onplay")}/>
-            //<a href={this.props.voicePartner[this.state.currWav].url} download>Click</a>
-            //<ReactAudioPlayer src={this.props.voicePartner[this.state.currWav].url} type="audio/wav"/>
+            <div>
+            <AudioPlayer
+                header={(<h2>{voicePartner_entry.message}</h2>)}
+                src={voicePartner_entry.url}
+                autoPlay={true}
+                showJumpControls={false}
+                showSkipControls={true}
+                onEnded={()=>this.onEndVoice()}
+                onClickPrevious={e=>this.onPrevVoice()}
+                onClickNext={(event)=>this.onNextVoice()}
+            />
+             <Button onClick={()=>this.onEndVoicePartner()}>End Voice Partner</Button>
+            </div>
         )
     }
 
-    render() {
+    onEndVoicePartner = () =>{
+        this.setState({currWav: -1});
+        this.props.onEndVoicePartner();
+    }
 
-        //this.props.onGetWav('/api/wav_file/0/')
+    onEndVoice = ()=>{
+        if(this.state.currWav===this.props.voicePartner.length-1) return;
+        this.setState({currWav: this.state.currWav+1})
+    }
+
+    onNextVoice = () =>{
+        console.log("Next Clicked!")
+        if(this.state.currWav===this.props.voicePartner.length-1) return;
+        this.setState({currWav: this.state.currWav+1})
+    }
+
+    onPrevVoice = ()=>{
+        if(this.state.currWav===0) return;
+        this.setState({currWav: this.state.currWav-1})
+    }
+
+    render() {
 
         let workoutEntries = []
 
@@ -177,7 +202,7 @@ class WorkoutDetail extends Component {
                 <Box sx = {{width: "60%"}}>
                     <div className="WorkoutDetail" align="center">
                             <h1>Workout of {year + ". " + month + ". " + day}</h1>
-                    <Button onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>
+                        {this.props.voicePartner.length===0?(<Button onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>):""}
                         {this.props.voicePartner.length>0?this.onVoicePartner():""}
                     <Button id="edit-body-info-button"
                         onClick={() => this.onAddBodyInfo()}>{this.state.addBodyInfo ? "Cancel" : "Edit Body Info for the Day"}</Button>
@@ -198,7 +223,7 @@ const mapDispatchToProps = (dispatch) => {
         onAddBodyInfo: (data) =>dispatch(actionCreators.addBodyInfo(data)),
         onGetBodyInfo: ()=> dispatch(actionCreators.getBodyInfo()),
         onStartVoicePartner: (date) => dispatch(actionCreators.startVoicePartner(date)),
-        onGetWav: (url) => dispatch(actionCreators.getWav(url))
+        onEndVoicePartner: ()=>dispatch({type: actionTypes.END_VOICE_PARTNER})
     }
 }
 
@@ -207,7 +232,6 @@ const mapStateToProps = (state) => {
         workoutEntries: state.workout.workoutEntries,
         bodyInfo: state.statistics.bodyInfo,
         voicePartner: state.workout.voicePartner,
-        wav: state.workout.wav
     }
 }
 
