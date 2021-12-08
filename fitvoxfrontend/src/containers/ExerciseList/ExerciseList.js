@@ -82,6 +82,9 @@ class ExerciseList extends Component {
     }
 
     onShowFavorite = () => {
+        if (this.state.show_favorite === false) {
+            this.props.onGetExerciseList()
+        }
         this.setState({show_favorite: !this.state.show_favorite})
     }
 
@@ -138,7 +141,6 @@ class ExerciseList extends Component {
                 <hr/>
             </div>
         )
-
     }
 
     render() {
@@ -149,8 +151,9 @@ class ExerciseList extends Component {
             if (this.props.exerciseList != null) {
                 exerciseEntries = []
                 for (let exercise of this.props.exerciseList) {
-                    if (exercise['hardness'].indexOf(this.props.hardness) !== -1
-                        && exercise['isFavorite']) {
+                    
+                    if ((exercise['hardness'].indexOf(this.props.hardness) !== -1)
+                        && (exercise['isFavorite'] === true)) {
                         const name = exercise['name']
                         exerciseEntries.push(<ExerciseEntry name={name}
                                                             onClick={() => this.onExerciseEntryClick(exercise['id'])}
@@ -329,7 +332,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFavoriteCheck: (data) => dispatch(actionCreators.checkFavorite(data))
+        onFavoriteCheck: (data) => dispatch(actionCreators.checkFavorite(data)),
+        onGetExerciseList: () => dispatch(actionCreators.getExerciseList())
     }
 }
 
