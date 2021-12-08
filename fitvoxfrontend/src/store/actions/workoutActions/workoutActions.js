@@ -85,7 +85,6 @@ export const checkVoicePartner = (id) =>{
 }
 
 export const startVoicePartner_ = (data)=>{
-    console.log(data)
     return {
         type:actionTypes.START_VOICE_PARTNER,
         data
@@ -113,5 +112,16 @@ export const getWav_ = (res)=>{
 export const getWav = (url) =>{
     return dispatch=>{
         axios.get(url, {responseType: 'arraybuffer', headers: {'Content-Type': 'audio/wav'}}).then(res=>dispatch(getWav_(res)))
+      
+export const getWorkoutSummary_ = (data) =>{
+    return {
+        type: actionTypes.GET_WORKOUT_SUMMARY,
+        data
+    };
+}
+
+export const getWorkoutSummary = (data)=>{
+    return dispatch=> {
+        axios.put('/api/workout_summary/', data).then(res=>dispatch(getWorkoutSummary_(res.data)))
     }
 }

@@ -19,8 +19,8 @@ class Login extends Component {
 
   render() {
     return (
-      <Box className="Login" display="flex" justifyContent="center" alignItems="center" gap={2}>
-        <Paper>
+      <Box p = {6} className="Login" display="flex" justifyContent="center" alignItems="center" gap={2}>
+        <Paper elevation = {15}>
           <Box component="form" p={6} display="flex" flexDirection="column" gap={4}>
             <Box textAlign="left">
               <Typography variant="h4">FitVox</Typography>
