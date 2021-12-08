@@ -6,7 +6,10 @@ import {Button, Box} from "@mui/material";
 import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
-import ReactAudioPlayer from "react-audio-player";
+import AudioPlayer from "react-h5-audio-player"
+import ReactAudioPlayer from "react-audio-player"
+import 'react-h5-audio-player/lib/styles.css'
+
 
 class WorkoutDetail extends Component {
 
@@ -33,7 +36,7 @@ class WorkoutDetail extends Component {
             bodyWeight,
             bodyFat,
             skeletalMuscle,
-            currWav: -1
+            currWav: 0
         };
     }
 
@@ -124,21 +127,33 @@ class WorkoutDetail extends Component {
         }
 
         this.props.onStartVoicePartner(this.props.match.params.date);
+
     }
 
     onVoicePartner=()=>{
-
+        /*
         if(this.state.currWav===-1){
             this.setState({currWav:0});
             return;
         }
+        */
+        //let blob = new Blob(this.props.voicePartner[this.state.currWav].url)
+        //let sound = new Audio(this.props.voicePartner[this.state.currWav].url)
+       // sound.play()
 
-        return(
-            <ReactAudioPlayer>Audio Player</ReactAudioPlayer>
+        //let blob = new Blob([this.props.wav], {type: "audio/wav"})
+        //let url = URL.createObjectURL(blob);
+
+        return (
+            <AudioPlayer/> //onPlay={e=>console.log("onplay")}/>
+            //<a href={this.props.voicePartner[this.state.currWav].url} download>Click</a>
+            //<ReactAudioPlayer src={this.props.voicePartner[this.state.currWav].url} type="audio/wav"/>
         )
     }
 
     render() {
+
+        //this.props.onGetWav('/api/wav_file/0/')
 
         let workoutEntries = []
 
@@ -182,7 +197,8 @@ const mapDispatchToProps = (dispatch) => {
         onGetWorkout: (data) => dispatch(actionCreators.getWorkout(data)),
         onAddBodyInfo: (data) =>dispatch(actionCreators.addBodyInfo(data)),
         onGetBodyInfo: ()=> dispatch(actionCreators.getBodyInfo()),
-        onStartVoicePartner: (date) => dispatch(actionCreators.startVoicePartner(date))
+        onStartVoicePartner: (date) => dispatch(actionCreators.startVoicePartner(date)),
+        onGetWav: (url) => dispatch(actionCreators.getWav(url))
     }
 }
 
@@ -190,7 +206,8 @@ const mapStateToProps = (state) => {
     return {
         workoutEntries: state.workout.workoutEntries,
         bodyInfo: state.statistics.bodyInfo,
-        voicePartner: state.workout.voicePartner
+        voicePartner: state.workout.voicePartner,
+        wav: state.workout.wav
     }
 }
 
