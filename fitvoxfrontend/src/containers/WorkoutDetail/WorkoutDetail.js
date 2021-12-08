@@ -7,9 +7,9 @@ import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
 import AudioPlayer from "react-h5-audio-player"
-import ReactAudioPlayer from "react-audio-player"
 import 'react-h5-audio-player/lib/styles.css'
-import ReactPlayer from "react-player";
+import * as actionTypes from '../../store/actions/actionTypes'
+
 
 
 class WorkoutDetail extends Component {
@@ -44,6 +44,7 @@ class WorkoutDetail extends Component {
     componentDidMount() {
         this.props.onGetWorkout(this.props.match.params.date);
         this.props.onGetBodyInfo();
+        this.props.onEndVoicePartner()
     }
 
     onAddWorkout = () => {
@@ -138,10 +139,12 @@ class WorkoutDetail extends Component {
             return;
         }
 
+        const voicePartner_entry = this.props.voicePartner[this.state.currWav]
         return (
+            <div>
             <AudioPlayer
-                header={(<h1>Header</h1>)}
-                src={this.props.voicePartner[this.state.currWav].url}
+                header={(<h2>{voicePartner_entry.message}</h2>)}
+                src={voicePartner_entry.url}
                 autoPlay={true}
                 showJumpControls={false}
                 showSkipControls={true}
@@ -149,7 +152,14 @@ class WorkoutDetail extends Component {
                 onClickPrevious={e=>this.onPrevVoice()}
                 onClickNext={(event)=>this.onNextVoice()}
             />
+             <Button onClick={()=>this.onEndVoicePartner()}>End Voice Partner</Button>
+            </div>
         )
+    }
+
+    onEndVoicePartner = () =>{
+        this.setState({currWav: -1});
+        this.props.onEndVoicePartner();
     }
 
     onEndVoice = ()=>{
@@ -192,7 +202,7 @@ class WorkoutDetail extends Component {
                 <Box sx = {{width: "60%"}}>
                     <div className="WorkoutDetail" align="center">
                             <h1>Workout of {year + ". " + month + ". " + day}</h1>
-                    <Button onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>
+                        {this.props.voicePartner.length===0?(<Button onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>):""}
                         {this.props.voicePartner.length>0?this.onVoicePartner():""}
                     <Button id="edit-body-info-button"
                         onClick={() => this.onAddBodyInfo()}>{this.state.addBodyInfo ? "Cancel" : "Edit Body Info for the Day"}</Button>
@@ -213,7 +223,7 @@ const mapDispatchToProps = (dispatch) => {
         onAddBodyInfo: (data) =>dispatch(actionCreators.addBodyInfo(data)),
         onGetBodyInfo: ()=> dispatch(actionCreators.getBodyInfo()),
         onStartVoicePartner: (date) => dispatch(actionCreators.startVoicePartner(date)),
-        onGetWav: (url) => dispatch(actionCreators.getWav(url))
+        onEndVoicePartner: ()=>dispatch({type: actionTypes.END_VOICE_PARTNER})
     }
 }
 

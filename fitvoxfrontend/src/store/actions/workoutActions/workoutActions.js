@@ -100,24 +100,6 @@ export const startVoicePartner = (date) =>{
     };
 }
 
-export const getWav_ = (res)=>{
-    console.log(res.headers['content-type'])
-    console.log(typeof res.data)
-    return {
-        type: actionTypes.GET_WAV,
-        data: res.data
-    }
-}
-
-export const getWav = (url) => {
-    return dispatch => {
-        axios.get(url, {
-            responseType: 'arraybuffer',
-            headers: {'Content-Type': 'audio/wav'}
-        }).then(res => dispatch(getWav_(res)))
-    }
-}
-
 export const getWorkoutSummary_ = (data) =>{
     return {
         type: actionTypes.GET_WORKOUT_SUMMARY,

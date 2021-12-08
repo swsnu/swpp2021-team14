@@ -47,7 +47,7 @@ class VoicePartner:
         rate = 22050
         wav_list = []
         entry_audio = self.forward("Starting Voice Partner ")
-        breaktime_list = []
+        info_list = []
 
         for (idx1, entry) in enumerate(entry_list):
             entry_audio = np.append(np.zeros(int(rate / 2)), entry_audio)
@@ -62,19 +62,20 @@ class VoicePartner:
                 for rep in range(each_set['repetition']):
                     entry_audio = np.append(entry_audio, self.forward(" " + str(rep + 1) + " "))
                     entry_audio = np.append(entry_audio, np.zeros(int(rate)))
-                if idx1 != len(entry_list)-1 and idx2 != len(entry['sets'])-1:
+                if idx1 != len(entry_list)-1 or idx2 != len(entry['sets'])-1:
                     entry_audio = np.append(entry_audio, self.forward(" Starting Break Time for " + str(each_set['breaktime']) + " " + " seconds "))
                 wav_list.append(entry_audio)
+                info_list.append(f"Set{each_set['set_num']} of {entry['name']}")
                 entry_audio = np.array([])
 
                 # For last entry
                 if idx1 == len(entry_list)-1 and idx2 == len(entry['sets'])-1:
                     last_announce = np.append(np.zeros(rate), self.forward(" Workout Done! Ending Voice Partner "))
                     wav_list.append(np.append(last_announce, np.zeros(rate)))
+                    info_list.append("Ending Voice Partner")
                     break
 
                 # For Breaktime
-                breaktime_list.append(each_set['breaktime'])
                 breaktime = np.array([])
                 if each_set['breaktime'] > 10:
                     breaktime = np.zeros(rate * (each_set['breaktime'] - 10))
@@ -82,20 +83,17 @@ class VoicePartner:
                 for sec in range(min(10, each_set['breaktime']), 0, -1):
                     breaktime = np.append(breaktime, self.forward(" " + str(sec) + " "))
                     breaktime = np.append(breaktime, np.zeros(9096))
-                breaktime = np.append(breaktime, self.forward("Break time Done"))
-                breaktime = np.append(breaktime, np.zeros(rate))
-
                 wav_list.append(breaktime)
+                entry_audio = np.append(entry_audio, self.forward("Break time Done"))
+                entry_audio = np.append(entry_audio, np.zeros(rate))
+
+                info_list.append("Break Time")
 
         url_list = []
         for idx, wav in enumerate(wav_list):
             url = f"{self.savepath}/{idx}.wav"
             write(url, rate, wav.astype(np.float32))
-            if idx % 2 == 1 and idx != len(wav_list)-1:
-                curr_breaktime = breaktime_list[int((idx-1)/2)]
-            else:
-                curr_breaktime = -1
-            url_dict = {'id': idx, 'url': f'{self.django_url}/{idx}/', 'breaktime': curr_breaktime}
+            url_dict = {'id': idx, 'url': f'{self.django_url}/{idx}/', 'message': info_list[idx]}
             url_list.append(url_dict)
 
         return url_list
