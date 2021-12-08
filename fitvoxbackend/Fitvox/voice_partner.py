@@ -90,7 +90,7 @@ class VoicePartner:
         url_list = []
         for idx, wav in enumerate(wav_list):
             url = f"{self.savepath}/{idx}.wav"
-            write(url, rate, wav)
+            write(url, rate, wav.astype(np.float32))
             if idx % 2 == 1 and idx != len(wav_list)-1:
                 curr_breaktime = breaktime_list[int((idx-1)/2)]
             else:

@@ -480,6 +480,7 @@ def workout_summary(request):
     else:
         HttpResponseNotAllowed(['PUT'])
 
+
 @ensure_csrf_cookie
 @check_logged_in
 def voice_partner(request, id):
@@ -527,10 +528,9 @@ def voice_partner(request, id):
 def wav_file(request, id):
     if request.method == 'GET':
         filepath = f'/data/VoicePartner/{id}.wav'
-        print(filepath)
+
         with open(filepath, 'rb') as fp:
             data = fp.read()
-
         response = HttpResponse(data, content_type="audio/wav")
         response['Content-Disposition'] = 'attachment; filename=voice_partner.wav'
         return response

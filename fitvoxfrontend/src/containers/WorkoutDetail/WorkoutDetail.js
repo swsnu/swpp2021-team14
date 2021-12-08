@@ -9,6 +9,7 @@ import Menu from '../Menu/Menu';
 import AudioPlayer from "react-h5-audio-player"
 import ReactAudioPlayer from "react-audio-player"
 import 'react-h5-audio-player/lib/styles.css'
+import ReactPlayer from "react-player";
 
 
 class WorkoutDetail extends Component {
@@ -36,7 +37,7 @@ class WorkoutDetail extends Component {
             bodyWeight,
             bodyFat,
             skeletalMuscle,
-            currWav: 0
+            currWav: -1
         };
     }
 
@@ -131,29 +132,43 @@ class WorkoutDetail extends Component {
     }
 
     onVoicePartner=()=>{
-        /*
+
         if(this.state.currWav===-1){
             this.setState({currWav:0});
             return;
         }
-        */
-        //let blob = new Blob(this.props.voicePartner[this.state.currWav].url)
-        //let sound = new Audio(this.props.voicePartner[this.state.currWav].url)
-       // sound.play()
-
-        //let blob = new Blob([this.props.wav], {type: "audio/wav"})
-        //let url = URL.createObjectURL(blob);
 
         return (
-            <AudioPlayer/> //onPlay={e=>console.log("onplay")}/>
-            //<a href={this.props.voicePartner[this.state.currWav].url} download>Click</a>
-            //<ReactAudioPlayer src={this.props.voicePartner[this.state.currWav].url} type="audio/wav"/>
+            <AudioPlayer
+                header={(<h1>Header</h1>)}
+                src={this.props.voicePartner[this.state.currWav].url}
+                autoPlay={true}
+                showJumpControls={false}
+                showSkipControls={true}
+                onEnded={()=>this.onEndVoice()}
+                onClickPrevious={e=>this.onPrevVoice()}
+                onClickNext={(event)=>this.onNextVoice()}
+            />
         )
     }
 
-    render() {
+    onEndVoice = ()=>{
+        if(this.state.currWav===this.props.voicePartner.length-1) return;
+        this.setState({currWav: this.state.currWav+1})
+    }
 
-        //this.props.onGetWav('/api/wav_file/0/')
+    onNextVoice = () =>{
+        console.log("Next Clicked!")
+        if(this.state.currWav===this.props.voicePartner.length-1) return;
+        this.setState({currWav: this.state.currWav+1})
+    }
+
+    onPrevVoice = ()=>{
+        if(this.state.currWav===0) return;
+        this.setState({currWav: this.state.currWav-1})
+    }
+
+    render() {
 
         let workoutEntries = []
 
@@ -207,7 +222,6 @@ const mapStateToProps = (state) => {
         workoutEntries: state.workout.workoutEntries,
         bodyInfo: state.statistics.bodyInfo,
         voicePartner: state.workout.voicePartner,
-        wav: state.workout.wav
     }
 }
 
