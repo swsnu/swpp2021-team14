@@ -15,5 +15,6 @@ urlpatterns = [
     path('workout_set/', views.workout_set, name='workout set'),
     path('workout_set/<int:id>/', views.workout_set, name='workout set'),
     path('body_info/', views.body_info, name='body info'),
-    path('voice_partner/<int:id>/', views.voice_partner, name='voice partner')
+    path('voice_partner/<int:id>/', views.voice_partner, name='voice partner'),
+    path('workout_summary/', views.workout_summary, name='workout_summary')
 ]

@@ -1,5 +1,5 @@
 import * as actionTypes from '../../actions/actionTypes'
-const initState = {workoutList: null, workoutEntries: [], voicePartner:[]}
+const initState = {workoutList: [], workoutEntries: [], voicePartner:[]}
 
 export default function workoutReducer(state=initState, action){
     switch (action.type){
@@ -8,6 +8,9 @@ export default function workoutReducer(state=initState, action){
         }
         case actionTypes.START_VOICE_PARTNER:{
             return {...state, voicePartner: action.data};
+        }
+        case actionTypes.GET_WORKOUT_SUMMARY:{
+            return {...state, workoutList: action.data}
         }
         default:
             return state;

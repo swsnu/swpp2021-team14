@@ -85,7 +85,6 @@ export const checkVoicePartner = (id) =>{
 }
 
 export const startVoicePartner_ = (data)=>{
-    console.log(data)
     return {
         type:actionTypes.START_VOICE_PARTNER,
         data
@@ -99,4 +98,17 @@ export const startVoicePartner = (date) =>{
             dispatch(startVoicePartner_(res.data))
         })
     };
+}
+
+export const getWorkoutSummary_ = (data) =>{
+    return {
+        type: actionTypes.GET_WORKOUT_SUMMARY,
+        data
+    };
+}
+
+export const getWorkoutSummary = (data)=>{
+    return dispatch=> {
+        axios.put('/api/workout_summary/', data).then(res=>dispatch(getWorkoutSummary_(res.data)))
+    }
 }
