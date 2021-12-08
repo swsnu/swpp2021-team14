@@ -58,6 +58,10 @@ class Main extends Component {
         // get workout entry data
         this.props.onGetSettings()
         this.props.onGetExerciseList()
+      
+        let date_list = [20211205, 20211206, 20211207, 20211208]
+        this.props.onGetWorkoutSummary(date_list)
+      
         this.onGetWorkout(this.state.value)
         this.onCountSets()
     }
@@ -173,6 +177,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetSettings: () => dispatch(actionCreators.getSetting()),
         onGetExerciseList: () => dispatch(actionCreators.getExerciseList()),
+        onGetWorkoutSummary: (data) => dispatch(actionCreators.getWorkoutSummary(data)),
         onGetWorkoutEntry: (date) => dispatch(actionCreators.getWorkout(date))
     };
 }

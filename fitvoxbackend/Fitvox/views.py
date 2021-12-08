@@ -450,6 +450,36 @@ def body_info(request):
 
 @ensure_csrf_cookie
 @check_logged_in
+def workout_summary(request):
+    if request.method == 'PUT':
+        date_list = json.loads(request.body.decode())
+
+        response_data = []
+        for date in date_list:
+            if WorkoutDetail.objects.filter(user=request.user, date=date).exists():
+                info = {}
+                workout_detail = WorkoutDetail.objects.get(user=request.user, date=date)
+
+                for entry in workout_detail.entry.all():
+                    muscle_type = entry.exercise.muscleType
+                    num_set = len(entry.sets.all())
+
+                    if info.get(muscle_type) is None:
+                        info[muscle_type] = num_set
+                    else:
+                        info[muscle_type] += num_set
+
+                response_data.append({'date': date, 'info': info})
+
+            else:
+                response_data.append({'date': date, 'info': {}})
+
+        return JsonResponse(response_data, safe=False, status=200)
+    else:
+        HttpResponseNotAllowed(['PUT'])
+
+@ensure_csrf_cookie
+@check_logged_in
 def voice_partner(request, id):
     if request.method == 'GET':
         date = id

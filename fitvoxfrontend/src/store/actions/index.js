@@ -2,5 +2,5 @@ export {getLogin, getLogout, maintainLogin, createAccount} from '../actions/logi
 export {getSetting, changeSetting} from '../actions/settingActions/settingActions'
 export {getExerciseList, addExercise, checkFavorite, changeTags} from '../actions/exerciselistActions/exerciselistActions'
 export {getWorkout, addWorkout, deleteWorkout, addSet, editSet, deleteSet,
-    addBodyInfo, getBodyInfo, checkVoicePartner , startVoicePartner} from '../actions/workoutActions/workoutActions'
+    addBodyInfo, getBodyInfo, checkVoicePartner , startVoicePartner, getWorkoutSummary} from '../actions/workoutActions/workoutActions'
 
