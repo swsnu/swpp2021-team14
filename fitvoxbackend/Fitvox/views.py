@@ -1,3 +1,5 @@
+import os.path
+
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, \
     JsonResponse, FileResponse
 from django.contrib.auth.models import User

@@ -6,7 +6,10 @@ import {Button, Box} from "@mui/material";
 import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
-import ReactAudioPlayer from "react-audio-player";
+import AudioPlayer from "react-h5-audio-player"
+import ReactAudioPlayer from "react-audio-player"
+import 'react-h5-audio-player/lib/styles.css'
+
 
 class WorkoutDetail extends Component {
 
@@ -132,9 +135,13 @@ class WorkoutDetail extends Component {
             this.setState({currWav:0});
             return;
         }
-
-        return(
-            <ReactAudioPlayer>Audio Player</ReactAudioPlayer>
+        //let blob = new Blob(this.props.voicePartner[this.state.currWav].url)
+        //let sound = new Audio(this.props.voicePartner[this.state.currWav].url)
+       // sound.play()
+        return (
+            <AudioPlayer preload={"auto"} src={this.props.voicePartner[this.state.currWav].url} /> //onPlay={e=>console.log("onplay")}/>
+            //<a href={this.props.voicePartner[this.state.currWav].url} download>Click</a>
+            //<ReactAudioPlayer src={this.props.voicePartner[this.state.currWav].url} type="audio/wav"/>
         )
     }
 
