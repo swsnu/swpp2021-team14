@@ -56,8 +56,8 @@ class Main extends Component {
     componentDidMount() {
         // checks whether loginned or not
         // get workout entry data
-        this.props.onGetSettings()
         this.props.onGetExerciseList()
+        this.props.onGetSettings()
         
         let startDate = new Date(this.state.value.getFullYear(), this.state.value.getMonth(), 1)
         let endDate = new Date(this.state.value.getFullYear(), this.state.value.getMonth() + 1, 1)

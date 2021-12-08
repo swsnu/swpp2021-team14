@@ -42,7 +42,7 @@ const CreatAccount = (props) => {
         if(password==passwordchk&&password.length>=6){
             const data = {
                 username,
-                email,
+                email, 
                 password,
                 hardness
             }
