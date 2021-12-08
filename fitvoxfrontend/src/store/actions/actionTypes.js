@@ -15,3 +15,4 @@ export const GET_BODY_INFO = 'GET_BODY_INFO'
 export const GET_STATISTICS = 'GET_STATISTICS'
 
 export const START_VOICE_PARTNER = 'START_VOICE_PARTNER'
+export const GET_WAV = 'GET_WAV'

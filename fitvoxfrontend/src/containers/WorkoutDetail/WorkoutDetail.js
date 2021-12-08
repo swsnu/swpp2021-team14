@@ -36,7 +36,7 @@ class WorkoutDetail extends Component {
             bodyWeight,
             bodyFat,
             skeletalMuscle,
-            currWav: -1
+            currWav: 0
         };
     }
 
@@ -127,25 +127,33 @@ class WorkoutDetail extends Component {
         }
 
         this.props.onStartVoicePartner(this.props.match.params.date);
+
     }
 
     onVoicePartner=()=>{
-
+        /*
         if(this.state.currWav===-1){
             this.setState({currWav:0});
             return;
         }
+        */
         //let blob = new Blob(this.props.voicePartner[this.state.currWav].url)
         //let sound = new Audio(this.props.voicePartner[this.state.currWav].url)
        // sound.play()
+
+        //let blob = new Blob([this.props.wav], {type: "audio/wav"})
+        //let url = URL.createObjectURL(blob);
+
         return (
-            <AudioPlayer preload={"auto"} src={this.props.voicePartner[this.state.currWav].url} /> //onPlay={e=>console.log("onplay")}/>
+            <AudioPlayer/> //onPlay={e=>console.log("onplay")}/>
             //<a href={this.props.voicePartner[this.state.currWav].url} download>Click</a>
             //<ReactAudioPlayer src={this.props.voicePartner[this.state.currWav].url} type="audio/wav"/>
         )
     }
 
     render() {
+
+        //this.props.onGetWav('/api/wav_file/0/')
 
         let workoutEntries = []
 
@@ -189,7 +197,8 @@ const mapDispatchToProps = (dispatch) => {
         onGetWorkout: (data) => dispatch(actionCreators.getWorkout(data)),
         onAddBodyInfo: (data) =>dispatch(actionCreators.addBodyInfo(data)),
         onGetBodyInfo: ()=> dispatch(actionCreators.getBodyInfo()),
-        onStartVoicePartner: (date) => dispatch(actionCreators.startVoicePartner(date))
+        onStartVoicePartner: (date) => dispatch(actionCreators.startVoicePartner(date)),
+        onGetWav: (url) => dispatch(actionCreators.getWav(url))
     }
 }
 
@@ -197,7 +206,8 @@ const mapStateToProps = (state) => {
     return {
         workoutEntries: state.workout.workoutEntries,
         bodyInfo: state.statistics.bodyInfo,
-        voicePartner: state.workout.voicePartner
+        voicePartner: state.workout.voicePartner,
+        wav: state.workout.wav
     }
 }
 
