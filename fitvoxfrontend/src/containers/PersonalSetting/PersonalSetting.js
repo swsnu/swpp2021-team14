@@ -46,6 +46,7 @@ class PersonalSetting extends Component {
             breaktime: this.state.minute * 60 + this.state.second
         }
 
+        // console.log(settingData.breaktime)
         this.props.onChangeSettings(settingData);
     }
 
@@ -101,17 +102,6 @@ class PersonalSetting extends Component {
                         </div>
                         <br/>
                         <br/>
-                        <div className="SettingSelect" id='voice-partner setting'>
-                            <h2>Voice Partner</h2>
-                            <h3>BGM</h3>
-                            <Select options={this.voice_bgm_options}
-                                    defaultValue={this.voice_bgm_options[0]}
-                            />
-                            <h3>Voice setting</h3>
-                            <Select options={this.voice_setting_options}
-                                    defaultValue={this.voice_setting_options[0]}
-                            />
-                        </div>
                         <div>
                             <br/>
                             <Button id='change-setting' onClick={() => this.onChangeSetting()}>Change</Button>
