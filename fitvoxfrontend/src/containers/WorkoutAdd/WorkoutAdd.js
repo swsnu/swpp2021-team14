@@ -35,6 +35,7 @@ class WorkoutAdd extends Component {
 
     onExerciseEntryClick = (id) => {
         this.props.onAddWorkout(this.props.match.params.date, id);
+        this.props.onGetExerciseList();
         this.props.history.push('/workout/'+ this.props.match.params.date);
     }
 
@@ -113,7 +114,10 @@ class WorkoutAdd extends Component {
                 <hr/>
             </div>
         )
+    }
 
+    componentDidMount() {
+        this.props.onGetExerciseList()
     }
 
     render() {
@@ -133,10 +137,17 @@ class WorkoutAdd extends Component {
                 }
             }
             return (
-                <div align="center" className="ExerciseList">
-                    {this.header()}
-                    <div> {exerciseEntries}</div>
-                </div>
+                <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
+                    <Box p = {1}>
+                        <Menu page = "addWorkout"></Menu>
+                    </Box>
+                    <Box sx = {{width: "60%"}}>
+                        <div align="center" className="ExerciseList">
+                            {this.header()}
+                            <div> {exerciseEntries}</div>
+                        </div>
+                    </Box>
+                </Box>
             )
         } else if (!this.state.muscleType_selected) {
             let muscleTypeIcons = "";
@@ -295,7 +306,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onFavoriteCheck: (data) => dispatch(actionCreators.checkFavorite(data)),
-        onAddWorkout: (date, id) => dispatch(actionCreators.addWorkout(date, id))
+        onAddWorkout: (date, id) => dispatch(actionCreators.addWorkout(date, id)),
+        onGetExerciseList: () => dispatch(actionCreators.getExerciseList())
     }
 }
 

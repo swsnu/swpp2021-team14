@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import Menu from '../Menu/Menu';
 
-import { Paper, Box, Typography, Button, Divider, paperClasses} from "@mui/material";
+import { Paper, Box, Typography, Button, Divider} from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -106,11 +106,8 @@ class SelectedStatistics extends Component {
         }
         this.setState({header: temp.slice(0, -3)})
 
-        // console.log(querySet.slice(2))
-
         // part for get numbers of exercise
         let filtered = this.props.exerciseList.filter((exercise) => this.filterFunction(exercise, querySet)); 
-        // console.log(filtered)
         this.setState({num_exercise: filtered.length, target_exercise: filtered})
 
         //part for setting random colors
