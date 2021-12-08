@@ -3,6 +3,7 @@ import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 
 import Menu from '../Menu/Menu';
+import * as actionCreators from "../../store/actions/index";
 
 import { Paper, Box, Typography, Button, Divider, IconButton} from "@mui/material";
 
@@ -19,6 +20,7 @@ class TimeframeStatistics extends Component {
     state = {
         from_value: new Date(),
         to_value: new Date(),
+        colors: [],
         body_parts: [
             "Neck",
             "Trapezius",
@@ -34,7 +36,7 @@ class TimeframeStatistics extends Component {
             "Leg",
             "Calf"
         ],
-        numSets: [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 2, 3]
+        numSets: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     }
 
     getRandomInt = (min, max) => {
@@ -64,6 +66,7 @@ class TimeframeStatistics extends Component {
         let date = this.state.from_value;
         date.setDate(date.getDate() - 7)
         this.setState({from_value: date})
+        this.setState({colors: this.setColors(13)})
     }
 
     enumerateDaysBetweenDates = function(startDate, endDate) {
@@ -71,20 +74,41 @@ class TimeframeStatistics extends Component {
     
         var currDate = moment(startDate).startOf('day');
         var lastDate = moment(endDate).startOf('day');
-        //console.log(currDate.toDate());
         dates.push(currDate.clone().format("YYYYMMDD"))
         while(currDate.add(1, 'days').diff(lastDate) <= 0) {
-            //console.log(currDate.toDate());
             dates.push(currDate.clone().format("YYYYMMDD"));
         }
         return dates;
     };
 
-    render() {
+    onCountSets = () => {
+        let numSets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        for (let entry of this.props.workoutList) {
+            for (let idx in this.state.body_parts) {
+                let set = entry["info"][this.state.body_parts[idx]]
+                numSets[idx] = isNaN(set) ? numSets[idx] : numSets[idx] + set
+            }
+        }
+        this.setState({numSets: numSets})
+    }
+
+    onChangeDateHandler = (target) => {
         if (moment(this.state.from_value).startOf('day').diff(moment(this.state.to_value)) > 0) {
-            this.setState({to_value: this.state.from_value})
-        } 
-        //console.log(this.enumerateDaysBetweenDates(this.state.from_value, this.state.to_value))
+            target === "from" ? this.setState({to_value: this.state.from_value}) :
+                                this.setState({from_value: this.state.to_value})
+        }
+        this.props.onGetWorkoutSummary(
+            this.enumerateDaysBetweenDates(this.state.from_value, this.state.to_value)
+        )
+    }
+
+    onShowPieGraphHandler = () => {
+        this.onCountSets()
+        console.log(this.props.workoutList)
+        console.log(this.state.numSets)
+    }
+
+    render() {
 
         return(
             <Box p = {6} id = "time_stats" display = "flex" justifyContent="center" gap = {1}>
@@ -96,28 +120,29 @@ class TimeframeStatistics extends Component {
                         <MobileDatePicker
                                 label="From"
                                 value={this.state.from_value}
-                                onChange={(newValue) => this.setState({from_value: newValue})}
+                                onChange={(newValue) => {this.setState({from_value: newValue})
+                                                        this.onChangeDateHandler("from")}}
                                 renderInput={(params) => <TextField {...params} />}
                         />
-                        <Divider orientation = "vertical" textAlign="center" flexItem><Chip label = "~"/></Divider>
+                        <Divider orientation = "vertical" textAlign="center" flexItem><Chip onClick = {() => this.onShowPieGraphHandler()} label = "SHOW"/></Divider>
                         <MobileDatePicker
                                 label="To"
                                 value={this.state.to_value}
-                                onChange={(newValue) => this.setState({to_value: newValue})}
+                                onChange={(newValue) => {this.setState({to_value: newValue})
+                                                        this.onChangeDateHandler("to")}}
                                 renderInput={(params) => <TextField {...params} />}
                         />
                     </Box>
                     <Divider variant = "middle" flexItem />
                     <Box p = {1} display = "flex" justifyContent = "center" alignItems = "center">
-                        <Box sx = {{width: "40%"}}><Button>TEST</Button></Box>
-                        <Divider orientation = "vertical" variant = "middle" flexItem/>
-                        <Box sx = {{width: "60%"}}>
+                        
+                        <Box sx = {{width: "80%"}}>
                             <Doughnut
                                 data = {{
                                     labels: this.state.body_parts,
                                     datasets: [{
                                         data: this.state.numSets,
-                                        backgroundColor: this.setColors(13)
+                                        backgroundColor: this.state.colors
                                     }]
                                 }}
                                 options ={{
@@ -159,8 +184,14 @@ class TimeframeStatistics extends Component {
 
 const mapStateToProps = state => {
     return {
-        workoutList: state.workout.workoutEntries,
+        workoutList: state.workout.workoutList,
     }
 }
 
-export default connect(mapStateToProps, null)(withRouter(TimeframeStatistics))
+const mapDispatchToProps = dispatch => {
+    return {
+        onGetWorkoutSummary: (data) => dispatch(actionCreators.getWorkoutSummary(data)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TimeframeStatistics))
