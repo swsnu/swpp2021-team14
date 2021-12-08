@@ -58,11 +58,11 @@ class Main extends Component {
         // get workout entry data
         this.props.onGetSettings()
         this.props.onGetExerciseList()
-      
-        let date_list = [20211205, 20211206, 20211207, 20211208]
+        
+        let startDate = new Date(this.state.value.getFullYear(), this.state.value.getMonth(), 1)
+        let endDate = new Date(this.state.value.getFullYear(), this.state.value.getMonth() + 1, 1)
+        let date_list = this.enumerateDaysBetweenDates(startDate, endDate)
         this.props.onGetWorkoutSummary(date_list)
-      
-        this.onGetWorkout(this.state.value)
         this.onCountSets()
     }
 
@@ -71,21 +71,45 @@ class Main extends Component {
     }
 
     onGetWorkout = (date) => {
-        this.props.onGetWorkoutEntry(moment(date).format("YYYYMMDD"))
-        
+        if (date.getMonth() !== this.state.prev_date.getMonth() || date.getFullYear() !== this.state.prev_date.getFullYear()) {
+            let startDate = new Date(date.getFullYear(), date.getMonth(), 1)
+            let endDate = new Date(date.getFullYear(), date.getMonth() + 1, 1)
+            let dataSet =  this.enumerateDaysBetweenDates(startDate, endDate)
+            this.props.onGetWorkoutSummary(dataSet)
+            this.setState({prev_date: date})
+        }
     }
+
+    enumerateDaysBetweenDates = function(startDate, endDate) {
+        var dates = [];
+    
+        var currDate = moment(startDate).startOf('day');
+        var lastDate = moment(endDate).startOf('day');
+        dates.push(currDate.clone().format("YYYYMMDD"))
+        while(currDate.add(1, 'days').diff(lastDate) < 0) {
+            dates.push(currDate.clone().format("YYYYMMDD"));
+        }
+        return dates;
+    };
+
     onGetSummary = () => {
+
         this.onCountSets()
         this.setState({prev_date: this.state.value})
     }
 
     onCountSets = () => {
-        console.log(this.props.workoutEntries)
         let numSets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        for (let entry of this.props.workoutEntries) {
-            let target_exercise = this.props.exerciseList.filter(exercise => exercise["id"] === entry["exercise_id"])[0]
-            let idx = this.state.body_parts.indexOf(target_exercise["muscleType"])
-            numSets[idx] = numSets[idx] + entry["sets"].length
+        for (let entry of this.props.workoutList) {
+            if (entry["date"] === moment(this.state.value).format("YYYYMMDD")) {
+                for (let idx in this.state.body_parts) {
+                    let set = entry["info"][this.state.body_parts[idx]]
+                    numSets[idx] = isNaN(set) ? numSets[idx] : numSets[idx] + set
+                }
+            }
+            else {
+                continue
+            }
         }
         this.setState({numSets: numSets})
     }
@@ -167,7 +191,7 @@ class Main extends Component {
 
 const mapStateToProps = state => {
     return {
-        workoutEntries: state.workout.workoutEntries,
+        workoutList: state.workout.workoutList,
         exerciseList: state.exercise.exerciseList
     };
 
@@ -178,7 +202,6 @@ const mapDispatchToProps = dispatch => {
         onGetSettings: () => dispatch(actionCreators.getSetting()),
         onGetExerciseList: () => dispatch(actionCreators.getExerciseList()),
         onGetWorkoutSummary: (data) => dispatch(actionCreators.getWorkoutSummary(data)),
-        onGetWorkoutEntry: (date) => dispatch(actionCreators.getWorkout(date))
     };
 }
 
