@@ -7,8 +7,9 @@ import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Select from 'react-select'
+import './CreateAccount.css'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -46,6 +47,7 @@ const CreatAccount = (props) => {
                 password,
                 hardness
             }
+            console.log(data)
             props.onCreateAccount(data)
             props.history.push('/login')
         }
@@ -58,8 +60,14 @@ const CreatAccount = (props) => {
 
     };
 
-    const handleChange = (event) => {
-        setHard(event.target.value);
+    const hardness_options = [
+        {value: "1", label: 'Home Training'},
+        {value: "2", label: 'Gym Beginner'},
+        {value: "3", label: 'More than Intermediate'}
+    ]
+
+    const handleChange = (value) => {
+        setHard(value.value);
     };
 
     return (
@@ -93,20 +101,11 @@ const CreatAccount = (props) => {
                 onChange={e => setChk(e.target.value)}
             />
 
-            <FormControl sx={{ m: 1, width: 270 }}>
-                <InputLabel id="demo-simple-select-label">Hardness</InputLabel>
-                <Select
-                    labelId="hardness"
-                    id="hardness"
-                    value={hardness}
-                    label="Hardness"
-                    onChange={handleChange}
-                >
-                    <MenuItem value={1}>Home Training</MenuItem>
-                    <MenuItem value={2}>Gym Beginner</MenuItem>
-                    <MenuItem value={3}>Expert</MenuItem>
-                </Select>
-            </FormControl>
+            <div className="SettingSelect" id='hardness-setting'>
+                <h2>Hardness</h2>
+                <Select options={hardness_options}
+                        onChange={(value) => handleChange(value)}/>
+            </div>
 
             <div>
                 <Button type="submit" variant="contained" >
