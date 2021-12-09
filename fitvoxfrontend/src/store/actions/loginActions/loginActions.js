@@ -82,7 +82,7 @@ export const resetPassword = (userData) =>{
     return (dispatch) =>{
         axios.post('/api/password_reset/', userData).then((res)=> dispatch(resetPassword_()))
             .catch(err =>{
-                alert("Wrong Email!")
+                alert("wrong Email!")
                 dispatch(failResetPassword_())
             })
     }
