@@ -17,6 +17,12 @@ export default function loginReducer(state = initState, action) {
         case actionTypes.FAILCREATEACCOUNT:{
             return {...state, createAccount: false}
         }
+        case actionTypes.RESETPASSWORD:{
+            return {...state, createAccount: true}
+        }
+        case actionTypes.FAILRESETPASSWORD:{
+            return {...state, createAccount: false}
+        }
         default:
             return state;
     }

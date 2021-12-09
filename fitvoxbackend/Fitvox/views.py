@@ -4,8 +4,17 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadReq
     JsonResponse, FileResponse
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import (authenticate, login, logout, REDIRECT_FIELD_NAME, get_user_model)
+from django.urls import reverse_lazy
+from django.shortcuts import render, resolve_url
 from django.db import IntegrityError
+from django.conf import settings
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.forms import (
+AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm,
+)
 from .models import PersonalSetting, ExerciseDefault, ExercisePerUser, WorkoutDetail, WorkoutEntry, WorkoutSet, \
     OneRMInfo, VolumeInfo
 from .utils import make_response, get_1rm, update_volume, update_one_rm, return_volumes, return_onerms, \
@@ -13,7 +22,7 @@ from .utils import make_response, get_1rm, update_volume, update_one_rm, return_
 import json
 
 # For Voice Partner
-from .voice_partner import VoicePartner
+#from .voice_partner import VoicePartner
 
 @ensure_csrf_cookie
 def signup(request):
@@ -542,3 +551,50 @@ def wav_file(request, id):
         '''
     else:
         return HttpResponseNotAllowed(['GET'])
+
+
+def send_email(request):
+    subject = "message"
+    to = ["distantstarfalls1123@gmail.com"]
+    from_email = "swsnu1123@gmail.com"
+    message = "test"
+    send_mail(subject=subject, message=message, from_email=from_email, recipient_list=to)
+
+
+
+class UserPasswordResetView(PasswordResetView):
+    template_name = 'password_reset.html' 
+    success_url = reverse_lazy('password_reset_done')
+    form_class = PasswordResetForm
+    
+    def form_valid(self, form):
+        if User.objects.filter(email=self.request.body.get("email")).exists():
+            return super().form_valid(form)
+        else:
+            return render(self.request, 'password_reset_done_fail.html')
+            
+class UserPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'password_reset_done.html' 
+
+
+UserModel = get_user_model()
+INTERNAL_RESET_URL_TOKEN = 'set-password'
+INTERNAL_RESET_SESSION_TOKEN = '_password_reset_token'
+
+
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = SetPasswordForm
+    success_url=reverse_lazy('password_reset_complete')
+    template_name = 'password_reset_confirm.html'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class UserPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset_complete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['login_url'] = resolve_url(settings.LOGIN_URL)
+        return context
+

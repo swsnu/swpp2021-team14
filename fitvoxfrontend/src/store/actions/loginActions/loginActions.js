@@ -65,3 +65,25 @@ export const createAccount = (userData) =>{
             })
     }
 }
+
+export const failResetPassword_ = ()=>{
+    return {
+        type: actionTypes.FAILRESETPASSWORD
+    }
+}
+
+export const resetPassword_ = ()=>{
+    return {
+        type: actionTypes.RESETPASSWORD
+    }
+}
+
+export const resetPassword = (userData) =>{
+    return (dispatch) =>{
+        axios.post('/api/password_reset/', userData).then((res)=> dispatch(resetPassword_()))
+            .catch(err =>{
+                alert("Wrong Email!")
+                dispatch(failResetPassword_())
+            })
+    }
+}

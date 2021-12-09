@@ -111,7 +111,11 @@ export const getWav_ = (res)=>{
 
 export const getWav = (url) =>{
     return dispatch=>{
-        axios.get(url, {responseType: 'arraybuffer', headers: {'Content-Type': 'audio/wav'}}).then(res=>dispatch(getWav_(res)))
+        axios.get(url, {responseType: 'arraybuffer', headers: {'Content-Type': 'audio/wav'}}).then(res=>{
+            dispatch(getWav_(res))
+        })
+    };
+}
       
 export const getWorkoutSummary_ = (data) =>{
     return {
