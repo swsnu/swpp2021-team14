@@ -13,7 +13,7 @@ from .utils import make_response, get_1rm, update_volume, update_one_rm, return_
 import json
 
 # For Voice Partner
-from .voice_partner import VoicePartner
+#from .voice_partner import VoicePartner
 
 @ensure_csrf_cookie
 def signup(request):
