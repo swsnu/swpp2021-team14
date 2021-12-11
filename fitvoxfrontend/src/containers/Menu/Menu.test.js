@@ -97,7 +97,6 @@ describe("Test <Menu/>", () => {
         const instance = component.find(Menu.WrappedComponent).instance();
         wrapper.simulate('click');
         const drawer = component.find(Drawer);
-        //console.log(drawer.debug())
         drawer.simulate('close', {keyCode: 16, key: "Shift"});
         expect(instance.state.left).toBe(true);
         drawer.simulate("close", {keyCode: 16, key: "Shift"})

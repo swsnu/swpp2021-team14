@@ -96,7 +96,6 @@ class SelectedStatistics extends Component {
     }
 
     componentDidMount() {
-        // console.log( this.props.match.params.query)
         let querySet = this.props.match.params.query.split("=");
         for (let i = 0; i < querySet.length; i++){
             if (i >= 2) querySet[i] = "#" + querySet[i]
@@ -159,7 +158,6 @@ class SelectedStatistics extends Component {
     }
 
     render() {
-        //console.log(this.state)
         let colorList = null;
         let datasets = null;
         let labels = null;
