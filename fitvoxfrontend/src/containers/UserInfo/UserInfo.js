@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as actionCreators from '../../store/actions/index';
-import {Box, Paper, Typography, Divider, Button, Stack, OutlinedInput, InputAdornment} from '@mui/material';
+import {Box, Paper, Typography, Divider, Button, Stack, OutlinedInput, InputAdornment, IconButton} from '@mui/material';
 import { Line } from 'react-chartjs-2'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,6 +10,8 @@ import ListItemText from '@mui/material/ListItemText';
 
 
 import Menu from '../Menu/Menu'
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 class UserInfo extends Component {
     state = {
@@ -421,11 +423,11 @@ class UserInfo extends Component {
 
         return (
             <Box p = {6} className = "Main" display = "flex" justifyContent="center" gap ={2}>
-                <Box p = {1}>
-                    <Box>
-                        <Menu page = 'info'></Menu>
-                    </Box>
-                    
+                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                    <Menu page = "user-info"></Menu>
+                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                        <ArrowBackIcon></ArrowBackIcon>
+                    </IconButton>
                 </Box>
                 <Paper elevation = {15} p ={6} display = "flex" flexDirection = "column" justifyContent='center' alignItems='center' gap = {4} sx = {{width: '60%'}}> 
                     <Box p = {1} display = "flex" alignItems = 'center'>
