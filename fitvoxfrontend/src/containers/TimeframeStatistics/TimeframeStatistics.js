@@ -106,8 +106,6 @@ class TimeframeStatistics extends Component {
 
     onShowPieGraphHandler = () => {
         this.onCountSets()
-        console.log(this.props.workoutList)
-        console.log(this.state.numSets)
     }
 
     render() {
