@@ -212,7 +212,7 @@ class WorkoutDetail extends Component {
                 <Box sx = {{width: "60%"}}>
                     <div className="WorkoutDetail" align="center">
                             <h1>Workout of {year + ". " + month + ". " + day}</h1>
-                        {this.props.voicePartner.length===0?(<Button onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>):""}
+                        {this.props.voicePartner.length===0?(<Button id="voice-partner-button" onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>):""}
                         {this.props.voicePartner.length>0?this.onVoicePartner():""}
                     <Button id="edit-body-info-button"
                         onClick={() => this.onAddBodyInfo()}>{this.state.addBodyInfo ? "Cancel" : "Edit Body Info for the Day"}</Button>
