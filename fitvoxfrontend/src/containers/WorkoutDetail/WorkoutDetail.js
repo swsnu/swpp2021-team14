@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 import { withRouter } from 'react-router';
-import {Button, Box} from "@mui/material";
+import {Button, Box, IconButton} from "@mui/material";
 import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
@@ -10,6 +10,7 @@ import AudioPlayer from "react-h5-audio-player"
 import 'react-h5-audio-player/lib/styles.css'
 import * as actionTypes from '../../store/actions/actionTypes'
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 class WorkoutDetail extends Component {
@@ -202,8 +203,11 @@ class WorkoutDetail extends Component {
 
         return (
             <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                <Box p = {1}>
+                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
                     <Menu page = "workoutDetail"></Menu>
+                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                        <ArrowBackIcon></ArrowBackIcon>
+                    </IconButton>
                 </Box>
                 <Box sx = {{width: "60%"}}>
                     <div className="WorkoutDetail" align="center">
