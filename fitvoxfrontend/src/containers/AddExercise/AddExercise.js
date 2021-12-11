@@ -74,7 +74,7 @@ class AddExercise extends Component {
 
     onAddTag = () => {
         let input_tag = this.state.tag;
-        if (input_tag[0] !== "#") {
+        if (input_tag.charAt(0) !== "#") {
             alert("Tags should start with #")
         }
         else {
