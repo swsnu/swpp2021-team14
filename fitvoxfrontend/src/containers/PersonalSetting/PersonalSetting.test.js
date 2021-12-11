@@ -9,8 +9,6 @@ import { applyMiddleware } from 'redux';
 import { history } from '../../store/store';
 import { Route, Switch, Router } from 'react-router-dom';
 import Select from 'react-select';
-import { IconButton } from '@mui/material'
-
 
 let stubInitialState = {
     setting: {
@@ -90,14 +88,5 @@ describe("Test <PersonalSetting/>", () => {
             hardness: 1,
             breaktime: 150
         })
-    })
-
-    it ('should handle go back button properly', () => {
-        const spyGoback = jest.spyOn(history, 'goBack').mockImplementation(() => {})
-        const component = mount(psetting)
-        const wrapper = component.find(IconButton).at(1)
-        wrapper.simulate('click')
-        expect(spyGoback).toHaveBeenCalledTimes(1)
-        
     })
 }) 

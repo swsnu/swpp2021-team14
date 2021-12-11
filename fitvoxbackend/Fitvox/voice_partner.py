@@ -3,6 +3,7 @@ from scipy.io.wavfile import write
 import numpy as np
 import os
 
+
 class VoicePartner:
 
     # Use Singleton to prevent repetitive loading of pretrained weights

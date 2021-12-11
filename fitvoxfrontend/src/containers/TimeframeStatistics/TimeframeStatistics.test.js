@@ -12,85 +12,14 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
 
-import {ButtonBase, Paper, Chip, IconButton} from '@mui/material'
-import moment from 'moment'
+import {ButtonBase, Paper, TextField} from '@mui/material'
+import {OutlinedInput} from '@mui/material'
 
-const stubInitialState = {
-    workout: {
-        workoutList : [
-            {
-                date: "20211207",
-                info: {"Neck" : 3, "Chest": 4}
-            },
-            {
-                date: "20211208",
-                info: {"Neck": 3, "Back": 2, "Leg": 5}
-            }
-        ]
-    },
-    exercise: {
-        exerciseList: [
-            {
-                "muscleType": "Neck",
-                "exerciseType": "Neck Raise",
-                "name": "Neck Raise",
-                "hardness": "1;2;3;",
-                "isFavorite": true,
-                "tags": {
-                    "tags": [
-                        "#Neck_Raise",
-                    ]
-                }
-            },
-            {
-                "muscleType": "Neck",
-                "exerciseType": "Neck Raise",
-                "name": "Neck Raise Side",
-                "hardness": "1;2;3;",
-                "isFavorite": true,
-                "tags": {
-                    "tags": [
-                        "#Neck_Raise",
-                        "#Side"
-                    ]
-                }
-            },
-            {
-                "muscleType": "Trapezius",
-                "exerciseType": "Y-Raise",
-                "name": "Y-Raise: Dumbbell",
-                "hardness": "2;3;",
-                "isFavorite": false,
-                "tags": {
-                    "tags": [
-                        "#Dumbbell",
-                    ]
-                }
-            },
-        ],
-        muscleTypes: ["Neck", "Trapezius"],
-        exerciseTypes: [
-            {
-                "muscleType": "Neck",
-                "exerciseType": "Neck Raise"
-            },
-            {
-                "muscleType": "Trapezius",
-                "exerciseType": "Y-Raise"
-            },
-        ]
-    },
-    year: 2021,
-    month: 10,
-};
+let stubInitialState = {}
 
 const mockStore = createStore((state, action) => state,
                             stubInitialState,
                             applyMiddleware(thunk));
-
-jest.mock('react-chartjs-2', () => ({
-    Doughnut: () => null,
-}));
 
 describe("Test <TimeframeStatistics />", () => {
     let timeStats;
@@ -100,9 +29,7 @@ describe("Test <TimeframeStatistics />", () => {
             <LocalizationProvider dateAdapter = {AdapterDateFns}>
                 <Provider store = {mockStore}>
                     <Router history = {history}>
-                        <Switch>
-                            <Route path = "/" exact component = {TimeframeStatistics}/>
-                        </Switch>
+                        <Route path = "/" exact component = {TimeframeStatistics}/>
                     </Router>
                 </Provider>
             </LocalizationProvider>
@@ -134,47 +61,4 @@ describe("Test <TimeframeStatistics />", () => {
         expect(instance.state.to_value.getDate()).toBe(1)
     })
 
-    it ('should render graph properly',  () => {
-        const component = mount(timeStats)
-        const wrapper = component.find(Chip).at(0)
-        wrapper.simulate('click')
-        const instance = component.find(TimeframeStatistics.WrappedComponent).instance()
-        instance.setState({from_value: new Date(2021, 11, 1)})
-        expect(instance.state.numSets[0]).toBe(6)
-    })
-
-    it ('should handle go back button properly', () => {
-        const spyGoback = jest.spyOn(history, 'goBack').mockImplementation(() => {})
-        const component = mount(timeStats)
-        const wrapper = component.find(IconButton).at(1)
-        wrapper.simulate('click')
-        expect(spyGoback).toHaveBeenCalledTimes(1)
-        
-    })
-
-    it('should maintain to date larger than from date', () => {
-        const component = mount(timeStats)
-        const instance = component.find(TimeframeStatistics.WrappedComponent).instance()
-        const current_date = new Date()
-        instance.setState({from_value: new Date(current_date.getFullYear(), current_date.getMonth() + 1, 1)})
-        const wrapper2 = component.find('input').at(1)
-        wrapper2.simulate('click')
-        const second_button = component.find(Paper).at(1).find(ButtonBase).at(4)
-        second_button.simulate('click')
-        expect(instance.state.from_value.getDate()).toBe(current_date.getDate())
-        expect(instance.state.to_value.getDate()).toBe(1)
-    })
-
-    it('should maintain from date smaller than to date', () => {
-        const component = mount(timeStats)
-        const instance = component.find(TimeframeStatistics.WrappedComponent).instance()
-        const current_date = new Date()
-        instance.setState({to_value: new Date(current_date.getFullYear()-1, current_date.getMonth(), 1)})
-        const wrapper2 = component.find('input').at(0)
-        wrapper2.simulate('click')
-        const second_button = component.find(Paper).at(1).find(ButtonBase).at(5)
-        second_button.simulate('click')
-        expect(instance.state.from_value.getDate()).toBe(2)
-        expect(instance.state.to_value.getDate()).toBe(4)
-    })
 })

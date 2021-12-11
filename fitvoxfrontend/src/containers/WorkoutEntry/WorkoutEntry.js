@@ -96,7 +96,7 @@ class WorkoutEntry extends Component {
         let set_number = 0;
         for (let set of sets) {
             set_number++;
-            setEntries.push(<SetEntry id={set.id} workout_id ={this.props.id} weight={set.weight} repetition={set.repetition}
+            setEntries.push(<SetEntry id={set.id} weight={set.weight} repetition={set.repetition}
                                       breaktime={set.breaktime} set_number={set_number}/>)
         }
 

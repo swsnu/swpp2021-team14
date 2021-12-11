@@ -80,22 +80,11 @@ class SetEntry extends Component {
         );
     }
 
-    onCopySet = ()=>{
-        const data = {
-            workout_entry_id: this.props.workout_id,
-            weight: this.state.weight,
-            repetition: this.state.repetition,
-            breaktime: this.state.minute * 60 + this.state.second
-        }
-        this.props.onCopySet(data)
-    }
-
     render() {
         return (
             <div className="SetEntry" style={{border: '1px solid orange'}}>
                 <h3>Set {this.props.set_number}</h3>
                 <Button id="Delete-set-button" onClick={()=>this.onDeleteSet()}>Delete</Button>
-                {this.state.editMode?"": (<Button id="Copy-set-button" onClick={()=>this.onCopySet()}>Copy Set</Button>)}
                 <Button id="Edit-mode-button" onClick={() => this.onEditMode()}>{this.state.editMode ? "Cancel" : "Edit"}</Button>
                 {this.state.editMode ? this.editSetInfo() : this.setInfo()}
             </div>
@@ -106,8 +95,7 @@ class SetEntry extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         onConfirmEditSet: (data) => dispatch(actionCreators.editSet(data)),
-        onDeleteSet: (id) => dispatch(actionCreators.deleteSet(id)),
-        onCopySet: (data) => dispatch(actionCreators.addSet(data))
+        onDeleteSet: (id) => dispatch(actionCreators.deleteSet(id))
     }
 }
 
