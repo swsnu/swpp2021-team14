@@ -376,6 +376,10 @@ class FitvoxTestCase(TestCase):
                                 content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
+        response = client.put('/api/voice_partner/1/',
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
         response = client.get('/api/voice_partner/20211127/',
                                 content_type='application/json')
         self.assertEqual(response.status_code, 200)
