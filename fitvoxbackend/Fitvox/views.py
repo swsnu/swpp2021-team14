@@ -527,7 +527,7 @@ def voice_partner(request, id):
 @check_logged_in
 def wav_file(request, id):
     if request.method == 'GET':
-        filepath = f'/data/VoicePartner/{id}.wav'
+        filepath = f'Audio/{id}.wav'
 
         with open(filepath, 'rb') as fp:
             data = fp.read()

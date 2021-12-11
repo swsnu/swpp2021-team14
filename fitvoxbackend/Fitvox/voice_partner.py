@@ -1,14 +1,13 @@
 import torch
 from scipy.io.wavfile import write
 import numpy as np
-from datetime import datetime
-
+import os
 
 class VoicePartner:
 
     # Use Singleton to prevent repetitive loading of pretrained weights
     __instance = None
-    savepath = "/data/VoicePartner"
+    savepath = "Audio"
     django_url = "/api/wav_file"
 
     @classmethod
@@ -35,6 +34,10 @@ class VoicePartner:
 
         # Utilty Methods
         self.utils = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_tts_utils')
+
+        # make directory to save to voice files
+        if not os.path.exists(self.savepath):
+            os.makedirs(self.savepath)
 
     def forward(self, text):
         sequences, lengths = self.utils.prepare_input_sequence([text])
