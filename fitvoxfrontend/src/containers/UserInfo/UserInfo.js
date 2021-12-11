@@ -72,7 +72,6 @@ class UserInfo extends Component {
         this.props.onGetBodyInfo();
         let dataset = this.props.bodyInfo;
         dataset.sort(this.sortFunction)
-        console.log(dataset)
         let dates = [];
         let Fat_datas = [];
         let Weight_datas = [];

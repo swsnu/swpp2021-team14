@@ -90,7 +90,6 @@ class ExerciseList extends Component {
     }
 
     onFavoriteCheck = (id) => {
-        console.log("Favorite Checked!");
         this.props.onFavoriteCheck({id: id, target: "favorite"});
     }
 
@@ -128,7 +127,6 @@ class ExerciseList extends Component {
             if (this.state.query[q][0] === "#") route = route + this.state.query[q].slice(1) + "=" 
             else route = route + this.state.query[q] + "="
         }
-        console.log(this.state.query)
         this.props.history.push(route.slice(0, -1))
     }
 
@@ -145,8 +143,6 @@ class ExerciseList extends Component {
     }
 
     render() {
-        //console.log(this.props.history)
-        //console.log(this.state)
         if (this.state.show_favorite) {
             let exerciseEntries = ""
             if (this.props.exerciseList != null) {

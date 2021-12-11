@@ -46,8 +46,6 @@ class PersonalSetting extends Component {
             hardness: this.state.hardness,
             breaktime: this.state.minute * 60 + this.state.second
         }
-
-        // console.log(settingData.breaktime)
         this.props.onChangeSettings(settingData);
     }
 

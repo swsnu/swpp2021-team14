@@ -175,7 +175,6 @@ class WorkoutDetail extends Component {
     }
 
     onNextVoice = () =>{
-        console.log("Next Clicked!")
         if(this.state.currWav===this.props.voicePartner.length-1) return;
         this.setState({currWav: this.state.currWav+1})
     }

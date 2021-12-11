@@ -116,7 +116,6 @@ describe("Test <AddExercise/>", () => {
         expect(instance.state.tag).toBe("tag1")
 
         tag_input.simulate('change', {target: {value : "#tag1"}});
-        console.log(component.find('button').length)
         component.find('button').at(2).simulate('click');
         tag_input.simulate('change', {target: {value : "#tag2"}});
         expect(instance.state.tag).toBe('#tag2');

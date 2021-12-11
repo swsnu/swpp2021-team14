@@ -76,7 +76,6 @@ class WorkoutAdd extends Component {
     }
 
     onFavoriteCheck = (id) => {
-        console.log("Favorite Checked!");
         this.props.onFavoriteCheck({id: id, target: "favorite"});
     }
 
