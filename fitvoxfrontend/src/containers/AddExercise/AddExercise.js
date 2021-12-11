@@ -44,9 +44,7 @@ class AddExercise extends Component {
                     label: this.props.exerciseTypes[i]['exerciseType']
                 })
             }
-
         }
-
     }
 
     onSelectExerciseType = (value) => {
@@ -107,6 +105,7 @@ class AddExercise extends Component {
         }
 
         this.props.onAddExercise(data);
+        alert("Exercise " + data.name + " added to the exercise list!: " + data.muscleType + ", " + data.exerciseType);
         this.props.onGetExerciseList();
         this.props.history.push('/exercise_list')
     }
