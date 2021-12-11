@@ -71,6 +71,12 @@ class WorkoutDetail extends Component {
     onConfirmBodyInfo = () => {
         if(this.state.bodyWeight<=0||this.state.bodyFat<=0||this.state.skeletalMuscle<=0){
             alert("Wrong Input! Input number should be larger than 0")
+            this.setState({
+                bodyWeight: "",
+                bodyFat: "",
+                skeletalMuscle: ""
+            });
+            return;
         }
 
         const data = {
