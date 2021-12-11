@@ -223,3 +223,4 @@ To test backend side of the application, run the following commands on the fitvo
 coverage run --source='./Fitvox' manage.py test
 ```
 
+You can test the password reset system now, but as the server is inactive for now, the actual server name is not input yet. Therefore, from the email received, you have to manually change the localhost:8000 to localhost:3000.
