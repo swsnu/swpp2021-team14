@@ -116,6 +116,6 @@ describe("Test <Workout Entry/>", () => {
         const button = wrapper.find('#add-set-button').at(0);
         button.simulate('click');
         button.simulate('click')
-        expect(wrapper.find("input").length).toBe(0)
+        expect(wrapper.find("input").length).toBe(1)
     })
 })
