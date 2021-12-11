@@ -63,7 +63,7 @@ describe("Test <Menu/>", () => {
         const component = mount(menu);
         const wrapper = component.find(IconButton).at(0);
         wrapper.simulate('click');
-        expect(component.find(ListItem).length).toBe(3);
+        expect(component.find(ListItem).length).toBe(4);
     })
 
     it('should render 3 buttons for setting page', () => {
@@ -71,7 +71,7 @@ describe("Test <Menu/>", () => {
         const component = mount(menu);
         const wrapper = component.find(IconButton).at(0);
         wrapper.simulate('click');
-        expect(component.find(ListItem).length).toBe(3);
+        expect(component.find(ListItem).length).toBe(4);
     })
 
     it('should render 3 buttons for user information page', () => {
@@ -79,7 +79,7 @@ describe("Test <Menu/>", () => {
         const component = mount(menu);
         const wrapper = component.find(IconButton).at(0);
         wrapper.simulate('click');
-        expect(component.find(ListItem).length).toBe(3);
+        expect(component.find(ListItem).length).toBe(4);
     })
 
     it('should render 3 buttons for exercise list page', () => {
@@ -87,7 +87,7 @@ describe("Test <Menu/>", () => {
         const component = mount(menu);
         const wrapper = component.find(IconButton).at(0);
         wrapper.simulate('click');
-        expect(component.find(ListItem).length).toBe(3);
+        expect(component.find(ListItem).length).toBe(4);
     })
 
     it('should handle key inputs properly', () => {

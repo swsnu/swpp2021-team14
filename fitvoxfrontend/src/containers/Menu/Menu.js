@@ -90,7 +90,6 @@ class Menu extends Component {
                 <ListItemText primary = {"Exercise List"}/>
             </ListItem>
         )
-        console.log(this.state.page)
         return (
             <List>
                 {main_button}
