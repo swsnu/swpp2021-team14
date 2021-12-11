@@ -30,7 +30,7 @@ yarn start #Run react app
 
   * email: swpp@snu.ac.kr
   * password: iluvswpp
-  * Created new account will be added to json server, but as we didn't implemented the proper authentication yet, signing in using the new account will not be suppoted.
+  * Created new account will be added to json server, but as we didn't implemented the proper authentication yet, signing in using the new account will not be supported.
 
   
 
@@ -241,4 +241,4 @@ You have to manually change the http://localhost:8000/ to http://localhost:3000/
 The link is only valid for ONE change, and any further attempts would result in nothing.
 Also, there is currently no method in the given library to disable random inputs for opening the form.
 Therefore, clicking the link afterwards does result in opening the password reset form, but does not function, as the token is invalid afterwards.
-Please get another token by re-entering the email to the reset form..
+Please get another token by re-entering the email to the reset form.
