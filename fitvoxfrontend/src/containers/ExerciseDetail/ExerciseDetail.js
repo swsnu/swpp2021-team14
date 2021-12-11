@@ -9,7 +9,6 @@ import AddIcon from '@mui/icons-material/Add';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 import Menu from '../Menu/Menu';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { Line } from 'react-chartjs-2'
 
@@ -49,9 +48,11 @@ class ExerciseDetail extends Component {
     componentDidMount() {
         let exid = parseInt(this.props.match.params.exercise_id);
         this.setState({exercise_id: exid})
+        // console.log(this.props.exerciseList)
         let exercise = this.props.exerciseList.filter((exercise) => {
             return exercise['id'] === exid
         })[0] 
+        // console.log(exercise)
         this.setState({exercise: exercise})
         this.setState({exercisename: exercise['name']})
         this.setState({tags: exercise['tags']['tags']})
@@ -109,6 +110,7 @@ class ExerciseDetail extends Component {
     }
 
     render() {
+        //console.log(this.state)
         let tagIcons = [];
         for (let tag of this.state.tags) {
             tagIcons.push(
@@ -136,11 +138,8 @@ class ExerciseDetail extends Component {
         
         return (
             <Box p = {6} id = "ExerciseDetail" display = "flex" justifyContent="center" gap = {1}>
-                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                <Box p = {1}>
                     <Menu page = "exerciseDetail"></Menu>
-                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
-                        <ArrowBackIcon></ArrowBackIcon>
-                    </IconButton>
                 </Box>
                 <Paper p ={6} display = 'flex' flexDirection = "column" justifyContent='center' alignItems = "center" sx={{width: "60%"}}>
                     <Box p = {1} display = "flex" justifyContent = 'center' alignItems = 'center'>

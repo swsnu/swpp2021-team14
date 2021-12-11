@@ -6,11 +6,6 @@ import {Checkbox} from "semantic-ui-react";
 import * as actionCreators from "../../store/actions/index"
 import './AddExercise.css'
 import Button from '@mui/material/Button';
-import {Box, IconButton} from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-
-import Menu from '../Menu/Menu';
 
 class AddExercise extends Component {
 
@@ -49,7 +44,9 @@ class AddExercise extends Component {
                     label: this.props.exerciseTypes[i]['exerciseType']
                 })
             }
+
         }
+
     }
 
     onSelectExerciseType = (value) => {
@@ -74,13 +71,7 @@ class AddExercise extends Component {
 
     onAddTag = () => {
         let input_tag = this.state.tag;
-        if (input_tag.charAt(0) !== "#") {
-            alert("Tags should start with #")
-        }
-        else {
-            this.setState({tags: [...this.state.tags, input_tag], tag: "#"})
-        }
-        
+        this.setState({tags: [...this.state.tags, input_tag], tag: "#"})
     }
 
     onDeleteTag = (tag) => {
@@ -88,8 +79,7 @@ class AddExercise extends Component {
         if (idx > -1) {
             if (this.state.tags.length == 1) this.setState({tags: []})
             else {
-                const newTags = this.state.tags
-                newTags.splice(idx, 1)
+                const newTags = this.state.tags.splice(idx, 1)
                 this.setState({tags: newTags})
             }
         }
@@ -117,7 +107,6 @@ class AddExercise extends Component {
         }
 
         this.props.onAddExercise(data);
-        alert("Exercise " + data.name + " added to the exercise list!: " + data.muscleType + ", " + data.exerciseType);
         this.props.onGetExerciseList();
         this.props.history.push('/exercise_list')
     }
@@ -135,67 +124,56 @@ class AddExercise extends Component {
         }
 
         return (
-            <Box p = {6} id = "time_stats" display = "flex" justifyContent="center" gap = {1}>
-                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
-                    <Menu page = "addExercise"></Menu>
-                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
-                        <ArrowBackIcon></ArrowBackIcon>
-                    </IconButton>
-                </Box>
-                <Box sx={{width: "60%"}} >
-                    <div align="center" className="AddExercise">
-                        <br/>
-                        <br/>
-                        <h1>Add Customized Exercise</h1>
-                        <hr/>
-                        <div>
-                            <label> Exercise Name </label>
-                            <input id="exercise-name-input" type="text"
-                                value={this.state.exercise_name}
-                                onChange={(event) => {
-                                    this.setState({exercise_name: event.target.value})
-                                }}/>
-                        </div>
-                        <br/>
-                        <div className="SettingSelect">
-                            <label>Muscle Type</label>
-                            <Select options={this.muscleTypeOptions} onChange={(value) => {
-                                this.setState({muscleType: value['label']})
-                            }}/>
-                        </div>
-                        <br/>
-                        <div className="SettingSelect" >
-                            <label>Exercise Type</label>
-                            <Select options={this.exerciseTypeOptions} onChange={(value) => this.onSelectExerciseType(value)}/>
-                            {this.state.add_new_exercise ? this.addNewExercise() : ""}
-                        </div>
-                        <br/>
-                        <div>
-                            <label>Tags</label>
-                            <br/>
-                            {tag_entries.length == 0 ? "" : tag_entries}
-                            <input id="tag-input" type="text"
-                                value={this.state.tag}
-                                onChange={(event) => {
-                                    this.setState({tag: event.target.value})
-                                }}/>
-                            <Button onClick={() => this.onAddTag()}>Add tag</Button>
-                        </div>
-                        <br/>
-                        <div>
-                            <label>Favorite</label>
-                            <Checkbox toggle onClick={(evt, data) => this.setState({isFavorite: data.checked})}/>
-                        </div>
-                        <br/>
-                        <div>
-                            <Button id="confirm-button" onClick={() => this.onConfirm()}>Confirm</Button>
-                        </div>
-                        <br/>
-                        <br/>
-                    </div>
-                </Box>
-            </Box>
-
+            <div align="center" className="AddExercise">
+                <br/>
+                <br/>
+                <h1>Add Customized Exercise</h1>
+                <hr/>
+                <div>
+                    <label> Exercise Name </label>
+                    <input id="exercise-name-input" type="text"
+                           value={this.state.exercise_name}
+                           onChange={(event) => {
+                               this.setState({exercise_name: event.target.value})
+                           }}/>
+                </div>
+                <br/>
+                <div className="SettingSelect">
+                    <label>Muscle Type</label>
+                    <Select options={this.muscleTypeOptions} onChange={(value) => {
+                        this.setState({muscleType: value['label']})
+                    }}/>
+                </div>
+                <br/>
+                <div className="SettingSelect" >
+                    <label>Exercise Type</label>
+                    <Select options={this.exerciseTypeOptions} onChange={(value) => this.onSelectExerciseType(value)}/>
+                    {this.state.add_new_exercise ? this.addNewExercise() : ""}
+                </div>
+                <br/>
+                <div>
+                    <label>Tags</label>
+                    <br/>
+                    {tag_entries.length == 0 ? "" : tag_entries.map(tag => <li key = {tag_entries.indexOf(tag)}>{tag}</li>)}
+                    <input id="tag-input" type="text"
+                           value={this.state.tag}
+                           onChange={(event) => {
+                               this.setState({tag: event.target.value})
+                           }}/>
+                    <Button onClick={() => this.onAddTag()}>Add tag</Button>
+                </div>
+                <br/>
+                <div>
+                    <label>Favorite</label>
+                    <Checkbox toggle onClick={(evt, data) => this.setState({isFavorite: data.checked})}/>
+                </div>
+                <br/>
+                <div>
+                    <Button id="confirm-button" onClick={() => this.onConfirm()}>Confirm</Button>
+                </div>
+                <br/>
+                <br/>
+            </div>
         );
     }
 }

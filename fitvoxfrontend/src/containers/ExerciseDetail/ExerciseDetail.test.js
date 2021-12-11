@@ -5,12 +5,11 @@ import {createStore} from 'redux';
 import thunk from 'redux-thunk';
 import { applyMiddleware } from 'redux';
 import { Route, Router } from 'react-router-dom';
-//import { history } from '../../store/store';
 import ExerciseDetail from './ExerciseDetail';
 import { createMemoryHistory } from 'history';
 import * as actionCreators from '../../store/actions/exerciselistActions/exerciselistActions'
 
-import {TextField, IconButton} from "@mui/material"
+import {TextField} from "@mui/material"
 import { stubInitialState } from '../../test-utils/mocks';
 
 const mockStore = createStore((state, action) => state,
@@ -21,15 +20,13 @@ jest.mock('react-chartjs-2', () => ({
     Line: () => null,
 }));
 
-const history = createMemoryHistory({ initialEntries: ['/exercise_list/0']})
-
 describe("Test <ExerciseDetail/>", () => {
     let exercise_detail;
 
     beforeEach(() => {
         exercise_detail = (
             <Provider store = {mockStore}>
-                <Router history = {history}>
+                <Router history = {createMemoryHistory({ initialEntries: ['/exercise_list/0']})}>
                     <Route path = "/exercise_list/:exercise_id" exact component = {ExerciseDetail}/>
                 </Router>
             </Provider>
@@ -112,14 +109,5 @@ describe("Test <ExerciseDetail/>", () => {
         expect(instance.state.chart_type).toBe('one_rm')
         component.find('#one_rm').at(0).simulate('click')
         expect(instance.state.chart_type).toBe("one_rm")
-    })
-
-    it ('should handle go back button properly', () => {
-        const spyGoback = jest.spyOn(history, 'goBack').mockImplementation(() => {})
-        const component = mount(exercise_detail)
-        const wrapper = component.find(IconButton).at(1)
-        wrapper.simulate('click')
-        expect(spyGoback).toHaveBeenCalledTimes(1)
-        
     })
 });
