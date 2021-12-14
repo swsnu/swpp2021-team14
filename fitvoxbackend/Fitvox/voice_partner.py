@@ -9,7 +9,7 @@ class VoicePartner:
 
     # Use Singleton to prevent repetitive loading of pretrained weights
     __instance = None
-    savepath = "Audio"
+    savepath = "Audio/"
     django_url = "/api/wav_file"
 
     @classmethod
@@ -59,12 +59,16 @@ class VoicePartner:
             audio = self.vocoder.infer(mel)
         return audio[0].data.cpu().numpy()
 
-    def make_wavs(self, entry_list):
+    def make_wavs(self, entry_list, username):
         rate = 22050
         wav_list = []
         entry_audio = self.start_voice_partner
         info_list = []
         zeros = np.zeros(rate)
+
+        save_path = self.savepath + username
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
 
         for (idx1, entry) in enumerate(entry_list):
             entry_audio = np.append(np.zeros(int(rate / 2)), entry_audio)
@@ -119,7 +123,7 @@ class VoicePartner:
 
         url_list = []
         for idx, wav in enumerate(wav_list):
-            url = f"{self.savepath}/{idx}.wav"
+            url = f"{save_path}/{idx}.wav"
             write(url, rate, wav.astype(np.float32))
             url_dict = {'id': idx, 'url': f'{self.django_url}/{idx}/', 'message': info_list[idx]}
             url_list.append(url_dict)
