@@ -3,7 +3,7 @@ import {withRouter} from "react-router";
 import { connect } from 'react-redux';
 import * as actionCreators from "../../store/actions/index";
 import Logout from "../Logout/Logout";
-import {Button, IconButton} from "@mui/material";
+import {IconButton} from "@mui/material";
 import { Box } from "@mui/system";
 
 import {Drawer} from '@mui/material';
@@ -18,7 +18,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import ListIcon from '@mui/icons-material/List';
 import SettingsIcon from '@mui/icons-material/Settings';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 class Menu extends Component {    
     state = {
@@ -75,7 +75,7 @@ class Menu extends Component {
                       onClick = {() => this.redirectUserInformationHandler()}
                       sx = {this.state.page === "user-info" ? {color: 'white', backgroundColor : "gray"} : {}}>
                 <ListItemIcon>
-                    <HelpOutlineIcon />
+                    <InfoOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary = {"User Information"}/>
             </ListItem>

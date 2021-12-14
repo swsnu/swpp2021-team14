@@ -86,7 +86,7 @@ class AddExercise extends Component {
     onDeleteTag = (tag) => {
         const idx = this.state.tags.indexOf(tag);
         if (idx > -1) {
-            if (this.state.tags.length == 1) this.setState({tags: []})
+            if (this.state.tags.length === 1) this.setState({tags: []})
             else {
                 const newTags = this.state.tags
                 newTags.splice(idx, 1)
@@ -173,7 +173,7 @@ class AddExercise extends Component {
                         <div>
                             <label>Tags</label>
                             <br/>
-                            {tag_entries.length == 0 ? "" : tag_entries}
+                            {tag_entries.length === 0 ? "" : tag_entries}
                             <input id="tag-input" type="text"
                                 value={this.state.tag}
                                 onChange={(event) => {

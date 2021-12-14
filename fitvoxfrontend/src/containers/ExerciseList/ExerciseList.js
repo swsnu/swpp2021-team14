@@ -64,7 +64,7 @@ class ExerciseList extends Component {
 
     onDeleteTag = (tag) => {
         const idx = this.state.tags.indexOf(tag);
-        if (this.state.tags.length == 1) {
+        if (this.state.tags.length === 1) {
             const newQuery = this.state.query
             newQuery.splice(2 + idx, 1)
             this.setState({query: newQuery, tags: []})
@@ -208,6 +208,7 @@ class ExerciseList extends Component {
                     if (exerciseType['muscleType'] === this.state.muscleType) {
                         const selected_type = exerciseType['exerciseType']
                         exerciseTypeIcons.push(<ExerciseTypeIcon exerciseType={selected_type}
+                                                                 muscleType = {this.state.muscleType}
                                                                  onClick={() => this.onExerciseTypeClick(selected_type)}/>)
                     }
                 }
@@ -312,7 +313,7 @@ class ExerciseList extends Component {
                             </div>
                             <div align="center">
                                 <h2>Selected Tags</h2>
-                                {tag_entries.length == 0 ? "None" : tag_entries}
+                                {tag_entries.length === 0 ? "None" : tag_entries}
                                 <Button id = "selected_stats" onClick = {() => this.onRedirectSelectedStatsHandler()}>Show Selected Statistics</Button>
                             </div>
                             <div align="center">
