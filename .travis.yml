@@ -16,6 +16,7 @@ jobs:
       install:
         - cd fitvoxbackend
         - source ~/virtualenv/python3.7/bin/activate
+        - pip install torch torchvision torchaudio
         - pip install -r requirements.txt
         - pip install coveralls
         - python3 manage.py makemigrations
