@@ -30,7 +30,7 @@ yarn start #Run react app
 
   * email: swpp@snu.ac.kr
   * password: iluvswpp
-  * Created new account will be added to json server, but as we didn't implemented the proper authentication yet, signing in using the new account will not be suppoted.
+  * Created new account will be added to json server, but as we didn't implemented the proper authentication yet, signing in using the new account will not be supported.
 
   
 
@@ -223,3 +223,22 @@ To test backend side of the application, run the following commands on the fitvo
 coverage run --source='./Fitvox' manage.py test
 ```
 
+You can test the password reset system now, but as the server is inactive for now, the actual server name is not input yet.
+To test the password reset system, from the following email received,
+```
+You're receiving this email because you requested a password reset for your user account at localhost:8000.
+
+Please go to the following page and choose a new password:
+
+http://localhost:8000/password/reset/confirm/{uid}/{token}
+Your username, in case you've forgotten: davekjh1123
+
+Thanks for using our site!
+
+The localhost:8000 team
+```
+You have to manually change the http://localhost:8000/ to http://localhost:3000/ from the link after clicking.
+The link is only valid for ONE change, and any further attempts would result in nothing.
+Also, there is currently no method in the given library to disable random inputs for opening the form.
+Therefore, clicking the link afterwards does result in opening the password reset form, but does not function, as the token is invalid afterwards.
+Please get another token by re-entering the email to the reset form.
