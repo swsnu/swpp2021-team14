@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-lehq8!x#vg)df33(vhq37%wcbyx$*_om*ji44hrwlua(s)5nqm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['http :', '.fitvox.team14.com']
+ALLOWED_HOSTS = ["35.225.160.189"]
 
 
 # Application definition
