@@ -24,12 +24,11 @@ jobs:
         - cd ../fitvoxfrontend
         - yarn install
         - yarn global add coveralls
-        - gem install coveralls-lcov
+        - gem install coveralls-lcov --version 1.13.3
       script:
         - yarn test --coverage --watchAll=false
         - coveralls-lcov -v -n coverage/lcov.info > coverage.json
         - cd ../fitvoxbackend
-        - pylint **/*.py --load-plugins pylint_django
         - coverage run --source='.' manage.py test
         - coverage xml
         - sonar-scanner
