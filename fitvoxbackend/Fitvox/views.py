@@ -502,7 +502,7 @@ def voice_partner(request, id):
             url_list = []
             if len(voice_partner_entry_list)!=0:
                 partner = VoicePartner.get_instance()
-                url_list = partner.make_wavs(voice_partner_entry_list)
+                url_list = partner.make_wavs(voice_partner_entry_list, request.user.username)
 
             return JsonResponse(url_list, safe=False, status=200)
         else:
@@ -527,7 +527,7 @@ def voice_partner(request, id):
 @check_logged_in
 def wav_file(request, id):
     if request.method == 'GET':
-        filepath = f'Audio/{id}.wav'
+        filepath = f'Audio/{request.user.username}/{id}.wav'
 
         with open(filepath, 'rb') as fp:
             data = fp.read()

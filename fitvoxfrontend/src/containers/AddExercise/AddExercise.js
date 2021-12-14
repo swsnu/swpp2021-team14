@@ -6,11 +6,6 @@ import {Checkbox} from "semantic-ui-react";
 import * as actionCreators from "../../store/actions/index"
 import './AddExercise.css'
 import Button from '@mui/material/Button';
-import {Box, IconButton} from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-
-import Menu from '../Menu/Menu';
 
 class AddExercise extends Component {
 
@@ -49,7 +44,9 @@ class AddExercise extends Component {
                     label: this.props.exerciseTypes[i]['exerciseType']
                 })
             }
+
         }
+
     }
 
     onSelectExerciseType = (value) => {
@@ -74,13 +71,7 @@ class AddExercise extends Component {
 
     onAddTag = () => {
         let input_tag = this.state.tag;
-        if (input_tag.charAt(0) !== "#") {
-            alert("Tags should start with #")
-        }
-        else {
-            this.setState({tags: [...this.state.tags, input_tag], tag: "#"})
-        }
-        
+        this.setState({tags: [...this.state.tags, input_tag], tag: "#"})
     }
 
     onDeleteTag = (tag) => {
@@ -88,8 +79,7 @@ class AddExercise extends Component {
         if (idx > -1) {
             if (this.state.tags.length === 1) this.setState({tags: []})
             else {
-                const newTags = this.state.tags
-                newTags.splice(idx, 1)
+                const newTags = this.state.tags.splice(idx, 1)
                 this.setState({tags: newTags})
             }
         }
@@ -117,7 +107,6 @@ class AddExercise extends Component {
         }
 
         this.props.onAddExercise(data);
-        alert("Exercise " + data.name + " added to the exercise list!: " + data.muscleType + ", " + data.exerciseType);
         this.props.onGetExerciseList();
         this.props.history.push('/exercise_list')
     }
@@ -195,7 +184,6 @@ class AddExercise extends Component {
                     </div>
                 </Box>
             </Box>
-
         );
     }
 }

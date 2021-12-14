@@ -85,6 +85,13 @@ class FitvoxTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
         response = client.get('/api/signout/')
 
+        response = client.post('/api/signin/', json.dumps({'username': 'username1', 'password':'password1'}),
+                                content_type='application/json')
+        response = client.post('/api/wav_file/1/',
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 405)
+        response = client.get('/api/signout/')
+
 
 
 
@@ -149,6 +156,11 @@ class FitvoxTestCase(TestCase):
         response = client.put('/api/workout_set/1/', json.dumps({'weight':'20', 'repetition':'4', 'breaktime':'20'}),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 401)
+
+        response = client.put('/api/workout_detail/20211127/', 
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+
 
 
     def test_notfound(self):
@@ -233,6 +245,11 @@ class FitvoxTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+        response = client.get('/api/wav_file/1/',
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+
     def test_putworks(self):
         client = Client()
         response = client.post('/api/signin/', json.dumps({'username':'username1', 'password':'password1'}),
@@ -254,6 +271,10 @@ class FitvoxTestCase(TestCase):
                                 content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
+        response = client.put('/api/workout_detail/20211127/', json.dumps({'bodyFat':'-1.0', 'bodyWeight':'-1.0','skeletalMuscle': '-1.0'}),
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
         response = client.post('/api/workout_entry/', json.dumps({'date':'20211127', 'id':'1'}),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 200)
@@ -265,6 +286,7 @@ class FitvoxTestCase(TestCase):
         response = client.put('/api/workout_set/1/', json.dumps({'weight':'20', 'repetition':'4', 'breaktime':'20'}),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 200)
+
 
 
 
@@ -285,6 +307,10 @@ class FitvoxTestCase(TestCase):
         response = client.post('/api/workout_entry/', json.dumps({'date':'20211127', 'id':'1'}),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 200)
+
+        response = client.post('/api/workout_entry/', json.dumps({'date':'20211127', 'id':'404'}),
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 404)
 
         response = client.post('/api/workout_set/', json.dumps({'workout_entry_id':'1', 'weight':'13', 'repetition':'2', 'breaktime':'30'}),
                                 content_type='application/json')
@@ -330,9 +356,9 @@ class FitvoxTestCase(TestCase):
                                 content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
-        response = client.post('api/signin/', json.dumps({'username':'username1', 'password':'password1'}),
+        response = client.post('/api/signin/', json.dumps({'username':'username1', 'password':'password1'}),
                                 content_type='application/json')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 204)
         response = client.get('/api/isAuth/',
                                 content_type = 'application/json')
         self.assertEqual(response.status_code, 200)
@@ -343,3 +369,18 @@ class FitvoxTestCase(TestCase):
         response = client.post('/api/signup/', json.dumps({'username':'username1', 'password':'password4','email':'email4', 'hardness':'2'}),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 400)
+
+    def test_voice_partner(self):
+        client = Client()
+        response = client.post('/api/signin/', json.dumps({'username':'username1', 'password':'password1'}),
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+
+        response = client.put('/api/voice_partner/1/',
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.get('/api/voice_partner/20211127/',
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+

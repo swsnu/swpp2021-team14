@@ -1,11 +1,10 @@
 import axios from "axios";
 import * as actionCreators from './workoutActions'
 import store from "../../store";
+import {getWorkout} from "./workoutActions";
 
 const workoutEntries = [];
 const bodyInfo = [];
-const voicePartner = [];
-const workoutList = [];
 
 describe('ActionCreaator for Workouts', ()=>{
     afterEach(()=>jest.clearAllMocks());
@@ -92,36 +91,4 @@ describe('ActionCreaator for Workouts', ()=>{
         expect(spyDelete).toBeCalledWith('/api/workout_set/0/');
         done();
     });
-
-    it('should start voice partner correctly', (done)=>{
-        const spyGet = jest.spyOn(axios, 'get').mockImplementation(url=>{
-            return new Promise(resolve=>resolve({status:200, data: voicePartner}))
-        });
-
-        store.dispatch(actionCreators.startVoicePartner(20211211));
-        expect(spyGet).toBeCalledWith('/api/voice_partner/20211211/');
-        done();
-    });
-
-    it('should check voice partner correctly', (done)=>{
-        const spyPut = jest.spyOn(axios, 'put').mockImplementation(url=>{
-            return new Promise(resolve=>resolve({status:200, data: workoutEntries}))
-        });
-
-        store.dispatch(actionCreators.checkVoicePartner(1));
-        expect(spyPut).toBeCalledWith('/api/voice_partner/1/');
-        done();
-    });
-
-    it('should get workout summary correctly', (done)=>{
-        const spyPut = jest.spyOn(axios, 'put').mockImplementation(url=>{
-            return new Promise(resolve=>resolve({status:200, data: workoutList}))
-        });
-
-        const dateList = [20211211, 20211212]
-        store.dispatch(actionCreators.getWorkoutSummary(dateList));
-        expect(spyPut).toBeCalledWith('/api/workout_summary/', dateList);
-        done();
-    });
-
 });

@@ -7,7 +7,6 @@ import {getMockStore} from "../../test-utils/mocks";
 import {createMemoryHistory} from "history";
 import * as actionTypes from "../../store/actions/actionTypes"
 import {Route, Router} from 'react-router-dom'
-import AudioPlayer from "react-h5-audio-player";
 
 const stubInitialState = {
     exercise: {
@@ -16,7 +15,7 @@ const stubInitialState = {
         ]
     },
     workout: {
-        workoutList: [],
+        workoutList: null,
         workoutEntries: [
             {
                 id: 0,
@@ -28,9 +27,7 @@ const stubInitialState = {
                 exercise_id: 0,
                 sets: [{id: 1, repetition: 10, weight: 12, breaktime: 90}]
             }
-        ],
-        voicePartner: []
-
+        ]
     },
     setting: {
         minute: 1,
@@ -48,15 +45,14 @@ const stubInitialStateWithBodyInfo = {
         ]
     },
     workout: {
-        workoutList: [],
+        workoutList: null,
         workoutEntries: [
             {
                 id: 0,
                 exercise_id: 0,
                 sets: [{id: 0, repetition: 10, weight: 12, breaktime: 90}]
             }
-        ],
-        voicePartner: []
+        ]
     },
     setting: {
         minute: 1,
@@ -67,79 +63,8 @@ const stubInitialStateWithBodyInfo = {
     }
 };
 
-const stubInitialStateWithVoicePartner1 = {
-    exercise: {
-        exerciseList: [
-            {id: 0, name: "Bench Press"}
-        ]
-    },
-    workout: {
-        workoutList: [],
-        workoutEntries: [
-            {
-                id: 0,
-                exercise_id: 0,
-                sets: [{id: 0, repetition: 10, weight: 12, breaktime: 90}],
-                isVoicePartner: true
-            },
-            {
-                id: 1,
-                exercise_id: 0,
-                sets: [{id: 1, repetition: 10, weight: 12, breaktime: 90}],
-                isVoicePartner: true
-            }
-        ],
-        voicePartner: []
-
-    },
-    setting: {
-        minute: 1,
-        second: 30
-    },
-    statistics:{
-        bodyInfo:[]
-    }
-};
-
-const stubInitialStateWithVoicePartner2 = {
-    exercise: {
-        exerciseList: [
-            {id: 0, name: "Bench Press"}
-        ]
-    },
-    workout: {
-        workoutList: [],
-        workoutEntries: [
-            {
-                id: 0,
-                exercise_id: 0,
-                sets: [{id: 0, repetition: 10, weight: 12, breaktime: 90}],
-                isVoicePartner: true
-            },
-            {
-                id: 1,
-                exercise_id: 0,
-                sets: [{id: 1, repetition: 10, weight: 12, breaktime: 90}],
-                isVoicePartner: true
-            }
-        ],
-        voicePartner: [{id: 0, url:"", message:""}]
-
-    },
-    setting: {
-        minute: 1,
-        second: 30
-    },
-    statistics:{
-        bodyInfo:[]
-    }
-};
-
-
 const store = getMockStore(stubInitialState);
 const storeWithBodyInfo = getMockStore(stubInitialStateWithBodyInfo);
-const storeWithVoicePartner1 = getMockStore(stubInitialStateWithVoicePartner1);
-const storeWithVoicePartner2 = getMockStore(stubInitialStateWithVoicePartner2);
 jest.mock('../WorkoutEntry/WorkoutEntry', () => (props) => <div>Workout Entry</div>);
 jest.mock('../Menu/Menu', ()=>(props)=><div>Menu</div>)
 
@@ -256,42 +181,5 @@ describe("Test <Workout Detail/>", ()=>{
         expect(spyAlert).toBeCalledWith("Wrong Input! Input number should be larger than 0");
     })
 
-    it('should not start voice partner when no entry is selected', ()=>{
-        const wrapper = mount(workoutDetail);
-        const spyAlert = jest.spyOn(window, 'alert').mockImplementation(()=>{return 0})
-        const button = wrapper.find('#voice-partner-button').at(0);
-        button.simulate('click');
 
-        expect(spyAlert).toBeCalledWith("Should check at least one exercise with more than one sets");
-    });
-
-    it('should start voice partner when the entries are selected', ()=>{
-        const workoutDetail = (
-            <Provider store={storeWithVoicePartner1}>
-                <Router history={history}>
-                    <Route path="/:date" component={WorkoutDetail} />
-                </Router>
-            </Provider>
-        );
-        const spyOnStartVoicePartner = jest.spyOn(actionCreators, "startVoicePartner").mockImplementation(date=>{
-            return {type: actionTypes.START_VOICE_PARTNER, voicePartner:[]} ;
-        });
-        const wrapper = mount(workoutDetail);
-        const button = wrapper.find('#voice-partner-button').at(0);
-        button.simulate('click');
-        expect(spyOnStartVoicePartner).toBeCalledWith("20211127")
-    })
-
-    it('should end voice partner', ()=>{
-        const workoutDetail = (
-            <Provider store={storeWithVoicePartner2}>
-                <Router history={history}>
-                    <Route path="/:date" component={WorkoutDetail} />
-                </Router>
-            </Provider>
-        );
-        const wrapper = mount(workoutDetail);
-        const player = wrapper.find(AudioPlayer);
-        expect(player.length).toBe(1);
-    })
 })
