@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import Menu from '../Menu/Menu';
 import * as actionCreators from "../../store/actions/index";
 
-import { Paper, Box, Typography, Button, Divider, IconButton} from "@mui/material";
+import { Paper, Box, Divider, IconButton} from "@mui/material";
 
 import TextField from '@mui/material/TextField';
 import MobileDatePicker from '@mui/lab/MobileDatePicker';
@@ -13,6 +13,8 @@ import Chip from '@mui/material/Chip';
 import moment from 'moment'
 
 import { Doughnut } from "react-chartjs-2";
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 class TimeframeStatistics extends Component {
@@ -104,16 +106,17 @@ class TimeframeStatistics extends Component {
 
     onShowPieGraphHandler = () => {
         this.onCountSets()
-        console.log(this.props.workoutList)
-        console.log(this.state.numSets)
     }
 
     render() {
 
         return(
             <Box p = {6} id = "time_stats" display = "flex" justifyContent="center" gap = {1}>
-                <Box p = {1}>
-                    <Menu page = "exerciseDetail"></Menu>
+                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                    <Menu page = "time_stats"></Menu>
+                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                        <ArrowBackIcon></ArrowBackIcon>
+                    </IconButton>
                 </Box>
                 <Paper p ={6} display = 'flex' justifyContent='center' alignItems = "center" gap = {1} sx={{width: "60%"}} >
                     <Box p = {2} display = 'flex' justifyContent='center' alignItems = "center" gap = {"7.5%"}>

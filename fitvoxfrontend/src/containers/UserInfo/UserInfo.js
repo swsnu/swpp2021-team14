@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as actionCreators from '../../store/actions/index';
-import {Box, Paper, Typography, Divider, Button, Stack, OutlinedInput, InputAdornment} from '@mui/material';
+import {Box, Paper, Typography, Divider, Button, Stack, OutlinedInput, InputAdornment, IconButton} from '@mui/material';
 import { Line } from 'react-chartjs-2'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,6 +10,8 @@ import ListItemText from '@mui/material/ListItemText';
 
 
 import Menu from '../Menu/Menu'
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 class UserInfo extends Component {
     state = {
@@ -70,7 +72,6 @@ class UserInfo extends Component {
         this.props.onGetBodyInfo();
         let dataset = this.props.bodyInfo;
         dataset.sort(this.sortFunction)
-        console.log(dataset)
         let dates = [];
         let Fat_datas = [];
         let Weight_datas = [];
@@ -140,10 +141,7 @@ class UserInfo extends Component {
             }
             oneRM_datas.push(oneRM_data)
             volume_datas.push(volume_data)
-        } 
-        console.log(labels)
-        console.log(oneRM_datas)
-        console.log(volume_datas)
+        }
         let S_RM = 0;
         let S_V = 0;
         let D_RM = 0;
@@ -152,7 +150,6 @@ class UserInfo extends Component {
         let B_V = 0;
         let Big3_1RM = [];
         let Big3_Volume = [];
-        console.log(NaN == NaN)
         for (let i = 0; i < labels.length; i++) {
             S_RM = isNaN(oneRM_datas[0][i]) ? S_RM : Math.max(S_RM, (oneRM_datas[0][i]))
             D_RM = isNaN(oneRM_datas[1][i]) ? D_RM : Math.max(D_RM, (oneRM_datas[1][i]))
@@ -401,15 +398,15 @@ class UserInfo extends Component {
                                 <Box sx = {{width: "50%"}} display = "flex" justifyContent = "center" alignItems = "center">
                                     {
                                         this.state.chartType === "volume" ? 
-                                        (<Button id = "volume" variant = "contained" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>) : 
-                                        (<Button id = "volume" variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>)
+                                        (<Button id = "volume_contained" variant = "contained" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>) : 
+                                        (<Button id = "volume_outlined" variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("volume")}>Volume</Button>)
                                     }    
                                 </Box>
                                 <Box sx = {{width: "50%"}}>
                                     {
                                         this.state.chartType === "one_rm" ? 
-                                        (<Button id = "one_rm" variant = "contained" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>) : 
-                                        (<Button id = "one_rm" variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>)
+                                        (<Button id = "one_rm_contained" variant = "contained" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>) : 
+                                        (<Button id = "one_rm_outlined" variant = "outlined" onClick = {() => this.onChangeChartTypeHandler("one_rm")}>One RM</Button>)
                                     }
                                 </Box>
                             </Box>
@@ -420,12 +417,12 @@ class UserInfo extends Component {
         }
 
         return (
-            <Box p = {6} className = "Main" display = "flex" justifyContent="center" gap ={2}>
-                <Box p = {1}>
-                    <Box>
-                        <Menu page = 'info'></Menu>
-                    </Box>
-                    
+            <Box id = "user_info" p = {6} display = "flex" justifyContent="center" gap ={2}>
+                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                    <Menu page = "user-info"></Menu>
+                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                        <ArrowBackIcon></ArrowBackIcon>
+                    </IconButton>
                 </Box>
                 <Paper elevation = {15} p ={6} display = "flex" flexDirection = "column" justifyContent='center' alignItems='center' gap = {4} sx = {{width: '60%'}}> 
                     <Box p = {1} display = "flex" alignItems = 'center'>

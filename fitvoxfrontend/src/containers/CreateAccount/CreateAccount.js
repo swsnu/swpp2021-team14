@@ -44,7 +44,6 @@ const CreatAccount = (props) => {
                 password,
                 hardness
             }
-            console.log(data)
             props.onCreateAccount(data)
             props.history.push('/login')
         }
@@ -70,6 +69,7 @@ const CreatAccount = (props) => {
     return (
         <form className={classes.root} onSubmit={handleSubmit}>
             <TextField
+                id="username-input"
                 label="Username"
                 required
                 value={username}
@@ -77,6 +77,7 @@ const CreatAccount = (props) => {
                 onChange={e => setUsr(e.target.value)}
             />
             <TextField
+                id="email-input"
                 label="Email"
                 type="email"
                 required
@@ -84,6 +85,7 @@ const CreatAccount = (props) => {
                 onChange={e => setEmail(e.target.value)}
             />
             <TextField
+                id="password-input"
                 label="Password"
                 type="password"
                 required
@@ -91,6 +93,7 @@ const CreatAccount = (props) => {
                 onChange={e => setPass(e.target.value)}
             />
             <TextField
+                id="password-check-input"
                 label="Confirm Password"
                 type="password"
                 required
@@ -105,7 +108,7 @@ const CreatAccount = (props) => {
             </div>
 
             <div>
-                <Button type="submit" variant="contained" >
+                <Button id="create-account-button" type="submit" variant="contained" >
                     Create Account
                 </Button>
             </div>
