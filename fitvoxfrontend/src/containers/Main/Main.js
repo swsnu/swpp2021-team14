@@ -148,7 +148,7 @@ class Main extends Component {
                     <IconButton id = "timeframe-statistics-button" onClick={() => this.handleTimeStats()}>
                         <TimelineIcon></TimelineIcon>
                     </IconButton>
-                    <Box><Guideline/></Box>
+                    <Box><Guideline name = "Main"/></Box>
                 </Box>
                 <Paper elevation = {15} p ={6} display = "flex" flexDirection = "column" justifyContent='center' alignItems='center' gap = {4} sx = {{width: '60%'}}>              
                     <Box sx = {{minHeight: 500}} component = "form" display = "flex" flexDirection="row" justifyContent='center' alignItems='center'>

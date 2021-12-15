@@ -48,7 +48,6 @@ class App extends Component {
                       <Route path="/workout/:date" exact component={WorkoutDetail}/>
                       <Route path="/workout/:date/add" exact component={WorkoutAdd}/>
                       <Route path="/exercise_list/stats/:query" exact component = {SelectedStatistics} />
-                      
                       <Redirect exact from="/login" to="/main" />
                       <Redirect exact from="/" to="/main" />
                       </Switch>

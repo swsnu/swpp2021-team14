@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 import { withRouter } from 'react-router';
-import {Button, Box} from "@mui/material";
+import {Button, Box, IconButton} from "@mui/material";
 import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
@@ -10,6 +10,7 @@ import AudioPlayer from "react-h5-audio-player"
 import 'react-h5-audio-player/lib/styles.css'
 import * as actionTypes from '../../store/actions/actionTypes'
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 class WorkoutDetail extends Component {
@@ -71,6 +72,12 @@ class WorkoutDetail extends Component {
     onConfirmBodyInfo = () => {
         if(this.state.bodyWeight<=0||this.state.bodyFat<=0||this.state.skeletalMuscle<=0){
             alert("Wrong Input! Input number should be larger than 0")
+            this.setState({
+                bodyWeight: "",
+                bodyFat: "",
+                skeletalMuscle: ""
+            });
+            return;
         }
 
         const data = {
@@ -168,7 +175,6 @@ class WorkoutDetail extends Component {
     }
 
     onNextVoice = () =>{
-        console.log("Next Clicked!")
         if(this.state.currWav===this.props.voicePartner.length-1) return;
         this.setState({currWav: this.state.currWav+1})
     }
@@ -196,13 +202,16 @@ class WorkoutDetail extends Component {
 
         return (
             <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                <Box p = {1}>
+                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
                     <Menu page = "workoutDetail"></Menu>
+                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                        <ArrowBackIcon></ArrowBackIcon>
+                    </IconButton>
                 </Box>
                 <Box sx = {{width: "60%"}}>
                     <div className="WorkoutDetail" align="center">
                             <h1>Workout of {year + ". " + month + ". " + day}</h1>
-                        {this.props.voicePartner.length===0?(<Button onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>):""}
+                        {this.props.voicePartner.length===0?(<Button id="voice-partner-button" onClick={()=>this.onStartVoicePartner()}>Start Voice Partner</Button>):""}
                         {this.props.voicePartner.length>0?this.onVoicePartner():""}
                     <Button id="edit-body-info-button"
                         onClick={() => this.onAddBodyInfo()}>{this.state.addBodyInfo ? "Cancel" : "Edit Body Info for the Day"}</Button>

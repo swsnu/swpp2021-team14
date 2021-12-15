@@ -1,6 +1,5 @@
 import * as actionTypes from '../../actions/actionTypes';
 
-
 const initState = { authenticated: false, createAccount: true };
 
 export default function loginReducer(state = initState, action) {

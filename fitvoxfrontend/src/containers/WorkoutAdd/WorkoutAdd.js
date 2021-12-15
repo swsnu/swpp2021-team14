@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 import { withRouter } from 'react-router';
-import {Button, Box} from "@mui/material";
+import {Button, Box, IconButton} from "@mui/material";
 import './WorkoutAdd.css';
 import Menu from "../Menu/Menu";
 import ExerciseEntry from "../../components/ExerciseEntry/ExerciseEntry";
 import MuscleTypeIcon from "../../components/MuscleTypeIcon/MuscleTypeIcon";
 import ExerciseTypeIcon from "../../components/ExerciseTypeIcon/ExerciseTypeIcon";
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 class WorkoutAdd extends Component {
     state = {
@@ -74,7 +76,6 @@ class WorkoutAdd extends Component {
     }
 
     onFavoriteCheck = (id) => {
-        console.log("Favorite Checked!");
         this.props.onFavoriteCheck({id: id, target: "favorite"});
     }
 
@@ -138,8 +139,11 @@ class WorkoutAdd extends Component {
             }
             return (
                 <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                    <Box p = {1}>
-                        <Menu page = "addWorkout"></Menu>
+                    <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                        <Menu page = "add_workout"></Menu>
+                        <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon></ArrowBackIcon>
+                        </IconButton>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div align="center" className="ExerciseList">
@@ -159,8 +163,11 @@ class WorkoutAdd extends Component {
             }
             return (
                 <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                    <Box p = {1}>
-                        <Menu page = "addWorkout"></Menu>
+                    <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                        <Menu page = "add_workout"></Menu>
+                        <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon></ArrowBackIcon>
+                        </IconButton>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div align="center" className="ExerciseList">
@@ -187,8 +194,11 @@ class WorkoutAdd extends Component {
 
             return (
                 <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                    <Box p = {1}>
-                        <Menu page = "addWorkout"></Menu>
+                    <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                        <Menu page = "add_workout"></Menu>
+                        <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon></ArrowBackIcon>
+                        </IconButton>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div className="ExerciseList">
@@ -256,8 +266,11 @@ class WorkoutAdd extends Component {
 
             return (
                 <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                    <Box p = {1}>
-                        <Menu page = "addWorkout"></Menu>
+                    <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                        <Menu page = "add_workout"></Menu>
+                        <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon></ArrowBackIcon>
+                        </IconButton>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div className="ExerciseList">

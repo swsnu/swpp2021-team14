@@ -3,12 +3,14 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import Menu from '../Menu/Menu';
 
-import { Paper, Box, Typography, Button, Divider} from "@mui/material";
+import { Paper, Box, Typography, Button, Divider, IconButton} from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
 import { Line } from 'react-chartjs-2'
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 
@@ -94,7 +96,6 @@ class SelectedStatistics extends Component {
     }
 
     componentDidMount() {
-        // console.log( this.props.match.params.query)
         let querySet = this.props.match.params.query.split("=");
         for (let i = 0; i < querySet.length; i++){
             if (i >= 2) querySet[i] = "#" + querySet[i]
@@ -157,7 +158,6 @@ class SelectedStatistics extends Component {
     }
 
     render() {
-        //console.log(this.state)
         let colorList = null;
         let datasets = null;
         let labels = null;
@@ -189,8 +189,11 @@ class SelectedStatistics extends Component {
         return (
             
             <Box p = {6} id = "selected_stats" display = "flex" justifyContent="center" gap = {1}>
-                <Box p = {1}>
-                    <Menu page = "exerciseDetail"></Menu>
+                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
+                    <Menu page = "selected_stats"></Menu>
+                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                        <ArrowBackIcon></ArrowBackIcon>
+                    </IconButton>
                 </Box>
                 <Paper p ={6} display = 'flex' flexDirection = "column" justifyContent='center' alignItems = "center" sx={{width: "60%"}}>
                     <Box p = {1} display = "flex" justifyContent = 'center' alignItems = 'center'>

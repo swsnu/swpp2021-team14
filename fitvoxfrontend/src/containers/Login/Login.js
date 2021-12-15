@@ -16,6 +16,7 @@ class Login extends Component {
   onCreatAccount() {
     this.props.history.push('/create_account');
   }
+
   onResetPassword() {
     this.props.history.push('/reset-password');
   }

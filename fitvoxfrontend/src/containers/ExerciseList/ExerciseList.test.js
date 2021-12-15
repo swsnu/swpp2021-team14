@@ -8,7 +8,7 @@ import { applyMiddleware } from 'redux';
 import { history } from '../../store/store';
 import { Route, Switch, Router } from 'react-router-dom';
 import * as actionCreators from '../../store/actions/exerciselistActions/exerciselistActions'
-
+import { IconButton } from "@mui/material"
 
 let stubInitialState = {
     exercise: {
@@ -202,6 +202,9 @@ describe("Test <ExerciseList/>", () => {
         const component = mount(exercise_list);
         const instance = component.find(ExerciseList.WrappedComponent).instance()
         component.find('.MuscleTypeIcon').at(0).simulate('click');
+        const spyGoback = jest.spyOn(history, 'goBack').mockImplementation(() => {})
+        component.find(IconButton).at(1).simulate('click')
+        expect(spyGoback).toHaveBeenCalledTimes(1)
         expect(component.find('.ExerciseTypeIcon').length).toBe(1);
         const neck_raise = component.find('.ExerciseTypeIcon').at(0);
         neck_raise.simulate('click');
@@ -233,6 +236,9 @@ describe("Test <ExerciseList/>", () => {
         expect(component.find(".ExerciseEntry").length).toBe(2);
         component.find(".ExerciseEntry").at(0).simulate('click')
         expect(spyPush).toHaveBeenCalledTimes(1)
+        const spyGoback = jest.spyOn(history, 'goBack').mockImplementation(() => {})
+        component.find(IconButton).at(1).simulate('click')
+        expect(spyGoback).toHaveBeenCalledTimes(1)
         const tag_bar = component.find("#tag-bar").at(0)
         const add_tag = component.find("#search-with-tag").at(0)
         tag_bar.simulate("change", {target: {value: "#Side"}})
@@ -330,6 +336,9 @@ describe("Test <ExerciseList/>", () => {
         const instance = component.find(ExerciseList.WrappedComponent).instance()
         const wrapper = component.find("#show_favorite").at(0);
         wrapper.simulate('click')
+        const spyGoback = jest.spyOn(history, 'goBack').mockImplementation(() => {})
+        component.find(IconButton).at(1).simulate('click')
+        expect(spyGoback).toHaveBeenCalledTimes(1)
         expect(instance.state.show_favorite).toBe(true);
         expect(component.find('.ExerciseEntry').length).toBe(2)
         component.find('.ExerciseEntry').at(0).simulate('click')
@@ -357,5 +366,14 @@ describe("Test <ExerciseList/>", () => {
         new_mock(nullMuscleTypesState)
         const component = mount(exercise_list)
         expect(component.find('.MuscleTypeIcon').length).toBe(0);
+    })
+
+    it ('should handle go back button properly', () => {
+        const spyGoback = jest.spyOn(history, 'goBack').mockImplementation(() => {})
+        const component = mount(exercise_list)
+        const wrapper = component.find(IconButton).at(1)
+        wrapper.simulate('click')
+        expect(spyGoback).toHaveBeenCalledTimes(1)
+        
     })
 }) 

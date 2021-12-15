@@ -8,7 +8,7 @@ import { Route, Switch, Router } from 'react-router-dom';
 import SelectedStatistics from './SelectedStatistics';
 import { createMemoryHistory } from 'history';
 import {stubInitialState} from '../../test-utils/mocks'
-
+import { IconButton } from '@mui/material';
 
 const mockStore = createStore((state, action) => state,
                             stubInitialState,
@@ -18,13 +18,15 @@ jest.mock('react-chartjs-2', () => ({
     Line: () => null,
 }));
 
+const history = createMemoryHistory({ initialEntries: ['/exercise_list/stats/Neck=Neck Raise=Neck_Raise']})
+
 describe("Test <SelectedStatistics/>", () => {
     let selectedStats;
 
     beforeEach(() => {
         selectedStats = (
             <Provider store = {mockStore}>
-                <Router history = {createMemoryHistory({ initialEntries: ['/exercise_list/stats/Neck=Neck Raise=Neck_Raise']})}>
+                <Router history = {history}>
                     <Route path = "/exercise_list/stats/:query" exact component = {SelectedStatistics}/>
                 </Router>
             </Provider>
@@ -91,5 +93,14 @@ describe("Test <SelectedStatistics/>", () => {
         expect(instance.state.chartType).toBe('one_rm')
         component.find('#one_rm').at(0).simulate('click')
         expect(instance.state.chartType).toBe("one_rm")
+    })
+
+    it ('should handle go back button properly', () => {
+        const spyGoback = jest.spyOn(history, 'goBack').mockImplementation(() => {})
+        const component = mount(selectedStats)
+        const wrapper = component.find(IconButton).at(1)
+        wrapper.simulate('click')
+        expect(spyGoback).toHaveBeenCalledTimes(1)
+        
     })
 })
