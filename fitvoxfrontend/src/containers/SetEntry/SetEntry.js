@@ -66,7 +66,7 @@ class SetEntry extends Component {
                 </Box>
                 <Box sx = {{width:"30%"}} display = "flex" flexDirection = "row">
                     <Box sx = {{width: "50%"}} display = "flex" justifyContent = "flex-start" alignItems = "center">
-                        <Typography marginLeft = {1} variant = "h6">Sets</Typography>
+                        <Typography marginLeft = {1} variant = "h6">Reps</Typography>
                     </Box>
                     <Box sx = {{width: "50%"}} display = "flex" justifyContent = "flex-start" alignItems = "center">
                         <OutlinedInput

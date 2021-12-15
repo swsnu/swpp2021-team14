@@ -24,7 +24,7 @@ class ExerciseEntry extends Component {
                                 }/>
                         </Box>
                         <Box sx = {{width: "60%"}}>
-                            <div id = "button" onClick={() => this.props.onClick()}>
+                            <div id = "button">
                                 <h2>{this.props.name}</h2>
                             </div>
                         </Box>

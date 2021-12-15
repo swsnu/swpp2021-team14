@@ -291,7 +291,6 @@ class WorkoutAdd extends Component {
                             <div align="center">
                                 <h2>Selected Tags</h2>
                                 {tag_entries.length === 0 ? "None" : tag_entries}
-                                <Button>Show Selected Statistics</Button>
                             </div>
                             <div align="center">
                                 {this.addTag()}
