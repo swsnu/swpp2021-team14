@@ -17,6 +17,10 @@ class Login extends Component {
     this.props.history.push('/create_account');
   }
 
+  onResetPassword() {
+    this.props.history.push('/reset-password');
+  }
+
   render() {
     return (
       <Box p = {6} className="Login" display="flex" justifyContent="center" alignItems="center" gap={2}>
@@ -62,7 +66,11 @@ class Login extends Component {
               >
                 Create Account
               </Button>
-              <Button id="forget-id-password" variant="contained">
+              <Button
+                id="forget-id-password" 
+                variant="contained"
+                onClick={()=> this.onResetPassword()}
+              >
                 Forget ID or Password?
               </Button>
             </Box>

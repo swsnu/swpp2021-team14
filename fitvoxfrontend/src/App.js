@@ -9,6 +9,8 @@ import './App.css';
 import Login from './containers/Login/Login';
 import Main from './containers/Main/Main';
 import CreateAccount from './containers/CreateAccount/CreateAccount';
+import ResetPassword from './containers/ResetPassword/ResetPassword';
+import ResetPasswordConfirm from './containers/ResetPassword/ResetPasswordConfirm';
 import PersonalSetting from './containers/PersonalSetting/PersonalSetting';
 import ExerciseList from './containers/ExerciseList/ExerciseList';
 import ExerciseDetail from './containers/ExerciseDetail/ExerciseDetail';
@@ -55,6 +57,8 @@ class App extends Component {
                     <Switch>
                       <Route path="/login" exact render={() => <Login />} />
                       <Route path="/create_account" exact component={CreateAccount} />
+                      <Route exact path='/reset-password' component={ResetPassword} />
+                      <Route exact path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
                       <Redirect exact from="/" to="/login" />
                       <Route render={() => <Redirect to={{ pathname: '/login' }} />} />
                       </Switch>
