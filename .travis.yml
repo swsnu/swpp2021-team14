@@ -24,7 +24,7 @@ jobs:
         - cd ../fitvoxfrontend
         - yarn install
         - yarn global add coveralls
-        - gem install coveralls-lcov --version 1.13.3
+        - gem install coveralls-lcov
       script:
         - yarn test --coverage --watchAll=false
         - coveralls-lcov -v -n coverage/lcov.info > coverage.json
