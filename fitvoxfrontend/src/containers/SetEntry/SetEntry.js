@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 import {withRouter} from 'react-router';
-import {Button} from "@mui/material";
+import {Button, Box, Typography, OutlinedInput, InputAdornment} from "@mui/material";
 import './SetEntry.css'
 
 class SetEntry extends Component {
@@ -50,9 +50,45 @@ class SetEntry extends Component {
     }
 
     setInfo = ()=>{return (
-        <div className="SetInfo"><h4>Weight: {this.state.weight}kg </h4><h4>Repetition: {this.state.repetition}  </h4>
-            <h4>Break
-                time: {this.state.minute} min, {this.state.second} sec</h4>
+        <div className="SetInfo">
+            <Box sx = {{width: "100%"}} display = "flex" justifyContent = "center">
+                <Box sx = {{width:"33%"}} display = "flex" flexDirection = "row">
+                    <Box sx = {{width: "50%"}} display = "flex" justifyContent = "flex-start" alignItems = "center">
+                        <Typography marginLeft = {1} variant = "h6">Weight</Typography>
+                    </Box>
+                    <Box sx = {{width: "50%"}} display = "flex" justifyContent = "flex-start" alignItems = "center">
+                        <OutlinedInput
+                            sx = {{width: "100%"}}
+                            value = {this.state.weight}
+                            endAdornment = {<InputAdornment position = "end">kg</InputAdornment>}
+                        />                                  
+                    </Box>
+                </Box>
+                <Box sx = {{width:"30%"}} display = "flex" flexDirection = "row">
+                    <Box sx = {{width: "50%"}} display = "flex" justifyContent = "flex-start" alignItems = "center">
+                        <Typography marginLeft = {1} variant = "h6">Sets</Typography>
+                    </Box>
+                    <Box sx = {{width: "50%"}} display = "flex" justifyContent = "flex-start" alignItems = "center">
+                        <OutlinedInput
+                            sx = {{width: "100%"}}
+                            value = {this.state.repetition}
+                            endAdornment = {<InputAdornment position = "end"></InputAdornment>}
+                        />                                  
+                    </Box>
+                </Box>
+                <Box sx = {{width:"37%"}} display = "flex" flexDirection = "row">
+                    <Box sx = {{width: "50%"}} display = "flex" justifyContent = "flex-start" alignItems = "center">
+                        <Typography marginLeft = {1} variant = "h6">Break Time</Typography>
+                    </Box>
+                    <Box sx = {{width: "50%"}} display = "flex" justifyContent = "flex-start" alignItems = "center">
+                        <OutlinedInput
+                            sx = {{width: "100%"}}
+                            value = {this.state.minute+":" + (this.state.second < 10 ? "0"+this.state.second : this.state.second)}
+                            endAdornment = {<InputAdornment position = "end"></InputAdornment>}
+                        />                                  
+                    </Box>
+                </Box>
+            </Box>
         </div>
     )};
 
