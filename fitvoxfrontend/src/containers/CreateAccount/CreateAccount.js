@@ -5,9 +5,6 @@ import Button from '@material-ui/core/Button';
 import * as actionCreators from '../../store/actions/index'
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import Select from 'react-select'
 import './CreateAccount.css'
 
@@ -40,21 +37,20 @@ const CreatAccount = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        if(password==passwordchk&&password.length>=6){
+        if(password===passwordchk&&password.length>=6){
             const data = {
                 username,
                 email, 
                 password,
                 hardness
             }
-            console.log(data)
             props.onCreateAccount(data)
             props.history.push('/login')
         }
         else if(password.length<6){
             alert("Password is too short!");
         }
-        else if(password!=passwordchk){
+        else if(password!==passwordchk){
             alert("Passwords doesn't match! Please check again")
         }
 
@@ -73,6 +69,7 @@ const CreatAccount = (props) => {
     return (
         <form className={classes.root} onSubmit={handleSubmit}>
             <TextField
+                id="username-input"
                 label="Username"
                 required
                 value={username}
@@ -80,6 +77,7 @@ const CreatAccount = (props) => {
                 onChange={e => setUsr(e.target.value)}
             />
             <TextField
+                id="email-input"
                 label="Email"
                 type="email"
                 required
@@ -87,6 +85,7 @@ const CreatAccount = (props) => {
                 onChange={e => setEmail(e.target.value)}
             />
             <TextField
+                id="password-input"
                 label="Password"
                 type="password"
                 required
@@ -94,6 +93,7 @@ const CreatAccount = (props) => {
                 onChange={e => setPass(e.target.value)}
             />
             <TextField
+                id="password-check-input"
                 label="Confirm Password"
                 type="password"
                 required
@@ -108,7 +108,7 @@ const CreatAccount = (props) => {
             </div>
 
             <div>
-                <Button type="submit" variant="contained" >
+                <Button id="create-account-button" type="submit" variant="contained" >
                     Create Account
                 </Button>
             </div>

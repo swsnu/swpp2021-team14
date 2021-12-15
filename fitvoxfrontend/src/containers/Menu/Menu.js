@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import {withRouter} from "react-router";
 import { connect } from 'react-redux';
+import * as actionCreators from "../../store/actions/index";
 import Logout from "../Logout/Logout";
-import {Button, IconButton} from "@mui/material";
+import {IconButton} from "@mui/material";
 import { Box } from "@mui/system";
 
 import {Drawer} from '@mui/material';
@@ -17,7 +18,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeIcon from '@mui/icons-material/Home';
 import ListIcon from '@mui/icons-material/List';
 import SettingsIcon from '@mui/icons-material/Settings';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 class Menu extends Component {    
     state = {
@@ -40,6 +41,7 @@ class Menu extends Component {
     }
 
     redirectUserInformationHandler = () => {
+        this.props.onGetBodyInfo()
         this.props.history.push("/user-info")
     }
 
@@ -49,7 +51,9 @@ class Menu extends Component {
 
     buttons = (page) => {
         let main_button = (
-            <ListItem button key = {"Main Page"} onClick = {() => this.redirectMainHandler()}>
+            <ListItem button key = {"Main Page"} 
+                      onClick = {() => this.redirectMainHandler()} 
+                      sx = {this.state.page === "main" ? {color: 'white', backgroundColor : "gray"} : {}}>
                 <ListItemIcon>
                     <HomeIcon />
                 </ListItemIcon>
@@ -57,7 +61,9 @@ class Menu extends Component {
             </ListItem>
         )
         let setting_button = (
-            <ListItem button key = {"Personal Setting"} onClick = {() => this.redirectPersonalSettingHandler()}>
+            <ListItem button key = {"Personal Setting"} 
+                      onClick = {() => this.redirectPersonalSettingHandler()}
+                      sx = {this.state.page === "setting" ? {color: 'white', backgroundColor : "gray"} : {}}>
                 <ListItemIcon>
                     <SettingsIcon />
                 </ListItemIcon>
@@ -65,80 +71,37 @@ class Menu extends Component {
             </ListItem>
         )
         let info_button = (
-            <ListItem button key = {"User Information"} onClick = {() => this.redirectUserInformationHandler()}>
+            <ListItem button key = {"User Information"} 
+                      onClick = {() => this.redirectUserInformationHandler()}
+                      sx = {this.state.page === "user-info" ? {color: 'white', backgroundColor : "gray"} : {}}>
                 <ListItemIcon>
-                    <HelpOutlineIcon />
+                    <InfoOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary = {"User Information"}/>
             </ListItem>
         )
         let exerciseList_button = (
-            <ListItem button key = {"Exercise List"} onClick = {() => this.redirectExerciseListHandler()}>
+            <ListItem button key = {"Exercise List"} 
+                      onClick = {() => this.redirectExerciseListHandler()}
+                      sx = {this.state.page === "exercise_list" ? {color: 'white', backgroundColor : "gray"} : {}}>
                 <ListItemIcon>
                     <ListIcon />
                 </ListItemIcon>
                 <ListItemText primary = {"Exercise List"}/>
             </ListItem>
         )
-        switch(page){
-            case "main":
-                return (
-                    <List>
-                        {setting_button}
-                        <Divider variant ="middle" flexItem/>
-                        {info_button}
-                        <Divider variant ="middle" flexItem/>
-                        {exerciseList_button}
-                        <Divider variant ="middle" flexItem/>
-                    </List>
-                )
-            case "setting":
-                return (
-                    <List>
-                        {main_button}
-                        <Divider variant ="middle" flexItem/>
-                        {info_button}
-                        <Divider variant ="middle" flexItem/>
-                        {exerciseList_button}
-                        <Divider variant ="middle" flexItem/>
-                    </List>
-                )
-            case "info":
-                return (
-                    <List>
-                        {main_button}
-                        <Divider variant ="middle" flexItem/>
-                        {setting_button}
-                        <Divider variant ="middle" flexItem/>
-                        {exerciseList_button}
-                        <Divider variant ="middle" flexItem/>
-                    </List>
-                )
-            case "exercise_list":
-                return (
-                    <List>
-                        {main_button}
-                        <Divider variant ="middle" flexItem/>
-                        {setting_button}
-                        <Divider variant ="middle" flexItem/>
-                        {info_button}
-                        <Divider variant ="middle" flexItem/>
-                    </List>
-                )
-            default:
-                return (
-                    <List>
-                        {main_button}
-                        <Divider variant ="middle" flexItem/>
-                        {setting_button}
-                        <Divider variant ="middle" flexItem/>
-                        {info_button}
-                        <Divider variant ="middle" flexItem/>
-                        {exerciseList_button}
-                        <Divider variant ="middle" flexItem/>
-                    </List>
-                )
-        }    
+        return (
+            <List>
+                {main_button}
+                <Divider variant ="middle" flexItem/>
+                {setting_button}
+                <Divider variant ="middle" flexItem/>
+                {info_button}
+                <Divider variant ="middle" flexItem/>
+                {exerciseList_button}
+                <Divider variant ="middle" flexItem/>
+            </List>
+        )
     }
 
     render() {
@@ -173,4 +136,11 @@ class Menu extends Component {
         )
     }
 }
-export default withRouter(Menu)
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onGetBodyInfo : () => dispatch(actionCreators.getBodyInfo()),
+    }
+}
+
+export default connect(null, mapDispatchToProps)(withRouter(Menu))

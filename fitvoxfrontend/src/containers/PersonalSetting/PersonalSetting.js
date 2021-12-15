@@ -6,7 +6,8 @@ import * as actionCreators from '../../store/actions/index';
 import Menu from '../Menu/Menu';
 import './PersonalSetting.css';
 import Button from '@mui/material/Button';
-import {Box} from "@mui/material"
+import {Box, IconButton} from "@mui/material"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 class PersonalSetting extends Component {
 
@@ -45,8 +46,6 @@ class PersonalSetting extends Component {
             hardness: this.state.hardness,
             breaktime: this.state.minute * 60 + this.state.second
         }
-
-        // console.log(settingData.breaktime)
         this.props.onChangeSettings(settingData);
     }
 
@@ -62,8 +61,11 @@ class PersonalSetting extends Component {
     render() {
         return (
             <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                <Box p = {1}>
+                <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
                     <Menu page = "setting"></Menu>
+                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                        <ArrowBackIcon></ArrowBackIcon>
+                    </IconButton>
                 </Box>
                 <Box sx = {{width: "60%"}}>
                     <div className="PersonalSetting" id="personal-setting" align="center" >

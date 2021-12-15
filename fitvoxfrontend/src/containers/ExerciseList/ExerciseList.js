@@ -8,7 +8,8 @@ import ExerciseEntry from "../../components/ExerciseEntry/ExerciseEntry";
 import Menu from '../Menu/Menu';
 import Button from '@mui/material/Button';
 import './ExerciseList.css'
-import {Box} from "@mui/material"
+import {Box, IconButton} from "@mui/material"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 class ExerciseList extends Component {
@@ -63,7 +64,7 @@ class ExerciseList extends Component {
 
     onDeleteTag = (tag) => {
         const idx = this.state.tags.indexOf(tag);
-        if (this.state.tags.length == 1) {
+        if (this.state.tags.length === 1) {
             const newQuery = this.state.query
             newQuery.splice(2 + idx, 1)
             this.setState({query: newQuery, tags: []})
@@ -89,7 +90,6 @@ class ExerciseList extends Component {
     }
 
     onFavoriteCheck = (id) => {
-        console.log("Favorite Checked!");
         this.props.onFavoriteCheck({id: id, target: "favorite"});
     }
 
@@ -127,7 +127,6 @@ class ExerciseList extends Component {
             if (this.state.query[q][0] === "#") route = route + this.state.query[q].slice(1) + "=" 
             else route = route + this.state.query[q] + "="
         }
-        console.log(this.state.query)
         this.props.history.push(route.slice(0, -1))
     }
 
@@ -144,8 +143,6 @@ class ExerciseList extends Component {
     }
 
     render() {
-        //console.log(this.props.history)
-        //console.log(this.state)
         if (this.state.show_favorite) {
             let exerciseEntries = ""
             if (this.props.exerciseList != null) {
@@ -164,8 +161,11 @@ class ExerciseList extends Component {
             }
             return (
                 <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                    <Box p = {1}>
+                    <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
                         <Menu page = "exercise_list"></Menu>
+                        <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon></ArrowBackIcon>
+                        </IconButton>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div align="center" className="ExerciseList">
@@ -185,8 +185,11 @@ class ExerciseList extends Component {
             }
             return (
                 <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                    <Box p = {1}>
+                    <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
                         <Menu page = "exercise_list"></Menu>
+                        <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon></ArrowBackIcon>
+                        </IconButton>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div align="center" className="ExerciseList">
@@ -205,6 +208,7 @@ class ExerciseList extends Component {
                     if (exerciseType['muscleType'] === this.state.muscleType) {
                         const selected_type = exerciseType['exerciseType']
                         exerciseTypeIcons.push(<ExerciseTypeIcon exerciseType={selected_type}
+                                                                 muscleType = {this.state.muscleType}
                                                                  onClick={() => this.onExerciseTypeClick(selected_type)}/>)
                     }
                 }
@@ -212,8 +216,11 @@ class ExerciseList extends Component {
 
             return (
                 <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                    <Box p = {1}>
+                    <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
                         <Menu page = "exercise_list"></Menu>
+                        <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon></ArrowBackIcon>
+                        </IconButton>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div className="ExerciseList">
@@ -273,7 +280,8 @@ class ExerciseList extends Component {
 
             let tag_entries = []
             for (let tag of this.state.tags) {
-                tag_entries.push(<div>
+                tag_entries.push(
+                <div>
                     {tag}
                     <Button id='delete-tag' onClick={() => this.onDeleteTag(tag)}>Delete</Button>
                 </div>)
@@ -281,8 +289,11 @@ class ExerciseList extends Component {
 
             return (
                 <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
-                    <Box p = {1}>
+                    <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
                         <Menu page = "exercise_list"></Menu>
+                        <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                            <ArrowBackIcon></ArrowBackIcon>
+                        </IconButton>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div className="ExerciseList">
@@ -302,7 +313,7 @@ class ExerciseList extends Component {
                             </div>
                             <div align="center">
                                 <h2>Selected Tags</h2>
-                                {tag_entries.length == 0 ? "None" : tag_entries}
+                                {tag_entries.length === 0 ? "None" : tag_entries}
                                 <Button id = "selected_stats" onClick = {() => this.onRedirectSelectedStatsHandler()}>Show Selected Statistics</Button>
                             </div>
                             <div align="center">

@@ -1,4 +1,4 @@
-import { Typography, Box, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
