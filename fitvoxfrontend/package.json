@@ -73,8 +73,7 @@
       "!src/reportWebVitals.js",
       "!src/store/actions/index.js",
       "!src/store/reducers/index.js",
-      "!src/test-utils/mocks.js",
-      "!src/containers/CreateAccount/CreateAccount.js"
+      "!src/test-utils/mocks.js"
     ]
   },
   "devDependencies": {

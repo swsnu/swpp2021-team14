@@ -62,7 +62,7 @@ class WorkoutAdd extends Component {
 
     onDeleteTag = (tag) => {
         const idx = this.state.tags.indexOf(tag);
-        if (this.state.tags.length == 1) this.setState({tags: []})
+        if (this.state.tags.length === 1) this.setState({tags: []})
         else {
             const newTags = this.state.tags.splice(idx, 1)
             this.setState({tags: newTags})
@@ -179,6 +179,7 @@ class WorkoutAdd extends Component {
                     if (exerciseType['muscleType'] === this.state.muscleType) {
                         const selected_type = exerciseType['exerciseType']
                         exerciseTypeIcons.push(<ExerciseTypeIcon exerciseType={selected_type}
+                                                                 muscleType = {this.state.muscleType}
                                                                  onClick={() => this.onExerciseTypeClick(selected_type)}/>)
                     }
                 }
@@ -276,7 +277,7 @@ class WorkoutAdd extends Component {
                             </div>
                             <div align="center">
                                 <h2>Selected Tags</h2>
-                                {tag_entries.length == 0 ? "None" : tag_entries}
+                                {tag_entries.length === 0 ? "None" : tag_entries}
                                 <Button>Show Selected Statistics</Button>
                             </div>
                             <div align="center">

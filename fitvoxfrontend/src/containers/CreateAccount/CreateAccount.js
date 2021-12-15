@@ -5,9 +5,6 @@ import Button from '@material-ui/core/Button';
 import * as actionCreators from '../../store/actions/index'
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import Select from 'react-select'
 import './CreateAccount.css'
 
@@ -40,7 +37,7 @@ const CreatAccount = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        if(password==passwordchk&&password.length>=6){
+        if(password===passwordchk&&password.length>=6){
             const data = {
                 username,
                 email, 
@@ -54,7 +51,7 @@ const CreatAccount = (props) => {
         else if(password.length<6){
             alert("Password is too short!");
         }
-        else if(password!=passwordchk){
+        else if(password!==passwordchk){
             alert("Passwords doesn't match! Please check again")
         }
 

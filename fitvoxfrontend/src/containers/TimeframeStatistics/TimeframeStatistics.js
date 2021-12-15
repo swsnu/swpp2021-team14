@@ -12,7 +12,7 @@ import MobileDatePicker from '@mui/lab/MobileDatePicker';
 import Chip from '@mui/material/Chip';
 import moment from 'moment'
 
-import { Doughnut, Pie } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 
 class TimeframeStatistics extends Component {

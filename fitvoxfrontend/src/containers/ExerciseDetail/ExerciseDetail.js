@@ -151,7 +151,17 @@ class ExerciseDetail extends Component {
                     <Divider variant = "middle"/>
                     <Box display = 'flex' >
                         <Box display = 'flex' flexDirection = "column" justifyContent = "center" alignItems = "center" sx = {{width:"30%"}}>
-                            <Box ><img src = {'../ExerciseTypeImage/Bench_Press.png'}/></Box>
+                            <Box >
+                                <img src = {'/ExerciseEntryImage/' + this.state.exercisename.replace(/ /g,'_').replace(/:/g, "").replace(/,/g, "").replace(/->/g, "To") + '.png'}
+                                    alt = {""}
+                                    onError = {
+                                        event => {
+                                            event.target.src = '/ExerciseEntryImage/default.png'
+                                            event.onerror = null
+                                        }
+                                    }    
+                                />
+                            </Box>
                             <Divider variant = "middle" p = {1} flexItem />
                             <Box display = 'flex' flexDirection = 'column' sx = {{width:"80%"}}>
                                 {tagIcons}
