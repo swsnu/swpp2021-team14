@@ -23,7 +23,7 @@ class ExerciseEntry extends Component {
                                     }
                                 }/>
                         </Box>
-                        <Box sx = {{width: "60%"}}>
+                        <Box sx = {{width: "60%"}}>D
                             <div>
                                 <h2>{this.props.name}</h2>
                             </div>

@@ -2,13 +2,21 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as actionCreators from '../../store/actions/index';
 import { withRouter } from 'react-router';
-import {Button, Box, IconButton} from "@mui/material";
+import {Button, Box, IconButton, SpeedDial, SpeedDialIcon} from "@mui/material";
 import './WorkoutDetail.css'
 import WorkoutEntry from "../WorkoutEntry/WorkoutEntry";
 import Menu from '../Menu/Menu';
 import AudioPlayer from "react-h5-audio-player"
 import 'react-h5-audio-player/lib/styles.css'
 import * as actionTypes from '../../store/actions/actionTypes'
+
+
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
+import AddIcon from '@mui/icons-material/Add';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -204,7 +212,7 @@ class WorkoutDetail extends Component {
             <Box p = {6} display = "flex" justifyContent="center" gap = {1}>
                 <Box p = {1} display = "flex" flexDirection = "column" jutifyContent = "center" gap = {2}>
                     <Menu page = "workoutDetail"></Menu>
-                    <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
+                    <IconButton id = "back_button" onClick={() => this.props.history.push('/main')}>
                         <ArrowBackIcon></ArrowBackIcon>
                     </IconButton>
                 </Box>
@@ -218,9 +226,27 @@ class WorkoutDetail extends Component {
                     {this.state.addBodyInfo ? this.bodyInfoInput() : this.showBodyInfo()}
                     <Button id="add-workout-button" onClick={() => this.onAddWorkout()}>Add Exercise to workout</Button>
                     <hr/>
-                    {workoutEntries}
+                    <Box display = "flex" flexDirection='row' sx = {{width: "100%"}}>
+                        <Box sx = {{width:"10%"}}></Box>
+                        <Box sx = {{width:"80%"}}>
+                            {workoutEntries}
+                        </Box>
+                        <Box display = "flex" flexDirection = "column" justifyContent = "flex-end" alignItems = "center" sx = {{width:"10%"}}>
+                            <SpeedDial
+                                ariaLabel="SpeedDial basic example"
+                                sx = {{position: 'relative', bottom: 16}}
+                                icon = {<SpeedDialIcon openIcon = {<AddIcon/>}/>}
+                                onClick = {() => this.onAddWorkout()}>
+                                    
+                            </SpeedDial>
+                        </Box>
+                    </Box>
+                    
                     </div>
+                    
                 </Box>
+                    
+                
             </Box>
         );
     }
