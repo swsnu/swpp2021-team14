@@ -34,11 +34,16 @@ def signup(request):
         new_user_setting.save()
 
         # Create ExercisePerUser
+        big3 = ["Bench Press: Barbell", "Squat: Barbell", "Dead Lift: Barbell, Back"]
         for exercise in ExerciseDefault.objects.all():
+            isFavorite = False
+            if exercise.name in big3:
+                isFavorite = True
+
             new_exercise_per_user = ExercisePerUser(user=created_user, muscleType=exercise.muscleType,
                                                     exerciseType=exercise.exerciseType, name=exercise.name,
                                                     hardness=exercise.hardness, tags={'tags': exercise.tags["tags"]},
-                                                    isFavorite=False )
+                                                    isFavorite=isFavorite)
             new_exercise_per_user.save()
 
         return HttpResponse(status=201)
