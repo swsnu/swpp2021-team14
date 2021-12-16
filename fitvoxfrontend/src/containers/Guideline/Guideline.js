@@ -28,7 +28,7 @@ class Guideline extends Component {
         pageNumber: 0,
         pageName: "",
         open: false,
-        maxPages: 3
+        maxPages: 1
     }
 
     componentDidMount() {
@@ -80,6 +80,8 @@ class Guideline extends Component {
                     onClose={this.handleClose}
                     aria-labelledby="customized-dialog-title"
                     open={this.state.open}
+                    fullWidth = {true}
+                    maxWidth = {false}
                 >
                     {this.BootstrapDialogTitle({children: "Guideline", onClose: this.handleClose})}
                     <DialogContent dividers>
@@ -89,7 +91,7 @@ class Guideline extends Component {
                         >
                             <ChevronLeftIcon/>
                         </IconButton>
-                        <Box sx = {{width: "90%"}}>
+                        <Box display = "flex" justifyContent="center" alignItems = "center" sx = {{width: "90%"}}>
                             <img src = {"/Guideline/" + this.state.pageName + "/" + this.state.pageNumber + ".png"}/>
                         </Box>
                         <IconButton disabled = {this.state.pageNumber === this.state.maxPages-1? true : false}

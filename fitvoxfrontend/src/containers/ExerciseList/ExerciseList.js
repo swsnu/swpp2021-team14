@@ -6,6 +6,7 @@ import MuscleTypeIcon from "../../components/MuscleTypeIcon/MuscleTypeIcon";
 import ExerciseTypeIcon from "../../components/ExerciseTypeIcon/ExerciseTypeIcon";
 import ExerciseEntry from "../../components/ExerciseEntry/ExerciseEntry";
 import Menu from '../Menu/Menu';
+import Guideline from '../Guideline/Guideline';
 import Button from '@mui/material/Button';
 import './ExerciseList.css'
 import {Box, IconButton} from "@mui/material"
@@ -166,6 +167,7 @@ class ExerciseList extends Component {
                         <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
                             <ArrowBackIcon></ArrowBackIcon>
                         </IconButton>
+                        <Box><Guideline name = "ExerciseList"/></Box>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div align="center" className="ExerciseList">
@@ -190,6 +192,7 @@ class ExerciseList extends Component {
                         <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
                             <ArrowBackIcon></ArrowBackIcon>
                         </IconButton>
+                        <Box><Guideline name = "ExerciseList"/></Box>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div align="center" className="ExerciseList">
@@ -221,6 +224,7 @@ class ExerciseList extends Component {
                         <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
                             <ArrowBackIcon></ArrowBackIcon>
                         </IconButton>
+                        <Box><Guideline name = "ExerciseList"/></Box>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div className="ExerciseList">
@@ -294,6 +298,7 @@ class ExerciseList extends Component {
                         <IconButton id = "back_button" onClick={() => this.props.history.goBack()}>
                             <ArrowBackIcon></ArrowBackIcon>
                         </IconButton>
+                        <Box><Guideline name = "ExerciseList"/></Box>
                     </Box>
                     <Box sx = {{width: "60%"}}>
                         <div className="ExerciseList">
